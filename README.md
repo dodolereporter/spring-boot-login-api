@@ -7,6 +7,8 @@
 
 ### Setup
 
+#### Configutration
+
 Edit application.properties with your database credentials and jwt secret
 
 ```properties
@@ -20,6 +22,14 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.hibernate.ddl-auto=update
 app.jwt-secret=<JWT_SECRET>
 app-jwt-expiration-milliseconds=604800000
+```
+
+#### Change default port
+
+Add this line to application.properties
+
+```properties
+server.port=<PORT>
 ```
 
 ### API Usage
