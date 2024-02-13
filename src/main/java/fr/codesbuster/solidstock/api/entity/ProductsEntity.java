@@ -41,6 +41,5 @@ public class ProductsEntity {
             joinColumns = @JoinColumn(name = "products_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "productFamily_id", referencedColumnName = "productFamilyId")
     )
-
     private Set<ProductFamilyEntity> productFamily;
 }
