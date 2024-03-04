@@ -1,4 +1,4 @@
-package fr.cyberdodo.exampleLoginApi.entity;
+package fr.codesbuster.solidstock.api.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
