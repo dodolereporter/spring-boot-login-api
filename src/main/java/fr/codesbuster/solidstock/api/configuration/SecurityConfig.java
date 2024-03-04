@@ -1,12 +1,18 @@
 package fr.codesbuster.solidstock.api.configuration;
 
 
+import fr.codesbuster.solidstock.api.entity.RoleEntity;
+import fr.codesbuster.solidstock.api.repository.RoleRepository;
+import fr.codesbuster.solidstock.api.repository.VATRepository;
 import fr.codesbuster.solidstock.api.security.JwtAuthenticationEntryPoint;
 import fr.codesbuster.solidstock.api.security.JwtAuthenticationFilter;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Role;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -28,6 +34,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         scheme = "bearer"
 )
 public class SecurityConfig {
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @PostConstruct
+    public void init() {
+        RoleEntity role = new RoleEntity();
+        role.setName("USER");
+        roleRepository.findByName("USER").orElseGet(() -> roleRepository.save(role));
+    }
 
     private final UserDetailsService userDetailsService;
 
