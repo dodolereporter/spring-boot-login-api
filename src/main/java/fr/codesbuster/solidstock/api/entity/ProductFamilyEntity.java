@@ -15,8 +15,8 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "roles")
-public class RoleEntity {
+@Table(name = "product_familly")
+public class ProductFamilyEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,4 +28,5 @@ public class RoleEntity {
 
     @UpdateTimestamp
     private Instant updatedAt;
+
 }
