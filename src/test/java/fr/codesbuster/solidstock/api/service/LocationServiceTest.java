@@ -21,7 +21,7 @@ public class LocationServiceTest {
 
     @Autowired
     private LocationRepository locationRepository;
-
+ 
     @Test
     void createLocation_ValidLocation_ReturnsSavedLocation() {
         LocationEntity location = new LocationEntity();
