@@ -1,16 +1,15 @@
 package fr.codesbuster.solidstock.api.controller;
 
 
+import fr.codesbuster.solidstock.api.entity.UserEntity;
 import fr.codesbuster.solidstock.api.payload.JWTAuthResponse;
 import fr.codesbuster.solidstock.api.payload.LoginDto;
 import fr.codesbuster.solidstock.api.payload.RegisterDto;
 import fr.codesbuster.solidstock.api.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -38,6 +37,13 @@ public class AuthController {
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
         String response = authService.register(registerDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public UserEntity getMe(@RequestHeader("Authorization") String bearerToken) {
+        //get token from header
+        String token = bearerToken.substring(7);
+        return authService.getMe(token);
     }
 
 }

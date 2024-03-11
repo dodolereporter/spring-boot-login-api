@@ -10,10 +10,9 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UnitDto {
+public class ProductFamilyDto {
 
     private String name;
     private String description;
-    private String unit;
 
 }

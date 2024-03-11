@@ -23,6 +23,8 @@ public class ProductFamilyEntity {
     private long id;
     private String name;
 
+    private String description;
+
     @CreationTimestamp
     private Instant createdAt;
 

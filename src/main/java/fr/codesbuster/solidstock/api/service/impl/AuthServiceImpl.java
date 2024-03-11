@@ -87,4 +87,9 @@ public class AuthServiceImpl implements AuthService {
 
         return "User registered successfully!.";
     }
+
+    @Override
+    public UserEntity getMe(String token) {
+        return userRepository.findByUsername(jwtTokenProvider.getUsername(token)).get();
+    }
 }
