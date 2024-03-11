@@ -18,27 +18,27 @@ public class QuantityTypeController {
     private QuantityTypeService quantityTypeService;
 
     @PostMapping("/add")
-    public ResponseEntity<QuantityTypeEntity> addQuantityType(@RequestBody QuantityTypeDto vatDto) {
+    public ResponseEntity<QuantityTypeEntity> addQuantityType(@RequestBody QuantityTypeDto quantityTypeDto) {
 
-        if (vatDto == null) {
+        if (quantityTypeDto == null) {
             return ResponseEntity.badRequest().build();
         }
 
-        if (vatDto.getUnit() == null || vatDto.getUnit().isEmpty()) {
+        if (quantityTypeDto.getUnit() == null || quantityTypeDto.getUnit().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
-        if (vatDto.getDescription() == null || vatDto.getDescription().isEmpty()) {
+        if (quantityTypeDto.getDescription() == null || quantityTypeDto.getDescription().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
 
         QuantityTypeEntity quantityTypeEntity = new QuantityTypeEntity();
-        quantityTypeEntity.setName(vatDto.getName());
-        quantityTypeEntity.setDescription(vatDto.getDescription());
-        quantityTypeEntity.setUnit(vatDto.getUnit());
+        quantityTypeEntity.setName(quantityTypeDto.getName());
+        quantityTypeEntity.setDescription(quantityTypeDto.getDescription());
+        quantityTypeEntity.setUnit(quantityTypeDto.getUnit());
 
-        log.info("QuantityTypeEntity: " + quantityTypeEntity.toString());
+        log.info("QuantityTypeEntity: " + quantityTypeEntity);
 
         quantityTypeEntity = quantityTypeService.createQuantityType(quantityTypeEntity);
 
@@ -64,11 +64,11 @@ public class QuantityTypeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<QuantityTypeEntity> updateQuantityType(@PathVariable Long id, @RequestBody QuantityTypeDto vatDto) {
+    public ResponseEntity<QuantityTypeEntity> updateQuantityType(@PathVariable Long id, @RequestBody QuantityTypeDto quantityTypeDto) {
         QuantityTypeEntity vatEntity = quantityTypeService.getQuantityType(id);
-        vatEntity.setName(vatDto.getName());
-        vatEntity.setDescription(vatDto.getDescription());
-        vatEntity.setUnit(vatDto.getUnit());
+        vatEntity.setName(quantityTypeDto.getName());
+        vatEntity.setDescription(quantityTypeDto.getDescription());
+        vatEntity.setUnit(quantityTypeDto.getUnit());
         vatEntity = quantityTypeService.updateQuantityType(vatEntity);
         return ResponseEntity.ok(vatEntity);
     }

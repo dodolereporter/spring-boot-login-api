@@ -40,7 +40,7 @@ public class VATController {
         vatEntity.setDescription(vatDto.getDescription());
         vatEntity.setPercentage(vatDto.getPercentage());
 
-        log.info("VATEntity: " + vatEntity.toString());
+        log.info("VATEntity: " + vatEntity);
 
         vatEntity = vatService.createVAT(vatEntity);
 
