@@ -79,7 +79,7 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
         Set<RoleEntity> roles = new HashSet<>();
-        RoleEntity userRole = roleRepository.findByName("USER").get();
+        RoleEntity userRole = roleRepository.findByName("USER").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role USER not found!."));
         roles.add(userRole);
         user.setRoles(roles);
 
