@@ -17,24 +17,24 @@ public class ProductFamilyController {
     private ProductFamilyService productFamilyService;
 
     @PostMapping("/add")
-    public ResponseEntity<ProductFamilyEntity> addProductFamily(@RequestBody ProductFamilyDto unitDto) {
+    public ResponseEntity<ProductFamilyEntity> addProductFamily(@RequestBody ProductFamilyDto productFamilyDto) {
 
-        if (unitDto == null) {
+        if (productFamilyDto == null) {
             return ResponseEntity.badRequest().build();
         }
 
-        if (unitDto.getName() == null || unitDto.getName().isEmpty()) {
+        if (productFamilyDto.getName() == null || productFamilyDto.getName().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
-        if (unitDto.getDescription() == null || unitDto.getDescription().isEmpty()) {
+        if (productFamilyDto.getDescription() == null || productFamilyDto.getDescription().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
 
         ProductFamilyEntity productFamilyEntity = new ProductFamilyEntity();
-        productFamilyEntity.setName(unitDto.getName());
-        productFamilyEntity.setDescription(unitDto.getDescription());
+        productFamilyEntity.setName(productFamilyDto.getName());
+        productFamilyEntity.setDescription(productFamilyDto.getDescription());
 
         log.info("ProductFamilyEntity: " + productFamilyEntity);
 
@@ -62,10 +62,10 @@ public class ProductFamilyController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductFamilyEntity> updateProductFamily(@PathVariable Long id, @RequestBody ProductFamilyDto unitDto) {
+    public ResponseEntity<ProductFamilyEntity> updateProductFamily(@PathVariable Long id, @RequestBody ProductFamilyDto productFamilyDto) {
         ProductFamilyEntity productFamilyEntity = productFamilyService.getProductFamily(id);
-        productFamilyEntity.setName(unitDto.getName());
-        productFamilyEntity.setDescription(unitDto.getDescription());
+        productFamilyEntity.setName(productFamilyDto.getName());
+        productFamilyEntity.setDescription(productFamilyDto.getDescription());
         productFamilyEntity = productFamilyService.updateProductFamily(productFamilyEntity);
         return ResponseEntity.ok(productFamilyEntity);
     }
