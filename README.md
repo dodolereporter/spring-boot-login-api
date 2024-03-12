@@ -1,4 +1,4 @@
-# Login API with Spring-Boot
+# SolidStock-API
 
 ## Requirements
 
@@ -63,6 +63,8 @@ POST /api/v1/auth/login
 ### Author
 
 [@dodolereporter](https://github.com/dodolereporter)
+[@Donuts5](https://github.com/Donuts5)
+[@ZDashinGC](https://github.com/ZDashinGC)
 
 ### License
 
