@@ -60,10 +60,12 @@ POST /api/v1/auth/login
 
 ## Footer
 
-### Author
+### Authors
 
 [@dodolereporter](https://github.com/dodolereporter)
+
 [@Donuts5](https://github.com/Donuts5)
+
 [@ZDashinGC](https://github.com/ZDashinGC)
 
 ### License
