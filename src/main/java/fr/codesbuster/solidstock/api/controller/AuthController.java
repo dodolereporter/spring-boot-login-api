@@ -3,12 +3,11 @@ package fr.codesbuster.solidstock.api.controller;
 
 import fr.codesbuster.solidstock.api.entity.UserEntity;
 import fr.codesbuster.solidstock.api.payload.JWTAuthResponse;
-import fr.codesbuster.solidstock.api.payload.LoginDto;
-import fr.codesbuster.solidstock.api.payload.RegisterDto;
+import fr.codesbuster.solidstock.api.payload.dto.LoginDto;
+import fr.codesbuster.solidstock.api.payload.dto.RegisterDto;
 import fr.codesbuster.solidstock.api.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

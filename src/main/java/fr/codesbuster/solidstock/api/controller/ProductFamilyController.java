@@ -1,7 +1,7 @@
 package fr.codesbuster.solidstock.api.controller;
 
 import fr.codesbuster.solidstock.api.entity.ProductFamilyEntity;
-import fr.codesbuster.solidstock.api.payload.ProductFamilyDto;
+import fr.codesbuster.solidstock.api.payload.dto.ProductFamilyDto;
 import fr.codesbuster.solidstock.api.service.ProductFamilyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

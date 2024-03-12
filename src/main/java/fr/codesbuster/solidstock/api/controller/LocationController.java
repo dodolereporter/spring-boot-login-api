@@ -1,7 +1,7 @@
 package fr.codesbuster.solidstock.api.controller;
 
 import fr.codesbuster.solidstock.api.entity.LocationEntity;
-import fr.codesbuster.solidstock.api.payload.LocationDto;
+import fr.codesbuster.solidstock.api.payload.dto.LocationDto;
 import fr.codesbuster.solidstock.api.service.LocationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

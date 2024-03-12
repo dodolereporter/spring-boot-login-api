@@ -1,5 +1,4 @@
-package fr.codesbuster.solidstock.api.payload;
-
+package fr.codesbuster.solidstock.api.payload.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,9 +9,9 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductFamilyDto {
-
+public class RegisterDto {
     private String name;
-    private String description;
-
+    private String username;
+    private String email;
+    private String password;
 }

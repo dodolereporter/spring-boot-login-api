@@ -1,24 +1,21 @@
 package fr.codesbuster.solidstock.api.service;
 
-import fr.codesbuster.solidstock.api.entity.RoleEntity;
 import fr.codesbuster.solidstock.api.entity.UserEntity;
 import fr.codesbuster.solidstock.api.exception.APIException;
-import fr.codesbuster.solidstock.api.payload.LoginDto;
-import fr.codesbuster.solidstock.api.payload.RegisterDto;
+import fr.codesbuster.solidstock.api.payload.dto.LoginDto;
+import fr.codesbuster.solidstock.api.payload.dto.RegisterDto;
 import fr.codesbuster.solidstock.api.repository.RoleRepository;
 import fr.codesbuster.solidstock.api.repository.UserRepository;
 import fr.codesbuster.solidstock.api.security.JwtTokenProvider;
 import fr.codesbuster.solidstock.api.service.impl.AuthServiceImpl;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.parallel.Execution;
-import org.mockito.*;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,8 +25,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 @Transactional
@@ -54,7 +50,7 @@ public class AuthServiceTest {
     @InjectMocks
     private AuthServiceImpl authService;
 
-   // @Test
+    // @Test
     void login_ValidCredentials_ReturnsToken() {
         // Arrange
         LoginDto loginDto = new LoginDto("testUser", "testPassword");
@@ -104,7 +100,7 @@ public class AuthServiceTest {
         assertThrows(APIException.class, () -> authService.register(registerDto));
     }
 
-   // @Test
+    // @Test
     void register_ExistingEmail_ThrowsAPIException() {
         // Arrange
         RegisterDto registerDto = new RegisterDto("testName", "testUser", "testEmail", "testPassword");
@@ -114,7 +110,7 @@ public class AuthServiceTest {
         assertThrows(APIException.class, () -> authService.register(registerDto));
     }
 
-   // @Test
+    // @Test
     void getMe_ValidToken_ReturnsUser() {
         // Arrange
         String token = "testToken";

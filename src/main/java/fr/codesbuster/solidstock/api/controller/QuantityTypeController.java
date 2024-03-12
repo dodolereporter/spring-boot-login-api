@@ -1,9 +1,8 @@
 package fr.codesbuster.solidstock.api.controller;
 
 import fr.codesbuster.solidstock.api.entity.QuantityTypeEntity;
-import fr.codesbuster.solidstock.api.payload.QuantityTypeDto;
+import fr.codesbuster.solidstock.api.payload.dto.QuantityTypeDto;
 import fr.codesbuster.solidstock.api.service.QuantityTypeService;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

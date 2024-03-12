@@ -1,4 +1,4 @@
-package fr.codesbuster.solidstock.api.payload;
+package fr.codesbuster.solidstock.api.payload.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

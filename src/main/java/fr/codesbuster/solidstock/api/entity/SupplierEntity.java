@@ -3,19 +3,21 @@ package fr.codesbuster.solidstock.api.entity;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "third_party")
-public class ThirdPartyEntity {
+@Table(name = "supplier")
+public class SupplierEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ID;
+    private Long Id;
 
     @Nullable
     private String companyName;
@@ -49,4 +51,16 @@ public class ThirdPartyEntity {
 
     @Nullable
     private String workPhone;
+
+    @Nullable
+    private String fax;
+
+    @Nullable
+    private String website;
+
+    @Nullable
+    private String country;
+
+    @Nullable
+    private String note;
 }

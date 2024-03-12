@@ -1,7 +1,7 @@
 package fr.codesbuster.solidstock.api.controller;
 
 import fr.codesbuster.solidstock.api.entity.VATEntity;
-import fr.codesbuster.solidstock.api.payload.VATDto;
+import fr.codesbuster.solidstock.api.payload.dto.VATDto;
 import fr.codesbuster.solidstock.api.service.VATService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

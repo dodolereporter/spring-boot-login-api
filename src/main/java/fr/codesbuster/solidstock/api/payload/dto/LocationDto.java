@@ -1,4 +1,5 @@
-package fr.codesbuster.solidstock.api.payload;
+package fr.codesbuster.solidstock.api.payload.dto;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +10,10 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterDto {
+public class LocationDto {
+
     private String name;
-    private String username;
-    private String email;
-    private String password;
+    private String description;
+    private String position;
+
 }

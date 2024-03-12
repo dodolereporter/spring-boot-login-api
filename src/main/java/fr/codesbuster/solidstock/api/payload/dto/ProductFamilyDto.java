@@ -1,4 +1,4 @@
-package fr.codesbuster.solidstock.api.payload;
+package fr.codesbuster.solidstock.api.payload.dto;
 
 
 import lombok.AllArgsConstructor;
@@ -10,10 +10,9 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class VATDto {
+public class ProductFamilyDto {
 
-    private double rate;
+    private String name;
     private String description;
-    private String percentage;
 
 }

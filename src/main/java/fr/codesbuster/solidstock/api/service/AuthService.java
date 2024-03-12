@@ -2,8 +2,8 @@ package fr.codesbuster.solidstock.api.service;
 
 
 import fr.codesbuster.solidstock.api.entity.UserEntity;
-import fr.codesbuster.solidstock.api.payload.LoginDto;
-import fr.codesbuster.solidstock.api.payload.RegisterDto;
+import fr.codesbuster.solidstock.api.payload.dto.LoginDto;
+import fr.codesbuster.solidstock.api.payload.dto.RegisterDto;
 
 public interface AuthService {
     String login(LoginDto loginDto);

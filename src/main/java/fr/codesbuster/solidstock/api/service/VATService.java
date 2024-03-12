@@ -2,8 +2,6 @@ package fr.codesbuster.solidstock.api.service;
 
 
 import fr.codesbuster.solidstock.api.entity.VATEntity;
-import fr.codesbuster.solidstock.api.payload.LoginDto;
-import fr.codesbuster.solidstock.api.payload.RegisterDto;
 
 import java.util.List;
 
