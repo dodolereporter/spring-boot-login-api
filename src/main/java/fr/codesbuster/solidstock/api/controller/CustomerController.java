@@ -1,7 +1,7 @@
 package fr.codesbuster.solidstock.api.controller;
 
 import fr.codesbuster.solidstock.api.entity.CustomerEntity;
-import fr.codesbuster.solidstock.api.payload.CustomerDto;
+import fr.codesbuster.solidstock.api.payload.dto.CustomerDto;
 import fr.codesbuster.solidstock.api.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,23 @@ public class CustomerController {
             return ResponseEntity.badRequest().build();
         }
 
-        if (customerDto.getName() == null || customerDto.getName().isEmpty()) {
+        if (customerDto.getCompanyName() == null || customerDto.getCompanyName().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        if (customerDto.getFirstName() == null || customerDto.getFirstName().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        if (customerDto.getLastName() == null || customerDto.getLastName().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        if (customerDto.getCity() == null || customerDto.getCity().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        if (customerDto.getZipCode() == null || customerDto.getZipCode().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -31,11 +47,23 @@ public class CustomerController {
             return ResponseEntity.badRequest().build();
         }
 
-        if (customerDto.getCorporation() == null) {
+        if (customerDto.getStreetNumber() == null || customerDto.getStreetNumber().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
-        if (customerDto.getCorporateName() == null || customerDto.getCorporateName().isEmpty()) {
+        if (customerDto.getEmail() == null || !customerDto.getEmail().contains("@")) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        if (customerDto.getMobilePhone() == null || customerDto.getMobilePhone().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        if (customerDto.getCountry() == null || customerDto.getCountry().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        if (customerDto.getCorporation() == null) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -56,16 +84,22 @@ public class CustomerController {
         }
 
         CustomerEntity customerEntity = new CustomerEntity();
-        customerEntity.setName(customerDto.getName());
+        customerEntity.setCompanyName(customerEntity.getCompanyName());
+        customerEntity.setFirstName(customerDto.getFirstName());
+        customerEntity.setLastName(customerDto.getLastName());
+        customerEntity.setCity(customerDto.getCity());
+        customerEntity.setZipCode(customerDto.getZipCode());
         customerEntity.setAddress(customerDto.getAddress());
+        customerEntity.setStreetNumber(customerDto.getStreetNumber());
+        customerEntity.setEmail(customerDto.getEmail());
+        customerEntity.setMobilePhone(customerDto.getMobilePhone());
+        customerEntity.setCountry(customerDto.getCountry());
         customerEntity.setCorporation(customerDto.getCorporation());
-        customerEntity.setCorporateName(customerDto.getCorporateName());
         customerEntity.setSiren(customerDto.getSiren());
         customerEntity.setSiret(customerDto.getSiret());
         customerEntity.setRib(customerDto.getRib());
         customerEntity.setRcsInteger(customerDto.getRcsInteger());
 
-        log.info("CustomerEntity: " + customerEntity);
 
         customerEntity = customerService.createCustomer(customerEntity);
 
@@ -93,10 +127,17 @@ public class CustomerController {
     @PutMapping("/{id}")
     public ResponseEntity<CustomerEntity> updateCustomer(@PathVariable Long id, @RequestBody CustomerDto customerDto) {
         CustomerEntity customerEntity = customerService.getCustomer(id);
-        customerEntity.setName(customerDto.getName());
+        customerEntity.setCompanyName(customerEntity.getCompanyName());
+        customerEntity.setFirstName(customerDto.getFirstName());
+        customerEntity.setLastName(customerDto.getLastName());
+        customerEntity.setCity(customerDto.getCity());
+        customerEntity.setZipCode(customerDto.getZipCode());
         customerEntity.setAddress(customerDto.getAddress());
+        customerEntity.setStreetNumber(customerDto.getStreetNumber());
+        customerEntity.setEmail(customerDto.getEmail());
+        customerEntity.setMobilePhone(customerDto.getMobilePhone());
+        customerEntity.setCountry(customerDto.getCountry());
         customerEntity.setCorporation(customerDto.getCorporation());
-        customerEntity.setCorporateName(customerDto.getCorporateName());
         customerEntity.setSiren(customerDto.getSiren());
         customerEntity.setSiret(customerDto.getSiret());
         customerEntity.setRib(customerDto.getRib());
