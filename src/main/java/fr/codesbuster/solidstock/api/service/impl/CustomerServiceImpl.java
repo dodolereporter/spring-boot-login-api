@@ -26,7 +26,7 @@ public class CustomerServiceImpl implements CustomerService {
             throw new APIException(HttpStatus.BAD_REQUEST, "Customer cannot be null");
         }
 
-        if (customerRepository.existsByName(customerEntity.getName())) {
+        if (customerRepository.existsById(customerEntity.getId())) {
             throw new APIException(HttpStatus.BAD_REQUEST, "Customer already exists");
         }
 

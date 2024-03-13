@@ -24,16 +24,46 @@ public class CustomerEntity {
     private long id;
 
     @Nullable
-    private String name;
+    private String companyName;
+
+    @Nullable
+    private String firstName;
+
+    @Nullable
+    private String lastName;
 
     @Nullable
     private String address;
 
     @Nullable
-    private Boolean corporation;
+    private String city;
 
     @Nullable
-    private String corporateName;
+    private String zipCode;
+
+    @Nullable
+    private String streetNumber;
+
+    @Nullable
+    private String email;
+
+    @Nullable
+    private String mobilePhone;
+
+    @Nullable
+    private String homePhone;
+
+    @Nullable
+    private String workPhone;
+
+    @Nullable
+    private String webSite;
+
+    @Nullable
+    private String country;
+
+    @Nullable
+    private Boolean corporation;
 
     @Nullable
     private String siren;
@@ -46,7 +76,6 @@ public class CustomerEntity {
 
     @Nullable
     private Integer rcsInteger;
-
 
     @CreationTimestamp
     private Instant createdAt;

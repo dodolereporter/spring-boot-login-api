@@ -25,13 +25,26 @@ public class CustomerServiceTest {
     @Test
     void createCustomer_ValidCustomer_ReturnsSavedCustomer() {
         CustomerEntity customer = new CustomerEntity();
-        customer.setName("TestCustomer");
+        customer.setId(1L);
+        customer.setCompanyName("TestCompany");
+        customer.setFirstName("John");
+        customer.setLastName("Doe");
+        customer.setCity("TestCity");
+        customer.setZipCode("12345");
+        customer.setAddress("TestAddress");
+        customer.setStreetNumber("123");
+        customer.setEmail("test@example.com");
+        customer.setMobilePhone("1234567890");
+        customer.setHomePhone("0987654321");
+        customer.setWorkPhone("9876543210");
+        customer.setWebSite("www.example.com");
+        customer.setCountry("TestCountry");
 
         try {
             CustomerEntity savedCustomer = customerService.createCustomer(customer);
 
             assertNotNull(savedCustomer);
-            assertEquals("TestCustomer", savedCustomer.getName());
+            assertEquals("TestCompany", savedCustomer.getCompanyName());
         } finally {
             // Remove the created customer
             customerRepository.deleteAll();
@@ -47,10 +60,11 @@ public class CustomerServiceTest {
     void getCustomers_ReturnsListOfCustomers() {
         // Crée une client pour le test
         CustomerEntity customer = new CustomerEntity();
-        customer.setName("TestCustomer");
+        customer.setFirstName("TestCustomerFirst");
+        customer.setLastName("TestCustomerLast");
         customer.setAddress("TestCustomerAddress");
         customer.setCorporation(true);
-        customer.setCorporateName("TestCustomerCorporateName");
+        customer.setCompanyName("TestCompanyName");
         customer.setSiren("TestCustomerSiren");
         customer.setSiret("TestCustomerSiret");
         customer.setRib("TestCustomerRib");
@@ -73,7 +87,7 @@ public class CustomerServiceTest {
     void deleteCustomer_ExistingId_DeletesCustomer() {
         // Crée un client pour le test
         CustomerEntity customer = new CustomerEntity();
-        customer.setName("TestCustomer");
+        customer.setFirstName("TestCustomer");
         CustomerEntity savedCustomer = customerRepository.save(customer);
 
         try {
@@ -97,16 +111,16 @@ public class CustomerServiceTest {
     void updateCustomer_ExistingCustomer_ReturnsUpdatedCustomer() {
         // Crée un client pour le test
         CustomerEntity customer = new CustomerEntity();
-        customer.setName("TestCustomer");
+        customer.setFirstName("TestCustomer");
         CustomerEntity savedCustomer = customerRepository.save(customer);
 
         try {
             // Met à jour le client
-            savedCustomer.setName("UpdatedCustomer");
+            savedCustomer.setFirstName("UpdatedCustomer");
             CustomerEntity updatedCustomer = customerService.updateCustomer(savedCustomer);
 
             // Vérifie si le client a été mis à jour correctement
-            assertEquals("UpdatedCustomer", updatedCustomer.getName());
+            assertEquals("UpdatedCustomer", updatedCustomer.getFirstName());
         } finally {
             // Remove the created customer
             customerRepository.deleteAll();
@@ -118,7 +132,7 @@ public class CustomerServiceTest {
         // Crée un client avec un ID inexistant
         CustomerEntity customer = new CustomerEntity();
         customer.setId(999L); // ID inexistant
-        customer.setName("TestCustomer");
+        customer.setFirstName("TestCustomer");
 
         // Vérifie si une APIException est levée lors de la tentative de mise à jour d'un client inexistant
         assertThrows(APIException.class, () -> customerService.updateCustomer(customer));
@@ -128,10 +142,10 @@ public class CustomerServiceTest {
     void getCustomer_ExistingId_ReturnsCustomer() {
         // Crée un client pour le test
         CustomerEntity customer = new CustomerEntity();
-        customer.setName("TestCustomer");
+        customer.setFirstName("TestCustomer");
         customer.setAddress("TestCustomerAddress");
         customer.setCorporation(true);
-        customer.setCorporateName("TestCustomerCorporateName");
+        customer.setCompanyName("TestCustomerCompanyName");
         customer.setSiren("TestCustomerSiren");
         customer.setSiret("TestCustomerSiret");
         customer.setRib("TestCustomerRib");
@@ -144,7 +158,7 @@ public class CustomerServiceTest {
 
             // Vérifie si le client récupéré est le même que celui enregistré
             assertEquals(savedCustomer.getId(), retrievedCustomer.getId());
-            assertEquals(savedCustomer.getName(), retrievedCustomer.getName());
+            assertEquals(savedCustomer.getFirstName(), retrievedCustomer.getFirstName());
         } finally {
             // Remove the created customer
             customerRepository.deleteAll();
