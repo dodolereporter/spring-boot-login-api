@@ -84,7 +84,7 @@ public class CustomerController {
         }
 
         CustomerEntity customerEntity = new CustomerEntity();
-        customerEntity.setCompanyName(customerEntity.getCompanyName());
+        customerEntity.setCompanyName(customerDto.getCompanyName());
         customerEntity.setFirstName(customerDto.getFirstName());
         customerEntity.setLastName(customerDto.getLastName());
         customerEntity.setCity(customerDto.getCity());
@@ -93,6 +93,9 @@ public class CustomerController {
         customerEntity.setStreetNumber(customerDto.getStreetNumber());
         customerEntity.setEmail(customerDto.getEmail());
         customerEntity.setMobilePhone(customerDto.getMobilePhone());
+        customerEntity.setHomePhone(customerDto.getHomePhone());
+        customerEntity.setWorkPhone(customerDto.getWorkPhone());
+        customerEntity.setWebSite(customerDto.getWebsite());
         customerEntity.setCountry(customerDto.getCountry());
         customerEntity.setCorporation(customerDto.getCorporation());
         customerEntity.setSiren(customerDto.getSiren());
@@ -127,7 +130,7 @@ public class CustomerController {
     @PutMapping("/{id}")
     public ResponseEntity<CustomerEntity> updateCustomer(@PathVariable Long id, @RequestBody CustomerDto customerDto) {
         CustomerEntity customerEntity = customerService.getCustomer(id);
-        customerEntity.setCompanyName(customerEntity.getCompanyName());
+        customerEntity.setCompanyName(customerDto.getCompanyName());
         customerEntity.setFirstName(customerDto.getFirstName());
         customerEntity.setLastName(customerDto.getLastName());
         customerEntity.setCity(customerDto.getCity());
@@ -136,6 +139,9 @@ public class CustomerController {
         customerEntity.setStreetNumber(customerDto.getStreetNumber());
         customerEntity.setEmail(customerDto.getEmail());
         customerEntity.setMobilePhone(customerDto.getMobilePhone());
+        customerEntity.setHomePhone(customerDto.getHomePhone());
+        customerEntity.setWorkPhone(customerDto.getWorkPhone());
+        customerEntity.setWebSite(customerDto.getWebsite());
         customerEntity.setCountry(customerDto.getCountry());
         customerEntity.setCorporation(customerDto.getCorporation());
         customerEntity.setSiren(customerDto.getSiren());
