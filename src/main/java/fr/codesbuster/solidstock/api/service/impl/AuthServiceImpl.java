@@ -19,9 +19,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Slf4j
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -77,11 +74,9 @@ public class AuthServiceImpl implements AuthService {
         user.setUsername(registerDto.getUsername());
         user.setEmail(registerDto.getEmail());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
-
-        Set<RoleEntity> roles = new HashSet<>();
+        
         RoleEntity userRole = roleRepository.findByName("USER").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role USER not found!."));
-        roles.add(userRole);
-        user.setRoles(roles);
+        user.setRole(userRole);
 
         userRepository.save(user);
 

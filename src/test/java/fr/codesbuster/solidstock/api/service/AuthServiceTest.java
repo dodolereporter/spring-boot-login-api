@@ -85,8 +85,7 @@ public class AuthServiceTest {
         assertEquals(registerDto.getUsername(), savedUser.getUsername());
         assertEquals(registerDto.getEmail(), savedUser.getEmail());
         assertEquals("encodedPassword", savedUser.getPassword());
-        assertEquals(1, savedUser.getRoles().size());
-        assertEquals("USER", savedUser.getRoles().iterator().next().getName());
+        assertEquals("USER", savedUser.getRole().getName());
         assertEquals("User registered successfully!.", result);
     }
 

@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -63,4 +65,7 @@ public class SupplierEntity {
 
     @Nullable
     private String note;
+
+    @OneToMany(mappedBy = "supplier")
+    private List<ProductEntity> products;
 }

@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,6 +25,9 @@ public class QuantityTypeEntity {
     private String name;
     private String description;
     private String unit;
+
+    @OneToMany(mappedBy = "quantityType")
+    private List<ProductEntity> products;
 
     @CreationTimestamp
     private Instant createdAt;

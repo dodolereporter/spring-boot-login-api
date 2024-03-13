@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,6 +25,9 @@ public class ProductFamilyEntity {
     private String name;
 
     private String description;
+
+    @OneToMany(mappedBy = "productFamily")
+    private List<ProductEntity> products;
 
     @CreationTimestamp
     private Instant createdAt;

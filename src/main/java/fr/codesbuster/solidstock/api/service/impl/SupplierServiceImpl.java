@@ -24,11 +24,7 @@ public class SupplierServiceImpl implements SupplierService {
         if (supplierEntity == null) {
             throw new ResponseStatusException(BAD_REQUEST, "Supplier cannot be null");
         }
-
-        if (supplierRepository.findById(supplierEntity.getId()).isPresent()) {
-            throw new ResponseStatusException(BAD_REQUEST, "Supplier with id " + supplierEntity.getId() + " already exists");
-        }
-
+        
         return supplierRepository.save(supplierEntity);
     }
 

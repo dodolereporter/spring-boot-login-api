@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,6 +25,9 @@ public class VATEntity {
     private String description;
 
     private String percentage;
+
+    @OneToMany(mappedBy = "vat")
+    private List<ProductEntity> products;
 
     @CreationTimestamp
     private Instant createdAt;
