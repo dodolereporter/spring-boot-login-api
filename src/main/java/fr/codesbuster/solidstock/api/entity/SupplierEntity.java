@@ -64,6 +64,18 @@ public class SupplierEntity {
     private String country;
 
     @Nullable
+    private String siren;
+
+    @Nullable
+    private String siret;
+
+    @Nullable
+    private String rib;
+
+    @Nullable
+    private int rcs;
+
+    @Nullable
     private String note;
 
     @OneToMany(mappedBy = "supplier")

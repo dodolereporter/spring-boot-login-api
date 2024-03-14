@@ -39,5 +39,13 @@ public class SupplierDto {
 
     private String country;
 
+    private String siret;
+
+    private String siren;
+
+    private String rib;
+
+    private int rcs;
+
     private String note;
 }

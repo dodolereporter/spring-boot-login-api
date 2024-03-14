@@ -34,6 +34,10 @@ public class SupplierController {
         supplierEntity.setFax(supplierDto.getFax());
         supplierEntity.setWebsite(supplierDto.getWebsite());
         supplierEntity.setCountry(supplierDto.getCountry());
+        supplierEntity.setRib(supplierDto.getRib());
+        supplierEntity.setRcs(supplierDto.getRcs());
+        supplierEntity.setSiren(supplierDto.getSiren());
+        supplierEntity.setSiret(supplierDto.getSiret());
         supplierEntity.setNote(supplierDto.getNote());
 
 
@@ -78,6 +82,10 @@ public class SupplierController {
         supplierEntity.setFax(supplierDto.getFax());
         supplierEntity.setWebsite(supplierDto.getWebsite());
         supplierEntity.setCountry(supplierDto.getCountry());
+        supplierEntity.setRib(supplierDto.getRib());
+        supplierEntity.setRcs(supplierDto.getRcs());
+        supplierEntity.setSiren(supplierDto.getSiren());
+        supplierEntity.setSiret(supplierDto.getSiret());
         supplierEntity.setNote(supplierDto.getNote());
         supplierEntity = supplierService.updateSupplier(supplierEntity);
         return ResponseEntity.ok(supplierEntity);

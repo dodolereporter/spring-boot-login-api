@@ -68,7 +68,7 @@ public class CustomerServiceTest {
         customer.setSiren("TestCustomerSiren");
         customer.setSiret("TestCustomerSiret");
         customer.setRib("TestCustomerRib");
-        customer.setRcsInteger(123456);
+        customer.setRcs(123456);
         customerRepository.save(customer);
 
         try {
@@ -149,7 +149,7 @@ public class CustomerServiceTest {
         customer.setSiren("TestCustomerSiren");
         customer.setSiret("TestCustomerSiret");
         customer.setRib("TestCustomerRib");
-        customer.setRcsInteger(123456);
+        customer.setRcs(123456);
         CustomerEntity savedCustomer = customerRepository.save(customer);
 
         try {

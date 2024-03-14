@@ -79,7 +79,7 @@ public class CustomerController {
             return ResponseEntity.badRequest().build();
         }
 
-        if (customerDto.getRcsInteger() == null || customerDto.getRcsInteger().equals(0)) {
+        if (customerDto.getRcs() == 0) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -101,7 +101,7 @@ public class CustomerController {
         customerEntity.setSiren(customerDto.getSiren());
         customerEntity.setSiret(customerDto.getSiret());
         customerEntity.setRib(customerDto.getRib());
-        customerEntity.setRcsInteger(customerDto.getRcsInteger());
+        customerEntity.setRcs(customerDto.getRcs());
 
 
         customerEntity = customerService.createCustomer(customerEntity);
@@ -147,7 +147,7 @@ public class CustomerController {
         customerEntity.setSiren(customerDto.getSiren());
         customerEntity.setSiret(customerDto.getSiret());
         customerEntity.setRib(customerDto.getRib());
-        customerEntity.setRcsInteger(customerDto.getRcsInteger());
+        customerEntity.setRcs(customerDto.getRcs());
         customerEntity = customerService.updateCustomer(customerEntity);
         return ResponseEntity.ok(customerEntity);
     }

@@ -29,5 +29,5 @@ public class CustomerDto {
     private String siret;
     private String siren;
     private String rib;
-    private Integer rcsInteger;
+    private int rcs;
 }

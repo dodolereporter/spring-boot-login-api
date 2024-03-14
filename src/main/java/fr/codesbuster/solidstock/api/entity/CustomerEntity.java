@@ -75,7 +75,7 @@ public class CustomerEntity {
     private String rib;
 
     @Nullable
-    private Integer rcsInteger;
+    private int rcs;
 
     @CreationTimestamp
     private Instant createdAt;
