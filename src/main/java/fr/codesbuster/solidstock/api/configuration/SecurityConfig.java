@@ -3,7 +3,6 @@ package fr.codesbuster.solidstock.api.configuration;
 
 import fr.codesbuster.solidstock.api.entity.RoleEntity;
 import fr.codesbuster.solidstock.api.repository.RoleRepository;
-import fr.codesbuster.solidstock.api.repository.VATRepository;
 import fr.codesbuster.solidstock.api.security.JwtAuthenticationEntryPoint;
 import fr.codesbuster.solidstock.api.security.JwtAuthenticationFilter;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
@@ -12,7 +11,6 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Role;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -35,21 +33,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 )
 public class SecurityConfig {
 
+    private final UserDetailsService userDetailsService;
+    private final JwtAuthenticationEntryPoint authenticationEntryPoint;
+    private final JwtAuthenticationFilter authenticationFilter;
     @Autowired
     private RoleRepository roleRepository;
-
-    @PostConstruct
-    public void init() {
-        RoleEntity role = new RoleEntity();
-        role.setName("USER");
-        roleRepository.findByName("USER").orElseGet(() -> roleRepository.save(role));
-    }
-
-    private final UserDetailsService userDetailsService;
-
-    private final JwtAuthenticationEntryPoint authenticationEntryPoint;
-
-    private final JwtAuthenticationFilter authenticationFilter;
 
     public SecurityConfig(UserDetailsService userDetailsService,
                           JwtAuthenticationEntryPoint authenticationEntryPoint,
@@ -62,6 +50,27 @@ public class SecurityConfig {
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @PostConstruct
+    public void init() {
+        RoleEntity role = new RoleEntity();
+        role.setName("USER");
+        roleRepository.findByName("USER").orElseGet(() -> roleRepository.save(role));
+        role.setName("ADMIN");
+        roleRepository.findByName("ADMIN").orElseGet(() -> roleRepository.save(role));
+        role.setName("SUPER_ADMIN");
+        roleRepository.findByName("SUPER_ADMIN").orElseGet(() -> roleRepository.save(role));
+        role.setName("MANAGER");
+        roleRepository.findByName("MANAGER").orElseGet(() -> roleRepository.save(role));
+        role.setName("STOCK_MANAGER");
+        roleRepository.findByName("STOCK_MANAGER").orElseGet(() -> roleRepository.save(role));
+        role.setName("STOCK_VIEWER");
+        roleRepository.findByName("STOCK_VIEWER").orElseGet(() -> roleRepository.save(role));
+        role.setName("CUSTOMER");
+        roleRepository.findByName("CUSTOMER").orElseGet(() -> roleRepository.save(role));
+        role.setName("SUPPLIER");
+        roleRepository.findByName("SUPPLIER").orElseGet(() -> roleRepository.save(role));
     }
 
     @Bean

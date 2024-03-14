@@ -1,5 +1,8 @@
 package fr.codesbuster.solidstock.api.entity;
 
+import fr.codesbuster.solidstock.api.entity.estimate.EstimateEntity;
+import fr.codesbuster.solidstock.api.entity.invoice.InvoiceEntity;
+import fr.codesbuster.solidstock.api.entity.orderForm.OrderFormEntity;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,6 +13,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -76,6 +80,20 @@ public class CustomerEntity {
 
     @Nullable
     private int rcs;
+
+    @OneToMany(mappedBy = "customer")
+    private List<EstimateEntity> estimates;
+
+    @OneToMany(mappedBy = "customer")
+    private List<InvoiceEntity> invoices;
+
+    @OneToMany(mappedBy = "customer")
+    private List<OrderFormEntity> orderForms;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @Nullable
+    private UserEntity user;
 
     @CreationTimestamp
     private Instant createdAt;

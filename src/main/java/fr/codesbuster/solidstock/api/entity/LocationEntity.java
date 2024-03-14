@@ -37,6 +37,12 @@ public class LocationEntity {
     @OneToMany(mappedBy = "parent")
     private List<LocationEntity> childs = new ArrayList<>();
 
+    @OneToMany(mappedBy = "location")
+    private List<StockMovementEntity> stockMovements = new ArrayList<>();
+
+    @OneToMany(mappedBy = "location")
+    private List<StockEntity> stocks = new ArrayList<>();
+
     @CreationTimestamp
     private Instant createdAt;
 
