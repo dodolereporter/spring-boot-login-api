@@ -1,12 +1,16 @@
 package fr.codesbuster.solidstock.api.entity;
 
+import fr.codesbuster.solidstock.api.entity.delivery.DeliveryEntity;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.Instant;
 import java.util.List;
 
 @Getter
@@ -80,4 +84,14 @@ public class SupplierEntity {
 
     @OneToMany(mappedBy = "supplier")
     private List<ProductEntity> products;
+
+    @OneToMany(mappedBy = "supplier")
+    private List<DeliveryEntity> deliveries;
+
+    @CreationTimestamp
+    private Instant createdAt;
+
+    @UpdateTimestamp
+    private Instant updatedAt;
+
 }

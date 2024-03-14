@@ -1,5 +1,4 @@
-package fr.codesbuster.solidstock.api.entity.orderForm;
-
+package fr.codesbuster.solidstock.api.entity.delivery;
 
 import fr.codesbuster.solidstock.api.entity.ProductEntity;
 import jakarta.persistence.*;
@@ -17,19 +16,18 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "orderForm_row")
-public class OrderFormRowEntity {
+@Table(name = "delivery_row")
+public class DeliveryRowEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private int quantity;
-    private double sellPrice;
 
     @ManyToOne
-    @JoinColumn(name = "orderForm_id")
-    private OrderFormEntity orderForm;
+    @JoinColumn(name = "delivery_id")
+    private DeliveryEntity delivery;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -40,4 +38,5 @@ public class OrderFormRowEntity {
 
     @UpdateTimestamp
     private Instant updatedAt;
+
 }

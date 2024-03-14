@@ -6,8 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.joda.time.DateTime;
 
+import java.time.Instant;
 import java.util.List;
 
 @Getter
@@ -36,4 +39,10 @@ public class InvoiceEntity {
 
     @OneToMany(mappedBy = "invoice")
     private List<InvoiceRowEntity> invoiceRows;
+
+    @CreationTimestamp
+    private Instant createdAt;
+
+    @UpdateTimestamp
+    private Instant updatedAt;
 }

@@ -35,11 +35,6 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
-    @CreationTimestamp
-    private Instant createdAt;
-
-    @UpdateTimestamp
-    private Instant updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
@@ -48,4 +43,10 @@ public class UserEntity {
     @OneToMany(mappedBy = "user")
     @Nullable
     private List<CustomerEntity> customers;
+
+    @CreationTimestamp
+    private Instant createdAt;
+
+    @UpdateTimestamp
+    private Instant updatedAt;
 }

@@ -1,6 +1,7 @@
 package fr.codesbuster.solidstock.api.entity;
 
 
+import fr.codesbuster.solidstock.api.entity.delivery.DeliveryRowEntity;
 import fr.codesbuster.solidstock.api.entity.estimate.EstimateRowEntity;
 import fr.codesbuster.solidstock.api.entity.invoice.InvoiceRowEntity;
 import fr.codesbuster.solidstock.api.entity.orderForm.OrderFormRowEntity;
@@ -9,7 +10,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.Instant;
 import java.util.List;
 
 @Getter
@@ -61,5 +65,13 @@ public class ProductEntity {
     @OneToMany(mappedBy = "product")
     private List<OrderFormRowEntity> orderFormRows;
 
+    @OneToMany(mappedBy = "product")
+    private List<DeliveryRowEntity> deliveryRows;
+
+    @CreationTimestamp
+    private Instant createdAt;
+
+    @UpdateTimestamp
+    private Instant updatedAt;
 
 }
