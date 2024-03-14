@@ -54,23 +54,22 @@ public class SecurityConfig {
 
     @PostConstruct
     public void init() {
-        RoleEntity role = new RoleEntity();
-        role.setName("USER");
-        roleRepository.findByName("USER").orElseGet(() -> roleRepository.save(role));
-        role.setName("ADMIN");
-        roleRepository.findByName("ADMIN").orElseGet(() -> roleRepository.save(role));
-        role.setName("SUPER_ADMIN");
-        roleRepository.findByName("SUPER_ADMIN").orElseGet(() -> roleRepository.save(role));
-        role.setName("MANAGER");
-        roleRepository.findByName("MANAGER").orElseGet(() -> roleRepository.save(role));
-        role.setName("STOCK_MANAGER");
-        roleRepository.findByName("STOCK_MANAGER").orElseGet(() -> roleRepository.save(role));
-        role.setName("STOCK_VIEWER");
-        roleRepository.findByName("STOCK_VIEWER").orElseGet(() -> roleRepository.save(role));
-        role.setName("CUSTOMER");
-        roleRepository.findByName("CUSTOMER").orElseGet(() -> roleRepository.save(role));
-        role.setName("SUPPLIER");
-        roleRepository.findByName("SUPPLIER").orElseGet(() -> roleRepository.save(role));
+        createRoleIfNotFound("USER");
+        createRoleIfNotFound("ADMIN");
+        createRoleIfNotFound("SUPER_ADMIN");
+        createRoleIfNotFound("MANAGER");
+        createRoleIfNotFound("STOCK_MANAGER");
+        createRoleIfNotFound("STOCK_VIEWER");
+        createRoleIfNotFound("CUSTOMER");
+        createRoleIfNotFound("SUPPLIER");
+    }
+
+    private void createRoleIfNotFound(String roleName) {
+        roleRepository.findByName(roleName).orElseGet(() -> {
+            RoleEntity role = new RoleEntity();
+            role.setName(roleName);
+            return roleRepository.save(role);
+        });
     }
 
     @Bean
