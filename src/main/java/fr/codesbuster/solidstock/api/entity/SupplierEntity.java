@@ -1,5 +1,6 @@
 package fr.codesbuster.solidstock.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import fr.codesbuster.solidstock.api.entity.delivery.DeliveryEntity;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -83,6 +84,7 @@ public class SupplierEntity {
     private String note;
 
     @OneToMany(mappedBy = "supplier")
+    @JsonIdentityReference(alwaysAsId = true)
     private List<ProductEntity> products;
 
     @OneToMany(mappedBy = "supplier")

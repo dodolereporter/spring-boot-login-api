@@ -1,5 +1,6 @@
 package fr.codesbuster.solidstock.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +28,7 @@ public class ProductFamilyEntity {
     private String description;
 
     @OneToMany(mappedBy = "productFamily")
+    @JsonIdentityReference(alwaysAsId = true)
     private List<ProductEntity> products;
 
     @CreationTimestamp
