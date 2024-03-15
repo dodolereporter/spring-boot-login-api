@@ -38,7 +38,7 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("/me")
     public UserEntity getMe(@RequestHeader("Authorization") String bearerToken) {
         //get token from header
         String token = bearerToken.substring(7);

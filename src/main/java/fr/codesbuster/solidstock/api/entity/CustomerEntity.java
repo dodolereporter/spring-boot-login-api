@@ -81,6 +81,9 @@ public class CustomerEntity {
     @Nullable
     private int rcs;
 
+    @Nullable
+    private String fax;
+
     @OneToMany(mappedBy = "customer")
     private List<EstimateEntity> estimates;
 
