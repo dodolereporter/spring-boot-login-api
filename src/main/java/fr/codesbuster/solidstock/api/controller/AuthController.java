@@ -40,9 +40,8 @@ public class AuthController {
 
     @GetMapping("/me")
     public UserEntity getMe(@RequestHeader("Authorization") String bearerToken) {
-        //get token from header
         String token = bearerToken.substring(7);
         return authService.getMe(token);
     }
-
+    
 }

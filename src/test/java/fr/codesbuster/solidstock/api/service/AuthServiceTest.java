@@ -109,20 +109,5 @@ public class AuthServiceTest {
         assertThrows(APIException.class, () -> authService.register(registerDto));
     }
 
-    // @Test
-    void getMe_ValidToken_ReturnsUser() {
-        // Arrange
-        String token = "testToken";
-        String username = "testUser";
-        UserEntity user = new UserEntity();
-        user.setUsername(username);
-        Mockito.when(jwtTokenProvider.getUsername(token)).thenReturn(username);
-        Mockito.when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
 
-        // Act
-        UserEntity result = authService.getMe(token);
-
-        // Assert
-        assertEquals(user, result);
-    }
 }

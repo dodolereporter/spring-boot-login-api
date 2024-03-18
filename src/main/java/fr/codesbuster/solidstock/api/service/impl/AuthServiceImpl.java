@@ -85,6 +85,15 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public UserEntity getMe(String token) {
-        return userRepository.findByUsername(jwtTokenProvider.getUsername(token)).get();
+        // Vérifiez et récupérez l'authentification à partir du token JWT
+        String username = jwtTokenProvider.getUsername(token);
+        log.info(username);
+        //try by get user by username  or email
+        UserEntity user = userRepository.findByUsernameOrEmail(username, username).orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "User not found!."));
+
+
+        return user;
     }
+
+
 }

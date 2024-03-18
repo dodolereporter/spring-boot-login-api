@@ -73,4 +73,5 @@ public class JwtTokenProvider {
             throw new APIException(HttpStatus.BAD_REQUEST, "JWT claims string is empty.");
         }
     }
+
 }

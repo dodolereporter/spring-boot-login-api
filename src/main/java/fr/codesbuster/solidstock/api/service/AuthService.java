@@ -11,4 +11,5 @@ public interface AuthService {
     String register(RegisterDto registerDto);
 
     UserEntity getMe(String token);
+
 }
