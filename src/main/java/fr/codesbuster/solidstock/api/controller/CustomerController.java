@@ -2,6 +2,7 @@ package fr.codesbuster.solidstock.api.controller;
 
 import fr.codesbuster.solidstock.api.entity.CustomerEntity;
 import fr.codesbuster.solidstock.api.payload.dto.CustomerDto;
+import fr.codesbuster.solidstock.api.repository.CustomerRepository;
 import fr.codesbuster.solidstock.api.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,74 +15,13 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController {
 
     @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
     private CustomerService customerService;
 
     @PostMapping("/add")
     public ResponseEntity<CustomerEntity> addCustomer(@RequestBody CustomerDto customerDto) {
-
-        if (customerDto == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (customerDto.getCompanyName() == null || customerDto.getCompanyName().isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (customerDto.getFirstName() == null || customerDto.getFirstName().isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (customerDto.getLastName() == null || customerDto.getLastName().isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (customerDto.getCity() == null || customerDto.getCity().isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (customerDto.getZipCode() == null || customerDto.getZipCode().isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (customerDto.getAddress() == null || customerDto.getAddress().isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (customerDto.getStreetNumber() == null || customerDto.getStreetNumber().isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (customerDto.getEmail() == null || !customerDto.getEmail().contains("@")) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (customerDto.getMobilePhone() == null || customerDto.getMobilePhone().isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (customerDto.getCountry() == null || customerDto.getCountry().isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (customerDto.getCorporation() == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (customerDto.getSiret() == null || customerDto.getSiret().isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (customerDto.getSiren() == null || customerDto.getSiren().isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (customerDto.getRib() == null || customerDto.getRib().isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (customerDto.getRcs() == 0) {
-            return ResponseEntity.badRequest().build();
-        }
 
         CustomerEntity customerEntity = new CustomerEntity();
         customerEntity.setCompanyName(customerDto.getCompanyName());
@@ -102,6 +42,7 @@ public class CustomerController {
         customerEntity.setSiret(customerDto.getSiret());
         customerEntity.setRib(customerDto.getRib());
         customerEntity.setRcs(customerDto.getRcs());
+        customerEntity.setFax(customerDto.getFax());
 
 
         customerEntity = customerService.createCustomer(customerEntity);
@@ -123,7 +64,17 @@ public class CustomerController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
-        customerService.deleteCustomer(id);
+        CustomerEntity customerEntity = customerService.getCustomer(id);
+        customerEntity.setDeleted(false);
+        customerRepository.save(customerEntity);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> enableCustomer(@PathVariable Long id) {
+        CustomerEntity customerEntity = customerService.getCustomer(id);
+        customerEntity.setDeleted(false);
+        customerRepository.save(customerEntity);
         return ResponseEntity.noContent().build();
     }
 
@@ -148,6 +99,7 @@ public class CustomerController {
         customerEntity.setSiret(customerDto.getSiret());
         customerEntity.setRib(customerDto.getRib());
         customerEntity.setRcs(customerDto.getRcs());
+        customerEntity.setFax(customerDto.getFax());
         customerEntity = customerService.updateCustomer(customerEntity);
         return ResponseEntity.ok(customerEntity);
     }

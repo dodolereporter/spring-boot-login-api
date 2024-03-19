@@ -30,4 +30,5 @@ public class CustomerDto {
     private String siren;
     private String rib;
     private int rcs;
+    private String fax;
 }
