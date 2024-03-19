@@ -2,6 +2,7 @@ package fr.codesbuster.solidstock.api.controller;
 
 import fr.codesbuster.solidstock.api.entity.SupplierEntity;
 import fr.codesbuster.solidstock.api.payload.dto.SupplierDto;
+import fr.codesbuster.solidstock.api.repository.SupplierRepository;
 import fr.codesbuster.solidstock.api.service.SupplierService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/supplier")
 public class SupplierController {
+    @Autowired
+    private SupplierRepository supplierRepository;
 
     @Autowired
     private SupplierService supplierService;
@@ -61,7 +64,19 @@ public class SupplierController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSupplier(@PathVariable Long id) {
-        supplierService.deleteSupplier(id);
+        SupplierEntity supplierEntity = supplierService.getSupplier(id);
+        supplierEntity.setDeleted(true);
+        supplierEntity.getProducts().forEach(productEntity -> productEntity.setDeleted(true));
+        supplierRepository.save(supplierEntity);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> enableSupplier(@PathVariable Long id) {
+        SupplierEntity supplierEntity = supplierService.getSupplier(id);
+        supplierEntity.setDeleted(false);
+        supplierEntity.getProducts().forEach(productEntity -> productEntity.setDeleted(false));
+        supplierRepository.save(supplierEntity);
         return ResponseEntity.noContent().build();
     }
 

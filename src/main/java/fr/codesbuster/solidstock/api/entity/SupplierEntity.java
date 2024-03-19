@@ -83,6 +83,9 @@ public class SupplierEntity {
     @Nullable
     private String note;
 
+    @Column(columnDefinition = "boolean default false")
+    private boolean isDeleted;
+
     @OneToMany(mappedBy = "supplier")
     @JsonIdentityReference(alwaysAsId = true)
     private List<ProductEntity> products;

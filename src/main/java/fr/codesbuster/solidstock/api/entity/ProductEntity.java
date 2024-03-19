@@ -71,6 +71,9 @@ public class ProductEntity {
     @OneToMany(mappedBy = "product")
     private List<DeliveryRowEntity> deliveryRows;
 
+    @Column(columnDefinition = "boolean default false")
+    private boolean isDeleted;
+
     @CreationTimestamp
     private Instant createdAt;
 
