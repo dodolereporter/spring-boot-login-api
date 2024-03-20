@@ -71,7 +71,7 @@ public class SupplierController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}")
+    @PostMapping("/{id}")
     public ResponseEntity<Void> enableSupplier(@PathVariable Long id) {
         SupplierEntity supplierEntity = supplierService.getSupplier(id);
         supplierEntity.setDeleted(false);
