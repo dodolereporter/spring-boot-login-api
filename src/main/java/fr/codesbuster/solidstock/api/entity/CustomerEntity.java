@@ -61,13 +61,10 @@ public class CustomerEntity {
     private String workPhone;
 
     @Nullable
-    private String webSite;
+    private String website;
 
     @Nullable
     private String country;
-
-    @Nullable
-    private Boolean corporation;
 
     @Nullable
     private String siren;

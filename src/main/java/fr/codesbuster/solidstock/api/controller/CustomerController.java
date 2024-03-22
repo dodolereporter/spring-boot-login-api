@@ -35,9 +35,8 @@ public class CustomerController {
         customerEntity.setMobilePhone(customerDto.getMobilePhone());
         customerEntity.setHomePhone(customerDto.getHomePhone());
         customerEntity.setWorkPhone(customerDto.getWorkPhone());
-        customerEntity.setWebSite(customerDto.getWebsite());
+        customerEntity.setWebsite(customerDto.getWebsite());
         customerEntity.setCountry(customerDto.getCountry());
-        customerEntity.setCorporation(customerDto.getCorporation());
         customerEntity.setSiren(customerDto.getSiren());
         customerEntity.setSiret(customerDto.getSiret());
         customerEntity.setRib(customerDto.getRib());
@@ -92,9 +91,8 @@ public class CustomerController {
         customerEntity.setMobilePhone(customerDto.getMobilePhone());
         customerEntity.setHomePhone(customerDto.getHomePhone());
         customerEntity.setWorkPhone(customerDto.getWorkPhone());
-        customerEntity.setWebSite(customerDto.getWebsite());
+        customerEntity.setWebsite(customerDto.getWebsite());
         customerEntity.setCountry(customerDto.getCountry());
-        customerEntity.setCorporation(customerDto.getCorporation());
         customerEntity.setSiren(customerDto.getSiren());
         customerEntity.setSiret(customerDto.getSiret());
         customerEntity.setRib(customerDto.getRib());
