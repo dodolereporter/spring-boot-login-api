@@ -2,6 +2,7 @@ package fr.codesbuster.solidstock.api.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fr.codesbuster.solidstock.api.entity.delivery.DeliveryRowEntity;
 import fr.codesbuster.solidstock.api.entity.estimate.EstimateRowEntity;
@@ -32,25 +33,29 @@ public class ProductEntity {
     private long id;
     private String name;
     private String description;
-    private String barcode;
+    private String barCode;
     private double buyPrice;
     private double sellPrice;
     private double minimumStockQuantity;
 
     @ManyToOne
     @JoinColumn(name = "supplier_id")
+    @JsonIdentityReference(alwaysAsId = true)
     private SupplierEntity supplier;
 
     @ManyToOne
     @JoinColumn(name = "vat_id")
-    private VATEntity vat;
+    @JsonIdentityReference(alwaysAsId = true)
+    private  VATEntity vat;
 
     @ManyToOne
     @JoinColumn(name = "quantity_type_id")
+    @JsonIdentityReference(alwaysAsId = true)
     private QuantityTypeEntity quantityType;
 
     @ManyToOne
     @JoinColumn(name = "product_family_id")
+    @JsonIdentityReference(alwaysAsId = true)
     private ProductFamilyEntity productFamily;
 
     @OneToMany(mappedBy = "product")

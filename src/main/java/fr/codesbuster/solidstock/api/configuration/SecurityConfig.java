@@ -11,7 +11,6 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -380,11 +379,11 @@ public class SecurityConfig {
         }
 
 
-        if (productRepository.findByBarcode("123456789").isEmpty()) {
+        if (productRepository.findByBarCode("123456789").isEmpty()) {
             ProductEntity product = new ProductEntity();
             product.setName("Château Latour 2010");
             product.setDescription("Château Latour 2010");
-            product.setBarcode("123456789");
+            product.setBarCode("123456789");
             product.setBuyPrice(1000);
             product.setSellPrice(1500);
             product.setMinimumStockQuantity(10);
@@ -395,11 +394,11 @@ public class SecurityConfig {
             productRepository.save(product);
         }
 
-        if (productRepository.findByBarcode("253456789").isEmpty()) {
+        if (productRepository.findByBarCode("253456789").isEmpty()) {
             ProductEntity product = new ProductEntity();
             product.setName("Château Margaux 2010");
             product.setDescription("Château Margaux 2010");
-            product.setBarcode("253456789");
+            product.setBarCode("253456789");
             product.setBuyPrice(1000);
             product.setSellPrice(1500);
             product.setMinimumStockQuantity(10);
@@ -410,11 +409,11 @@ public class SecurityConfig {
             productRepository.save(product);
         }
 
-        if (productRepository.findByBarcode("323456789").isEmpty()) {
+        if (productRepository.findByBarCode("323456789").isEmpty()) {
             ProductEntity product = new ProductEntity();
             product.setName("Château Lafite Rothschild 2010");
             product.setDescription("Château Lafite Rothschild 2010");
-            product.setBarcode("323456789");
+            product.setBarCode("323456789");
             product.setBuyPrice(1000);
             product.setSellPrice(1500);
             product.setMinimumStockQuantity(10);
@@ -425,11 +424,11 @@ public class SecurityConfig {
             productRepository.save(product);
         }
 
-        if (productRepository.findByBarcode("423456789").isEmpty()) {
+        if (productRepository.findByBarCode("423456789").isEmpty()) {
             ProductEntity product = new ProductEntity();
             product.setName("Les Terrasses du Diable 2010");
             product.setDescription("Les Terrasses du Diable 2010");
-            product.setBarcode("423456789");
+            product.setBarCode("423456789");
             product.setBuyPrice(1000);
             product.setSellPrice(1600);
             product.setMinimumStockQuantity(10);
@@ -440,11 +439,11 @@ public class SecurityConfig {
             productRepository.save(product);
         }
 
-        if (productRepository.findByBarcode("523456789").isEmpty()) {
+        if (productRepository.findByBarCode("523456789").isEmpty()) {
             ProductEntity product = new ProductEntity();
             product.setName("Château d'Yquem 2010");
             product.setDescription("Château d'Yquem 2010");
-            product.setBarcode("523456789");
+            product.setBarCode("523456789");
             product.setBuyPrice(1000);
             product.setSellPrice(1500);
             product.setMinimumStockQuantity(10);
@@ -455,11 +454,11 @@ public class SecurityConfig {
             productRepository.save(product);
         }
 
-        if (productRepository.findByBarcode("623456789").isEmpty()) {
+        if (productRepository.findByBarCode("623456789").isEmpty()) {
             ProductEntity product = new ProductEntity();
             product.setName("Château d'Yquem 2010");
             product.setDescription("Château d'Yquem 2010");
-            product.setBarcode("623456789");
+            product.setBarCode("623456789");
             product.setBuyPrice(1000);
             product.setSellPrice(1500);
             product.setMinimumStockQuantity(10);
@@ -470,11 +469,11 @@ public class SecurityConfig {
             productRepository.save(product);
         }
 
-        if (productRepository.findByBarcode("723456789").isEmpty()) {
+        if (productRepository.findByBarCode("723456789").isEmpty()) {
             ProductEntity product = new ProductEntity();
             product.setName("Château d'Yquem 2010");
             product.setDescription("Château d'Yquem 2010");
-            product.setBarcode("723456789");
+            product.setBarCode("723456789");
             product.setBuyPrice(1000);
             product.setSellPrice(1500);
             product.setMinimumStockQuantity(10);
@@ -485,11 +484,11 @@ public class SecurityConfig {
             productRepository.save(product);
         }
 
-        if (productRepository.findByBarcode("823456789").isEmpty()) {
+        if (productRepository.findByBarCode("823456789").isEmpty()) {
             ProductEntity product = new ProductEntity();
             product.setName("Château d'Yquem 2010");
             product.setDescription("Château d'Yquem 2010");
-            product.setBarcode("823456789");
+            product.setBarCode("823456789");
             product.setBuyPrice(1000);
             product.setSellPrice(1500);
             product.setMinimumStockQuantity(10);
@@ -500,11 +499,11 @@ public class SecurityConfig {
             productRepository.save(product);
         }
 
-        if (productRepository.findByBarcode("923456789").isEmpty()) {
+        if (productRepository.findByBarCode("923456789").isEmpty()) {
             ProductEntity product = new ProductEntity();
             product.setName("Château d'Yquem 2010");
             product.setDescription("Château d'Yquem 2010");
-            product.setBarcode("923456789");
+            product.setBarCode("923456789");
             product.setBuyPrice(1000);
             product.setSellPrice(1500);
             product.setMinimumStockQuantity(10);

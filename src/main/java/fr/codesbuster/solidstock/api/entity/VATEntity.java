@@ -1,5 +1,9 @@
 package fr.codesbuster.solidstock.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -15,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Table(name = "vat")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class VATEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +32,7 @@ public class VATEntity {
     private String percentage;
 
     @OneToMany(mappedBy = "vat")
+    @JsonIdentityReference(alwaysAsId = true)
     private List<ProductEntity> products;
 
     @CreationTimestamp

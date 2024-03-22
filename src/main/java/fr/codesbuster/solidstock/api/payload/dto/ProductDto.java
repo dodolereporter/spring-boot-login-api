@@ -12,7 +12,7 @@ import lombok.Setter;
 public class ProductDto {
     private String name;
     private String description;
-    private String barcode;
+    private String barCode;
     private double buyPrice;
     private double sellPrice;
     private double minimumStockQuantity;
