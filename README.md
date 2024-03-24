@@ -5,7 +5,13 @@
 - Java 21
 - PostgreSQL Server
 
-### Setup
+## Images
+
+![image](https://github.com/dodolereporter/spring-boot-login-api/assets/60071624/a71a895a-62c5-4acb-904d-7f4728dbf75e)
+
+![image](https://github.com/dodolereporter/spring-boot-login-api/assets/60071624/224cf48f-f783-4a9d-87d4-9ee251d7f50f)
+
+## Setup
 
 #### Configutration
 
