@@ -34,6 +34,9 @@ public class ProductFamilyEntity {
     @JsonIdentityReference(alwaysAsId = true)
     private List<ProductEntity> products;
 
+    @Column(columnDefinition = "boolean default false")
+    private boolean isDeleted;
+
     @CreationTimestamp
     private Instant createdAt;
 
