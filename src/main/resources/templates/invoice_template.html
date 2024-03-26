@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/pdf-layout}">
+
+<head>
+    <title>Facture</title>
+    <style>
+        /* Styles spécifiques au PDF */
+        @page {
+            size: A4 portrait;
+            margin: 1cm;
+        }
+
+        @media print {
+            #footer {
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+            }
+
+            #header {
+                position: fixed;
+                top: 0;
+                width: 100%;
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            padding: 5px;
+            box-sizing: border-box;
+            max-height: 100%;
+        }
+
+
+        .header img {
+            max-width: 150px;
+        }
+
+        .info {
+            margin-bottom: 20px;
+        }
+
+        .info p {
+            margin: 4px 0;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 11px;
+        }
+
+        .table th, .table td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .table th  {
+            background-color: #f2f2f2;
+        }
+
+        .totalCell {
+            background-color: #f2f2f2;
+        }
+
+        .totals p {
+            margin: 5px 0;
+        }
+
+        .legal {
+            margin-top: 20px;
+            font-size: 8pt;
+        }
+
+        .legal ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .legal ul li {
+            margin-bottom: 5px;
+        }
+        .logo {
+            width: 350px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <table style="width: 100%">
+        <tr>
+            <td>
+                <img class="logo" th:src="${invoiceLogo}" alt="Logo" />
+
+                <div class="info">
+                    <br />
+                    <br />
+                    <p th:text="${invoice.getOwnerCompany().getName()}">Facturation</p>
+                    <p th:text="${invoice.getOwnerCompany().getStreetNumber()} + ' ' + ${invoice.getOwnerCompany().getAddress()}">Adresse</p>
+                    <p th:text="${invoice.getOwnerCompany().getPostalCode()} + ' ' + ${invoice.getOwnerCompany().getCity()}">Ville, Code postal</p>
+                    <p th:text="${invoice.getOwnerCompany().getCountry()}">Pays</p>
+                </div>
+            </td>
+
+            <td style="text-align: right; vertical-align: top;" class="info">
+                <h1>Facture</h1>
+                <p>Facture n° <span th:text="${invoice.getInvoiceNumber()}"></span></p>
+                <p>Date: <span th:text="${#dates.format(invoice.getInvoiceDate(), 'dd/MM/yyyy')}"></span></p>
+            </td>
+        </tr>
+    </table>
+    <table style="width: 100%">
+        <tr>
+            <td style="width: 50%">
+            </td>
+            <td>
+                <div class="info">
+                    <p th:text="${invoice.getCustomerCompany().getName()}">Nom de l'entreprise facturée</p>
+                    <p th:text="${invoice.getCustomerCompany().getStreetNumber()} + ' ' + ${invoice.getCustomerCompany().getAddress()}">Adresse</p>
+                    <p th:text="${invoice.getCustomerCompany().getPostalCode()} + ' ' + ${invoice.getCustomerCompany().getCity()}   ">Ville, Code postal</p>
+                    <p th:text="${invoice.getCustomerCompany().getCountry()}">Pays</p>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <br /><br />
+
+
+    <div class="table">
+        <h2>Détails de la facture</h2>
+        <h3> <strong  th:text="'Objet : ' + ${invoice.getDescription()}"></strong></h3>
+        <table style="width: 100%">
+            <thead>
+            <tr>
+                <th>Produit</th>
+                <th style="text-align: right;">Quantité</th>
+                <th>Type</th>
+                <th style="text-align: right;">Prix unit. HT</th>
+                <th style="text-align: right;">Total HT</th>
+                <th style="text-align: center;">TVA</th>
+                <th>Total TTC</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Boucle sur les produits -->
+            <tr th:each="product : ${invoice.getInvoiceRows()}">
+                <td th:text="${product.getProductName()}"></td>
+                <td style="text-align: right;" th:text="${product.getQuantity()}"></td>
+                <td th:text="${product.getQuantityType()}"></td>
+                <td style="text-align: right;" th:text="${product.getPriceHT()}"></td>
+                <td style="text-align: right;" th:text="${product.getTotalHT()}"></td>
+                <td style="text-align: center;" th:text="${product.getVatAmount()}"></td>
+                <td style="text-align: right;" th:text="${product.getTotalTTC()}"></td>
+            </tr>
+            <tr >
+                <td  colspan="5" th:border="0"  style="border-color: white"></td>
+                <td class="totalCell" >Total HT</td>
+                <td style="text-align: right;" th:text="${invoice.getTotalHT()}"></td>
+            </tr>
+            <th:block th:each="vat : ${invoice.getVat()}">
+                <tr>
+                    <td colspan="5" th:border="0"  style="border-color: white"></td>
+                    <td class="totalCell">TVA à <span th:text="${vat.getVatNumber()}"></span></td>
+                    <td style="text-align: right;" th:text="${vat.getTotalVAT()}"></td>
+                </tr>
+            </th:block>
+            <tr>
+                <td colspan="5" th:border="0" style="border-color: white"></td>
+                <td class="totalCell">Total TTC</td>
+                <td style="text-align: right;" th:text="${invoice.getTotalTTC()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="legal" id="footer">
+        <p>Mentions légales:</p>
+        <ul>
+            <li>Ceci est une facture générée automatiquement.</li>
+            <li>Les paiements doivent être effectués dans les 30 jours suivant la réception.</li>
+            <!-- Autres mentions légales -->
+        </ul>
+    </div>
+</div>
+</body>
+
+</html>

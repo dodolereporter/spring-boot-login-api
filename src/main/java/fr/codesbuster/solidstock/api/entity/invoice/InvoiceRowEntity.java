@@ -24,7 +24,7 @@ public class InvoiceRowEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private int quantity;
+    private double quantity;
     private double sellPrice;
 
     @ManyToOne

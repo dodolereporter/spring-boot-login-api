@@ -1,5 +1,6 @@
 package fr.codesbuster.solidstock.api.entity.orderForm;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import fr.codesbuster.solidstock.api.entity.CustomerEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,7 @@ public class OrderFormEntity {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonIdentityReference(alwaysAsId = true)
     private CustomerEntity customer;
 
     @OneToMany(mappedBy = "orderForm")
