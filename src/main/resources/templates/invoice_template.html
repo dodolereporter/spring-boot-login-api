@@ -92,10 +92,21 @@
         .logo {
             width: 350px;
         }
+        .destinataire {
+            position: absolute;
+            top: 4.5cm;
+            right: 5.5cm;
+        }
     </style>
 </head>
 
 <body>
+<div class="info destinataire">
+    <p th:text="${invoice.getCustomerCompany().getName()}">Nom de l'entreprise facturée</p>
+    <p th:text="${invoice.getCustomerCompany().getStreetNumber()} + ' ' + ${invoice.getCustomerCompany().getAddress()}">Adresse</p>
+    <p th:text="${invoice.getCustomerCompany().getPostalCode()} + ' ' + ${invoice.getCustomerCompany().getCity()}   ">Ville, Code postal</p>
+    <p th:text="${invoice.getCustomerCompany().getCountry()}">Pays</p>
+</div>
 <div class="container">
     <table style="width: 100%">
         <tr>
@@ -119,20 +130,7 @@
             </td>
         </tr>
     </table>
-    <table style="width: 100%">
-        <tr>
-            <td style="width: 50%">
-            </td>
-            <td>
-                <div class="info">
-                    <p th:text="${invoice.getCustomerCompany().getName()}">Nom de l'entreprise facturée</p>
-                    <p th:text="${invoice.getCustomerCompany().getStreetNumber()} + ' ' + ${invoice.getCustomerCompany().getAddress()}">Adresse</p>
-                    <p th:text="${invoice.getCustomerCompany().getPostalCode()} + ' ' + ${invoice.getCustomerCompany().getCity()}   ">Ville, Code postal</p>
-                    <p th:text="${invoice.getCustomerCompany().getCountry()}">Pays</p>
-                </div>
-            </td>
-        </tr>
-    </table>
+
     <br />
     <br /><br />
 
