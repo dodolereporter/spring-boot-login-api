@@ -384,8 +384,8 @@ public class SecurityConfig {
             product.setName("Château Latour 2010");
             product.setDescription("Château Latour 2010");
             product.setBarCode("123456789");
-            product.setBuyPrice(1000);
-            product.setSellPrice(1500);
+            product.setBuyPrice(1000.0);
+            product.setSellPrice(1500.0);
             product.setMinimumStockQuantity(10);
             product.setSupplier(supplierRepository.findByCompanyName("Château Latour").get());
             product.setVat(vatRepository.findByRate(20).get());
@@ -399,8 +399,8 @@ public class SecurityConfig {
             product.setName("Château Margaux 2010");
             product.setDescription("Château Margaux 2010");
             product.setBarCode("253456789");
-            product.setBuyPrice(1000);
-            product.setSellPrice(1500);
+            product.setBuyPrice(1000.0);
+            product.setSellPrice(1500.0);
             product.setMinimumStockQuantity(10);
             product.setSupplier(supplierRepository.findByCompanyName("Château Margaux").get());
             product.setVat(vatRepository.findByRate(20).get());
@@ -414,8 +414,8 @@ public class SecurityConfig {
             product.setName("Château Lafite Rothschild 2010");
             product.setDescription("Château Lafite Rothschild 2010");
             product.setBarCode("323456789");
-            product.setBuyPrice(1000);
-            product.setSellPrice(1500);
+            product.setBuyPrice(1000.0);
+            product.setSellPrice(1500.0);
             product.setMinimumStockQuantity(10);
             product.setSupplier(supplierRepository.findByCompanyName("Château Lafite Rothschild").get());
             product.setVat(vatRepository.findByRate(20).get());
@@ -429,8 +429,8 @@ public class SecurityConfig {
             product.setName("Les Terrasses du Diable 2010");
             product.setDescription("Les Terrasses du Diable 2010");
             product.setBarCode("423456789");
-            product.setBuyPrice(1000);
-            product.setSellPrice(1600);
+            product.setBuyPrice(1000.0);
+            product.setSellPrice(1600.0);
             product.setMinimumStockQuantity(10);
             product.setSupplier(supplierRepository.findByCompanyName("Château Mouton Rothschild").get());
             product.setVat(vatRepository.findByRate(20).get());
@@ -444,8 +444,8 @@ public class SecurityConfig {
             product.setName("Château d'Yquem 2010");
             product.setDescription("Château d'Yquem 2010");
             product.setBarCode("523456789");
-            product.setBuyPrice(1000);
-            product.setSellPrice(1500);
+            product.setBuyPrice(1000.0);
+            product.setSellPrice(1500.0);
             product.setMinimumStockQuantity(10);
             product.setSupplier(supplierRepository.findByCompanyName("Château d'Yquem").get());
             product.setVat(vatRepository.findByRate(20).get());
@@ -459,8 +459,8 @@ public class SecurityConfig {
             product.setName("Château d'Yquem 2010");
             product.setDescription("Château d'Yquem 2010");
             product.setBarCode("623456789");
-            product.setBuyPrice(1000);
-            product.setSellPrice(1500);
+            product.setBuyPrice(1000.0);
+            product.setSellPrice(1500.0);
             product.setMinimumStockQuantity(10);
             product.setSupplier(supplierRepository.findByCompanyName("Château d'Yquem").get());
             product.setVat(vatRepository.findByRate(20).get());
@@ -474,8 +474,8 @@ public class SecurityConfig {
             product.setName("Château d'Yquem 2010");
             product.setDescription("Château d'Yquem 2010");
             product.setBarCode("723456789");
-            product.setBuyPrice(1000);
-            product.setSellPrice(1500);
+            product.setBuyPrice(1000.0);
+            product.setSellPrice(1500.0);
             product.setMinimumStockQuantity(10);
             product.setSupplier(supplierRepository.findByCompanyName("Château d'Yquem").get());
             product.setVat(vatRepository.findByRate(20).get());
@@ -489,8 +489,8 @@ public class SecurityConfig {
             product.setName("Château d'Yquem 2010");
             product.setDescription("Château d'Yquem 2010");
             product.setBarCode("823456789");
-            product.setBuyPrice(1000);
-            product.setSellPrice(1500);
+            product.setBuyPrice(1000.0);
+            product.setSellPrice(1500.0);
             product.setMinimumStockQuantity(10);
             product.setSupplier(supplierRepository.findByCompanyName("Château d'Yquem").get());
             product.setVat(vatRepository.findByRate(20).get());
@@ -504,8 +504,8 @@ public class SecurityConfig {
             product.setName("Château d'Yquem 2010");
             product.setDescription("Château d'Yquem 2010");
             product.setBarCode("923456789");
-            product.setBuyPrice(1000);
-            product.setSellPrice(1500);
+            product.setBuyPrice(1000.0);
+            product.setSellPrice(1500.0);
             product.setMinimumStockQuantity(10);
             product.setSupplier(supplierRepository.findByCompanyName("Château d'Yquem").get());
             product.setVat(vatRepository.findByRate(20).get());

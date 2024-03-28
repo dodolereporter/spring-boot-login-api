@@ -73,8 +73,8 @@ public class ProductController {
         productEntity.setName(productDto.getName());
         productEntity.setDescription(productDto.getDescription());
         productEntity.setBarCode(productDto.getBarCode());
-        productEntity.setBuyPrice(productDto.getBuyPrice());
-        productEntity.setSellPrice(productDto.getSellPrice());
+        productEntity.setBuyPrice(Double.valueOf(productDto.getBuyPrice()));
+        productEntity.setSellPrice(Double.valueOf(productDto.getSellPrice()));
         productEntity.setMinimumStockQuantity(productDto.getMinimumStockQuantity());
         productEntity.setSupplier(supplierEntity);
         productEntity.setVat(vatEntity);
@@ -126,8 +126,8 @@ public class ProductController {
         ProductEntity productEntity = productService.getProduct(id);
         productEntity.setName(productDto.getName());
         productEntity.setDescription(productDto.getDescription());
-        productEntity.setBuyPrice(productDto.getBuyPrice());
-        productEntity.setSellPrice(productDto.getSellPrice());
+        productEntity.setBuyPrice(Double.valueOf(productDto.getBuyPrice()));
+        productEntity.setSellPrice(Double.valueOf(productDto.getSellPrice()));
         productEntity.setMinimumStockQuantity(productDto.getMinimumStockQuantity());
         productEntity.setSupplier(supplierEntity);
         productEntity.setVat(vatEntity);

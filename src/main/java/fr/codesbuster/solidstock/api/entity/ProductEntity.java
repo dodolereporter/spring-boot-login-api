@@ -34,28 +34,24 @@ public class ProductEntity {
     private String name;
     private String description;
     private String barCode;
-    private double buyPrice;
-    private double sellPrice;
+    private Double buyPrice;
+    private Double sellPrice;
     private double minimumStockQuantity;
 
     @ManyToOne
     @JoinColumn(name = "supplier_id")
-    @JsonIdentityReference(alwaysAsId = true)
     private SupplierEntity supplier;
 
     @ManyToOne
     @JoinColumn(name = "vat_id")
-    @JsonIdentityReference(alwaysAsId = true)
     private  VATEntity vat;
 
     @ManyToOne
     @JoinColumn(name = "quantity_type_id")
-    @JsonIdentityReference(alwaysAsId = true)
     private QuantityTypeEntity quantityType;
 
     @ManyToOne
     @JoinColumn(name = "product_family_id")
-    @JsonIdentityReference(alwaysAsId = true)
     private ProductFamilyEntity productFamily;
 
     @OneToMany(mappedBy = "product")
