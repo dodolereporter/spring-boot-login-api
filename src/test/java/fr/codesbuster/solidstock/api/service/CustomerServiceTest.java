@@ -24,6 +24,7 @@ public class CustomerServiceTest {
 
     @Test
     void createCustomer_ValidCustomer_ReturnsSavedCustomer() {
+        customerRepository.deleteAll();
         CustomerEntity customer = new CustomerEntity();
         customer.setId(1L);
         customer.setCompanyName("TestCompany");

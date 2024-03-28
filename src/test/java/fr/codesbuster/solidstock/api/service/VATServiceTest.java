@@ -4,7 +4,6 @@ import fr.codesbuster.solidstock.api.entity.VATEntity;
 import fr.codesbuster.solidstock.api.exception.APIException;
 import fr.codesbuster.solidstock.api.repository.VATRepository;
 import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,13 +25,13 @@ public class VATServiceTest {
     @Test
     void createVAT_ValidVAT_ReturnsSavedVAT() {
         VATEntity vat = new VATEntity();
-        vat.setRate(20);
+        vat.setRate(52);
 
         try {
             VATEntity savedVAT = vatService.createVAT(vat);
 
             assertNotNull(savedVAT);
-            assertEquals(20, savedVAT.getRate());
+            assertEquals(52, savedVAT.getRate());
         } finally {
             // Remove the created VAT
             vatRepository.deleteAll();

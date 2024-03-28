@@ -28,26 +28,17 @@ public class InvoicePdfServiceImpl implements InvoicePDFService {
 
         File logo = invoiceData.getOwnerCompany().getLogo();
         if (logo != null) {
-            String logoPath = System.getProperty("user.home").replace("\\", "/") + "/AppData/Local/Temp/SolidStock/Invoices/static/";
-            if (!new File(logoPath).exists()) {
-                new File(logoPath).mkdirs();
+            String logoPath = getTempDirectory() + File.separator + "SolidStock" + File.separator + "Invoices" + File.separator + "static";
+            File logoDir = new File(logoPath);
+            if (!logoDir.exists()) {
+                logoDir.mkdirs();
             }
-            logoPath += "logo.png";
-            InputStream in = new FileInputStream(logo);
-            OutputStream out = new FileOutputStream(logoPath);
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = in.read(buffer)) > 0) {
-                out.write(buffer, 0, length);
-            }
-            in.close();
-            out.close();
+            logoPath += File.separator + "logo.png";
+            copyFile(logo, new File(logoPath));
 
-            logoPath = "file:///" + logoPath;
-
+            logoPath = "file:///" + logoPath.replace("\\", "/");
             context.setVariable("invoiceLogo", logoPath);
         }
-
 
         String filePath = getFilePath(invoiceEntity);
         OutputStream outputStream = new FileOutputStream(filePath);
@@ -60,30 +51,41 @@ public class InvoicePdfServiceImpl implements InvoicePDFService {
         outputStream.close();
 
         return new File(filePath);
+    }
 
+    private String getTempDirectory() {
+        return System.getProperty("java.io.tmpdir");
+    }
+
+    private void copyFile(File source, File dest) throws IOException {
+        try (InputStream in = new FileInputStream(source);
+             OutputStream out = new FileOutputStream(dest)) {
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = in.read(buffer)) > 0) {
+                out.write(buffer, 0, length);
+            }
+        }
     }
 
     private String getFilePath(InvoiceEntity invoiceEntity) {
-        String outputFolder = System.getProperty("user.home") + "/AppData/Local/Temp/SolidStock/Invoices/";
+        String outputFolder = getTempDirectory() + File.separator + "SolidStock" + File.separator + "Invoices";
 
-        if (!new File(outputFolder).exists()) {
-            new File(outputFolder).mkdirs();
+        File folder = new File(outputFolder);
+        if (!folder.exists()) {
+            folder.mkdirs();
         }
 
-        String filePath = outputFolder + "invoice_" + invoiceEntity.getId() + ".pdf";
-
-        return filePath;
+        return outputFolder + File.separator + "invoice_" + invoiceEntity.getId() + ".pdf";
     }
 
-
-    //get Invoice
     @Override
     public File getInvoicePDF(InvoiceEntity invoiceEntity) throws IOException, ParseException {
         String filePath = getFilePath(invoiceEntity);
-        if (new File(filePath).exists()) {
-            return new File(filePath);
+        File invoiceFile = new File(filePath);
+        if (invoiceFile.exists()) {
+            return invoiceFile;
         }
         return generateInvoicePDF(invoiceEntity);
     }
-
 }
