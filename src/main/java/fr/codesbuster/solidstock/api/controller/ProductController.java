@@ -81,7 +81,7 @@ public class ProductController {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setName(productDto.getName());
         productEntity.setDescription(productDto.getDescription());
-        productEntity.setBarcode(productDto.getBarcode());
+        productEntity.setBarCode(productDto.getBarcode());
         productEntity.setBuyPrice(productDto.getBuyPrice());
         productEntity.setSellPrice(productDto.getSellPrice());
         productEntity.setMinimumStockQuantity(productDto.getMinimumStockQuantity());

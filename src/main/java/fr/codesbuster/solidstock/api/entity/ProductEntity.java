@@ -1,6 +1,5 @@
 package fr.codesbuster.solidstock.api.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fr.codesbuster.solidstock.api.entity.delivery.DeliveryRowEntity;
@@ -32,7 +31,7 @@ public class ProductEntity {
     private long id;
     private String name;
     private String description;
-    private String barcode;
+    private String barCode;
     private double buyPrice;
     private double sellPrice;
     private double minimumStockQuantity;
@@ -43,7 +42,7 @@ public class ProductEntity {
 
     @ManyToOne
     @JoinColumn(name = "vat_id")
-    private VATEntity vat;
+    private  VATEntity vat;
 
     @ManyToOne
     @JoinColumn(name = "quantity_type_id")

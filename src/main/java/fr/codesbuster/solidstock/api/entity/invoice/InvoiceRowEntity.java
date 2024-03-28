@@ -1,6 +1,9 @@
 package fr.codesbuster.solidstock.api.entity.invoice;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fr.codesbuster.solidstock.api.entity.ProductEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,6 +21,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @Entity
 @Table(name = "invoice_row")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class InvoiceRowEntity {
 
     @Id
@@ -29,6 +33,7 @@ public class InvoiceRowEntity {
 
     @ManyToOne
     @JoinColumn(name = "invoice_id")
+    @JsonIdentityReference(alwaysAsId = true)
     private InvoiceEntity invoice;
 
     @ManyToOne

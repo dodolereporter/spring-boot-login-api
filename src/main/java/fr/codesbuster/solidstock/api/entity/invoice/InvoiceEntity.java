@@ -30,9 +30,6 @@ public class InvoiceEntity {
 
     private String description;
 
-    private DateTime estimateDate;
-
-
     @ManyToOne
     @JoinColumn(name = "customer_id")
     @JsonIdentityReference(alwaysAsId = true)
@@ -40,8 +37,6 @@ public class InvoiceEntity {
 
     @OneToMany(mappedBy = "invoice")
     private List<InvoiceRowEntity> invoiceRows;
-
-
 
     @CreationTimestamp
     private Instant createdAt;

@@ -1,90 +1,124 @@
 package fr.codesbuster.solidstock.api.service.impl;
 
+import fr.codesbuster.solidstock.api.entity.CustomerEntity;
 import fr.codesbuster.solidstock.api.entity.invoice.InvoiceEntity;
-import fr.codesbuster.solidstock.api.entity.pdf.InvoiceData;
+import fr.codesbuster.solidstock.api.entity.invoice.InvoiceRowEntity;
+import fr.codesbuster.solidstock.api.exception.APIException;
+import fr.codesbuster.solidstock.api.payload.dto.InvoiceDto;
+import fr.codesbuster.solidstock.api.payload.dto.InvoiceRowDto;
+import fr.codesbuster.solidstock.api.repository.CustomerRepository;
+import fr.codesbuster.solidstock.api.repository.InvoiceRepository;
+import fr.codesbuster.solidstock.api.repository.InvoiceRowRepository;
+import fr.codesbuster.solidstock.api.repository.ProductRepository;
+import fr.codesbuster.solidstock.api.service.InvoicePDFService;
 import fr.codesbuster.solidstock.api.service.InvoiceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
-import org.xhtmlrenderer.pdf.ITextRenderer;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
+import java.util.List;
 
 @Slf4j
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
+    @Autowired
+    private InvoiceRepository invoiceRepository;
+    @Autowired
+    private InvoiceRowRepository invoiceRowRepository;
+    @Autowired
+    private ProductRepository productRepository;
+    @Autowired
+    private InvoicePDFService invoicePDFService;
 
     @Autowired
-    private TemplateEngine templateEngine;
+    private CustomerRepository customerRepository;
 
     @Override
-    public File generateInvoicePDF(InvoiceEntity invoiceEntity) throws IOException, ParseException {
-        Context context = new Context();
-        InvoiceData invoiceData = new InvoiceData(invoiceEntity);
-        context.setVariable("invoice", invoiceData);
-
-        File logo = invoiceData.getOwnerCompany().getLogo();
-        if (logo != null) {
-            String logoPath = System.getProperty("user.home").replace("\\", "/") + "/AppData/Local/Temp/SolidStock/Invoices/static/";
-            if (!new File(logoPath).exists()) {
-                new File(logoPath).mkdirs();
-            }
-            logoPath += "logo.png";
-            InputStream in = new FileInputStream(logo);
-            OutputStream out = new FileOutputStream(logoPath);
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = in.read(buffer)) > 0) {
-                out.write(buffer, 0, length);
-            }
-            in.close();
-            out.close();
-
-            logoPath = "file:///" + logoPath;
-
-            log.info("Logo path: " + logoPath);
-            context.setVariable("invoiceLogo", logoPath);
+    public void createInvoice(InvoiceDto invoiceDto) {
+        InvoiceEntity invoiceEntity = new InvoiceEntity();
+        invoiceEntity.setName(invoiceDto.getName());
+        invoiceEntity.setDescription(invoiceDto.getDescription());
+        CustomerEntity customerEntity = customerRepository.findById(invoiceDto.getCustomerId()).orElse(null);
+        if (customerEntity == null) {
+            throw new APIException(HttpStatus.NOT_FOUND, "Customer not found");
         }
+        invoiceEntity.setCustomer(customerEntity);
 
-
-        String filePath = getFilePath(invoiceEntity);
-        OutputStream outputStream = new FileOutputStream(filePath);
-        String html = templateEngine.process("invoice_template", context);
-        ITextRenderer renderer = new ITextRenderer();
-        renderer.setDocumentFromString(html);
-        renderer.layout();
-        renderer.createPDF(outputStream);
-
-        outputStream.close();
-
-        return new File(filePath);
-
+        invoiceRepository.save(invoiceEntity);
     }
 
-    private String getFilePath(InvoiceEntity invoiceEntity) {
-        String outputFolder = System.getProperty("user.home") + "/AppData/Local/Temp/SolidStock/Invoices/";
-
-        if (!new File(outputFolder).exists()) {
-            new File(outputFolder).mkdirs();
-        }
-
-        String filePath = outputFolder + "invoice_" + invoiceEntity.getId() + ".pdf";
-
-        return filePath;
-    }
-
-
-    //get Invoice
     @Override
-    public File getInvoicePDF(InvoiceEntity invoiceEntity) throws IOException, ParseException {
-        String filePath = getFilePath(invoiceEntity);
-        if (new File(filePath).exists()) {
-            return new File(filePath);
-        }
-        return generateInvoicePDF(invoiceEntity);
+    public InvoiceEntity getInvoice(long id) {
+        return invoiceRepository.findById(id).orElseThrow(() -> new APIException(HttpStatus.NOT_FOUND, "Invoice not found"));
     }
 
+    @Override
+    public List<InvoiceEntity> getAllInvoices() {
+        return invoiceRepository.findAll();
+    }
+
+    @Override
+    public void deleteInvoice(long id) {
+        invoiceRepository.deleteById(id);
+    }
+
+    @Override
+    public InvoiceEntity updateInvoice(long id, InvoiceDto invoiceDto) {
+        InvoiceEntity invoiceEntity = invoiceRepository.findById(id).orElseThrow(() -> new APIException(HttpStatus.NOT_FOUND, "Invoice not found"));
+        invoiceEntity.setName(invoiceDto.getName());
+        invoiceEntity.setDescription(invoiceDto.getDescription());
+        CustomerEntity customerEntity = customerRepository.findById(invoiceDto.getCustomerId()).orElseThrow(() -> new APIException(HttpStatus.NOT_FOUND, "Customer not found"));
+        invoiceEntity.setCustomer(customerEntity);
+
+        invoiceRepository.save(invoiceEntity);
+        return invoiceEntity;
+    }
+
+    @Override
+    public void addRow(long id, InvoiceRowDto invoiceRowDto) {
+        InvoiceRowEntity invoiceRowEntity = new InvoiceRowEntity();
+        invoiceRowEntity.setQuantity(invoiceRowDto.getQuantity());
+        invoiceRowEntity.setSellPrice(invoiceRowDto.getSellPrice());
+        InvoiceEntity invoiceEntity = invoiceRepository.findById(id).orElseThrow(() -> new APIException(HttpStatus.NOT_FOUND, "Invoice not found"));
+        invoiceRowEntity.setInvoice(invoiceEntity);
+        invoiceRowEntity.setProduct(productRepository.findById(invoiceRowDto.getProductId()).orElseThrow(() -> new APIException(HttpStatus.NOT_FOUND, "Product not found")));
+
+        invoiceRowRepository.save(invoiceRowEntity);
+    }
+
+    @Override
+    public InvoiceRowEntity getRow(long id) {
+        return invoiceRowRepository.findById(id).orElseThrow(() -> new APIException(HttpStatus.NOT_FOUND, "InvoiceRow not found"));
+    }
+
+    @Override
+    public List<InvoiceRowEntity> getAllRows(long invoiceId) {
+        return invoiceRowRepository.findByInvoice_Id(invoiceId);
+    }
+
+    @Override
+    public void deleteRow(long id) {
+        invoiceRowRepository.deleteById(id);
+    }
+
+    @Override
+    public InvoiceRowEntity updateRow(long id, InvoiceRowDto invoiceRowDto) {
+        InvoiceRowEntity invoiceRowEntity = invoiceRowRepository.findById(id).orElseThrow(() -> new APIException(HttpStatus.NOT_FOUND, "InvoiceRow not found"));
+        invoiceRowEntity.setQuantity(invoiceRowDto.getQuantity());
+        invoiceRowEntity.setSellPrice(invoiceRowDto.getSellPrice());
+        invoiceRowEntity.setProduct(productRepository.findById(invoiceRowDto.getProductId()).orElseThrow(() -> new APIException(HttpStatus.NOT_FOUND, "Product not found")));
+
+        invoiceRowRepository.save(invoiceRowEntity);
+        return invoiceRowEntity;
+    }
+
+    @Override
+    public File generatePDF(long id) throws IOException, ParseException {
+        InvoiceEntity invoiceEntity = invoiceRepository.findById(id).orElseThrow(() -> new APIException(HttpStatus.NOT_FOUND, "Invoice not found"));
+        return invoicePDFService.generateInvoicePDF(invoiceEntity);
+    }
 }

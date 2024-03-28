@@ -26,7 +26,7 @@ public class InvoiceServiceTest {
 
 
     @Autowired
-    private InvoiceService invoiceService;
+    private InvoicePDFService invoiceService;
 
     @Test
     public void testGenerateInvoice() throws IOException, ParseException {

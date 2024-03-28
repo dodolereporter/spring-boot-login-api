@@ -1,6 +1,7 @@
 package fr.codesbuster.solidstock.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fr.codesbuster.solidstock.api.entity.estimate.EstimateEntity;
 import fr.codesbuster.solidstock.api.entity.invoice.InvoiceEntity;
@@ -90,6 +91,7 @@ public class CustomerEntity {
     private List<EstimateEntity> estimates;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<InvoiceEntity> invoices;
 
     @OneToMany(mappedBy = "customer")
