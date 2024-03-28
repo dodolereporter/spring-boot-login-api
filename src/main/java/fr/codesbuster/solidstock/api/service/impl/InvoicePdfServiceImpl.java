@@ -45,7 +45,6 @@ public class InvoicePdfServiceImpl implements InvoicePDFService {
 
             logoPath = "file:///" + logoPath;
 
-            log.info("Logo path: " + logoPath);
             context.setVariable("invoiceLogo", logoPath);
         }
 
