@@ -84,8 +84,11 @@ public class CustomerEntity {
     @Nullable
     private String fax;
 
+    @Nullable
+    private String note;
+
     @Column(columnDefinition = "boolean default false")
-    private boolean isDeleted;
+    private boolean isDisabled;
 
     @OneToMany(mappedBy = "customer")
     private List<EstimateEntity> estimates;
