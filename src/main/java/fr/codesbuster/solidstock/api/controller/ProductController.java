@@ -45,46 +45,24 @@ public class ProductController {
             return ResponseEntity.badRequest().build();
         }
 
-        SupplierEntity supplierEntity = supplierRepository.findById((long) productDto.getSupplierId()).orElse(null);
-
-        if (supplierEntity == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        VATEntity vatEntity = vatRepository.findById((long) productDto.getVatId()).orElse(null);
-
-        if (vatEntity == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        QuantityTypeEntity quantityTypeEntity = quantityTypeRepository.findById((long) productDto.getQuantityTypeId()).orElse(null);
-
-        if (quantityTypeEntity == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        ProductFamilyEntity productFamilyEntity = productFamilyRepository.findById((long) productDto.getProductFamilyId()).orElse(null);
-
-        if (productFamilyEntity == null) {
-            return ResponseEntity.badRequest().build();
-        }
+        VATEntity vatEntity = vatRepository.findById((long) productDto.getVatId()).orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "VAT cannot be null"));
+        SupplierEntity supplierEntity = supplierRepository.findById((long) productDto.getSupplierId()).orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "Supplier cannot be null"));
+        QuantityTypeEntity quantityType = quantityTypeRepository.findById((long) productDto.getQuantityTypeId()).orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "Quantity type cannot be null"));
+        ProductFamilyEntity productFamilyEntity = productFamilyRepository.findById((long) productDto.getProductFamilyId()).orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "Product family cannot be null"));
 
         ProductEntity productEntity = new ProductEntity();
         productEntity.setName(productDto.getName());
         productEntity.setDescription(productDto.getDescription());
-        productEntity.setBarCode(productDto.getBarCode());
         productEntity.setBuyPrice(Double.valueOf(productDto.getBuyPrice()));
         productEntity.setSellPrice(Double.valueOf(productDto.getSellPrice()));
         productEntity.setMinimumStockQuantity(productDto.getMinimumStockQuantity());
         productEntity.setSupplier(supplierEntity);
         productEntity.setVat(vatEntity);
-        productEntity.setQuantityType(quantityTypeEntity);
+        productEntity.setQuantityType(quantityType);
         productEntity.setProductFamily(productFamilyEntity);
-
-        log.info("ProductEntity: " + productEntity);
+        productEntity.setDeleted(productEntity.isDeleted());
 
         productEntity = productService.createProduct(productEntity);
-
         return ResponseEntity.ok(productEntity);
     }
 
@@ -118,10 +96,10 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ProductEntity> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) {
-        VATEntity vatEntity = vatRepository.findById(id).orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "VAT cannot be null"));
-        SupplierEntity supplierEntity = supplierRepository.findById(id).orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "Supplier cannot be null"));
-        QuantityTypeEntity quantityType = quantityTypeRepository.findById(id).orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "Quantity type cannot be null"));
-        ProductFamilyEntity productFamilyEntity = productFamilyRepository.findById(id).orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "Product family cannot be null"));
+        VATEntity vatEntity = vatRepository.findById((long) productDto.getVatId()).orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "VAT cannot be null"));
+        SupplierEntity supplierEntity = supplierRepository.findById((long) productDto.getSupplierId()).orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "Supplier cannot be null"));
+        QuantityTypeEntity quantityType = quantityTypeRepository.findById((long) productDto.getQuantityTypeId()).orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "Quantity type cannot be null"));
+        ProductFamilyEntity productFamilyEntity = productFamilyRepository.findById((long) productDto.getProductFamilyId()).orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "Product family cannot be null"));
 
         ProductEntity productEntity = productService.getProduct(id);
         productEntity.setName(productDto.getName());

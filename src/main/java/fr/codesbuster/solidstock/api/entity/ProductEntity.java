@@ -34,8 +34,8 @@ public class ProductEntity {
     private String name;
     private String description;
     private String barCode;
-    private Double buyPrice;
-    private Double sellPrice;
+    private double buyPrice;
+    private double sellPrice;
     private double minimumStockQuantity;
 
     @ManyToOne
