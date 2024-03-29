@@ -80,7 +80,6 @@ public class SupplierEntity {
     @Nullable
     private String rib;
 
-    @Nullable
     private int rcs;
 
     @Nullable

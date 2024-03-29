@@ -23,7 +23,6 @@ public class CustomerDto {
     private String mobilePhone;
     private String homePhone;
     private String workPhone;
-    private Boolean corporation;
     private String website;
     private String country;
     private String siret;
@@ -31,4 +30,5 @@ public class CustomerDto {
     private String rib;
     private int rcs;
     private String fax;
+    private String note;
 }

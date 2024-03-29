@@ -1,5 +1,6 @@
 package fr.codesbuster.solidstock.api.entity.invoice;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import fr.codesbuster.solidstock.api.entity.CustomerEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,12 +30,9 @@ public class InvoiceEntity {
 
     private String description;
 
-    private DateTime estimateDate;
-
-    private double total;
-
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonIdentityReference(alwaysAsId = true)
     private CustomerEntity customer;
 
     @OneToMany(mappedBy = "invoice")

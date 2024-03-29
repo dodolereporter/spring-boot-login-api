@@ -1,5 +1,8 @@
 package fr.codesbuster.solidstock.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fr.codesbuster.solidstock.api.entity.estimate.EstimateEntity;
 import fr.codesbuster.solidstock.api.entity.invoice.InvoiceEntity;
 import fr.codesbuster.solidstock.api.entity.orderForm.OrderFormEntity;
@@ -61,13 +64,10 @@ public class CustomerEntity {
     private String workPhone;
 
     @Nullable
-    private String webSite;
+    private String website;
 
     @Nullable
     private String country;
-
-    @Nullable
-    private Boolean corporation;
 
     @Nullable
     private String siren;
@@ -84,13 +84,17 @@ public class CustomerEntity {
     @Nullable
     private String fax;
 
+    @Nullable
+    private String note;
+
     @Column(columnDefinition = "boolean default false")
-    private boolean isDeleted;
+    private boolean isDisabled;
 
     @OneToMany(mappedBy = "customer")
     private List<EstimateEntity> estimates;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<InvoiceEntity> invoices;
 
     @OneToMany(mappedBy = "customer")

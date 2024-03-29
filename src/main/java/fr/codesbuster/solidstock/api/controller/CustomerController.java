@@ -35,14 +35,14 @@ public class CustomerController {
         customerEntity.setMobilePhone(customerDto.getMobilePhone());
         customerEntity.setHomePhone(customerDto.getHomePhone());
         customerEntity.setWorkPhone(customerDto.getWorkPhone());
-        customerEntity.setWebSite(customerDto.getWebsite());
+        customerEntity.setWebsite(customerDto.getWebsite());
         customerEntity.setCountry(customerDto.getCountry());
-        customerEntity.setCorporation(customerDto.getCorporation());
         customerEntity.setSiren(customerDto.getSiren());
         customerEntity.setSiret(customerDto.getSiret());
         customerEntity.setRib(customerDto.getRib());
         customerEntity.setRcs(customerDto.getRcs());
         customerEntity.setFax(customerDto.getFax());
+        customerEntity.setNote(customerDto.getNote());
 
 
         customerEntity = customerService.createCustomer(customerEntity);
@@ -65,15 +65,15 @@ public class CustomerController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
         CustomerEntity customerEntity = customerService.getCustomer(id);
-        customerEntity.setDeleted(false);
+        customerEntity.setDisabled(true);
         customerRepository.save(customerEntity);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}")
+    @PostMapping("/{id}")
     public ResponseEntity<Void> enableCustomer(@PathVariable Long id) {
         CustomerEntity customerEntity = customerService.getCustomer(id);
-        customerEntity.setDeleted(false);
+        customerEntity.setDisabled(false);
         customerRepository.save(customerEntity);
         return ResponseEntity.noContent().build();
     }
@@ -92,14 +92,14 @@ public class CustomerController {
         customerEntity.setMobilePhone(customerDto.getMobilePhone());
         customerEntity.setHomePhone(customerDto.getHomePhone());
         customerEntity.setWorkPhone(customerDto.getWorkPhone());
-        customerEntity.setWebSite(customerDto.getWebsite());
+        customerEntity.setWebsite(customerDto.getWebsite());
         customerEntity.setCountry(customerDto.getCountry());
-        customerEntity.setCorporation(customerDto.getCorporation());
         customerEntity.setSiren(customerDto.getSiren());
         customerEntity.setSiret(customerDto.getSiret());
         customerEntity.setRib(customerDto.getRib());
         customerEntity.setRcs(customerDto.getRcs());
         customerEntity.setFax(customerDto.getFax());
+        customerEntity.setNote(customerDto.getNote());
         customerEntity = customerService.updateCustomer(customerEntity);
         return ResponseEntity.ok(customerEntity);
     }

@@ -24,6 +24,7 @@ public class CustomerServiceTest {
 
     @Test
     void createCustomer_ValidCustomer_ReturnsSavedCustomer() {
+        customerRepository.deleteAll();
         CustomerEntity customer = new CustomerEntity();
         customer.setId(1L);
         customer.setCompanyName("TestCompany");
@@ -37,7 +38,7 @@ public class CustomerServiceTest {
         customer.setMobilePhone("1234567890");
         customer.setHomePhone("0987654321");
         customer.setWorkPhone("9876543210");
-        customer.setWebSite("www.example.com");
+        customer.setWebsite("www.example.com");
         customer.setCountry("TestCountry");
 
         try {
@@ -63,7 +64,6 @@ public class CustomerServiceTest {
         customer.setFirstName("TestCustomerFirst");
         customer.setLastName("TestCustomerLast");
         customer.setAddress("TestCustomerAddress");
-        customer.setCorporation(true);
         customer.setCompanyName("TestCompanyName");
         customer.setSiren("TestCustomerSiren");
         customer.setSiret("TestCustomerSiret");
@@ -144,7 +144,6 @@ public class CustomerServiceTest {
         CustomerEntity customer = new CustomerEntity();
         customer.setFirstName("TestCustomer");
         customer.setAddress("TestCustomerAddress");
-        customer.setCorporation(true);
         customer.setCompanyName("TestCustomerCompanyName");
         customer.setSiren("TestCustomerSiren");
         customer.setSiret("TestCustomerSiret");
