@@ -85,7 +85,7 @@ public class CustomerEntity {
     private String note;
 
     @Column(columnDefinition = "boolean default false")
-    private boolean isDeleted;
+    private boolean isDisabled;
 
     @OneToMany(mappedBy = "customer")
     private List<EstimateEntity> estimates;

@@ -65,7 +65,7 @@ public class CustomerController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
         CustomerEntity customerEntity = customerService.getCustomer(id);
-        customerEntity.setDeleted(false);
+        customerEntity.setDisabled(false);
         customerRepository.save(customerEntity);
         return ResponseEntity.noContent().build();
     }
@@ -73,7 +73,7 @@ public class CustomerController {
     @PatchMapping("/{id}")
     public ResponseEntity<Void> enableCustomer(@PathVariable Long id) {
         CustomerEntity customerEntity = customerService.getCustomer(id);
-        customerEntity.setDeleted(false);
+        customerEntity.setDisabled(false);
         customerRepository.save(customerEntity);
         return ResponseEntity.noContent().build();
     }
