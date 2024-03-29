@@ -42,6 +42,7 @@ public class CustomerController {
         customerEntity.setRib(customerDto.getRib());
         customerEntity.setRcs(customerDto.getRcs());
         customerEntity.setFax(customerDto.getFax());
+        customerEntity.setNote(customerDto.getNote());
 
 
         customerEntity = customerService.createCustomer(customerEntity);
@@ -98,6 +99,7 @@ public class CustomerController {
         customerEntity.setRib(customerDto.getRib());
         customerEntity.setRcs(customerDto.getRcs());
         customerEntity.setFax(customerDto.getFax());
+        customerEntity.setNote(customerDto.getNote());
         customerEntity = customerService.updateCustomer(customerEntity);
         return ResponseEntity.ok(customerEntity);
     }

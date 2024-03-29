@@ -81,6 +81,9 @@ public class CustomerEntity {
     @Nullable
     private String fax;
 
+    @Nullable
+    private String note;
+
     @Column(columnDefinition = "boolean default false")
     private boolean isDeleted;
 
