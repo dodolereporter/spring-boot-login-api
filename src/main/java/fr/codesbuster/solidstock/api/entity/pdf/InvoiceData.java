@@ -7,8 +7,7 @@ import java.io.File;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 
 @Getter
 @Setter
@@ -48,24 +47,32 @@ public class InvoiceData {
             this.invoiceRows[i] = new InvoiceRowData(invoiceEntity.getInvoiceRows().get(i));
         }
 
-        this.totalHT = df.format(invoiceEntity.getInvoiceRows().stream().mapToDouble(invoiceRowEntity -> invoiceRowEntity.getSellPrice() * invoiceRowEntity.getQuantity()).sum()) + " €";
-        this.totalTTC = df.format(invoiceEntity.getInvoiceRows().stream().mapToDouble(invoiceRowEntity -> invoiceRowEntity.getSellPrice() * invoiceRowEntity.getQuantity() * (1 + invoiceRowEntity.getProduct().getVat().getRate())).sum()) + " €";
-        HashMap<String, Double> vatMap = new HashMap<>();
-
-        for(InvoiceRowData rowData : this.invoiceRows) {
-            if(vatMap.containsKey(rowData.getVatAmount())) {
-                vatMap.put(rowData.getVatAmount(), vatMap.get(rowData.getVatAmount()) + ( Double.parseDouble(rowData.getTotalHT().replace(" €", "").replace(",", ".")) * (rowData.getVatRate())));
-            } else {
-                vatMap.put(rowData.getVatAmount(), Double.parseDouble(rowData.getTotalHT().replace(" €", "").replace(",", ".")) * (rowData.getVatRate()));
-            }
+        double totalHT = 0;
+        HashMap<Double, Double> vatTotals = new HashMap<>();
+        for (InvoiceRowData rowData : this.invoiceRows) {
+            totalHT += Double.parseDouble(rowData.getPriceHT().replace(",", ".").replace("€", "")) * Double.parseDouble(rowData.getQuantity().replace(",", "."));
+            double vatAmount = (Double.parseDouble(rowData.getPriceHT().replace(",", ".").replace("€", "")) * Double.parseDouble(rowData.getQuantity().replace(",", "."))) * (rowData.getVatRate() / 100);
+            vatTotals.put(rowData.getVatRate(), vatTotals.getOrDefault(rowData.getVatRate(), 0.0) + vatAmount);
         }
+        this.totalHT = df.format(totalHT) + " €";
 
-        this.vat = new VATData[vatMap.size()];
-        int i = 0;
-        for(String vatRate : vatMap.keySet()) {
-            this.vat[i] = new VATData(vatRate, Double.parseDouble(vatRate.replace("%", "")), df.format(vatMap.get(vatRate)) +" €");
-            i++;
+// Calculer le total TTC
+        double totalTTC = totalHT;
+        for (Double vatTotal : vatTotals.values()) {
+            totalTTC += vatTotal;
         }
+        this.totalTTC = df.format(totalTTC) + " €";
+
+// Préparer les données pour le modèle Thymeleaf
+        List<VATData> vatDataList = new ArrayList<>();
+        for (Map.Entry<Double, Double> entry : vatTotals.entrySet()) {
+            VATData vatData = new VATData();
+            vatData.setVatNumber(entry.getKey().toString() + "%");
+            vatData.setVatRate(entry.getKey());
+            vatData.setTotalVAT(df.format(entry.getValue()) + " €");
+            vatDataList.add(vatData);
+        }
+        this.vat = vatDataList.toArray(new VATData[0]);
 
 
 
