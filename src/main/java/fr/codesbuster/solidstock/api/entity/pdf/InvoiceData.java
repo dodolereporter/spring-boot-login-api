@@ -55,15 +55,12 @@ public class InvoiceData {
             vatTotals.put(rowData.getVatRate(), vatTotals.getOrDefault(rowData.getVatRate(), 0.0) + vatAmount);
         }
         this.totalHT = df.format(totalHT) + " €";
-
-// Calculer le total TTC
         double totalTTC = totalHT;
         for (Double vatTotal : vatTotals.values()) {
             totalTTC += vatTotal;
         }
         this.totalTTC = df.format(totalTTC) + " €";
 
-// Préparer les données pour le modèle Thymeleaf
         List<VATData> vatDataList = new ArrayList<>();
         for (Map.Entry<Double, Double> entry : vatTotals.entrySet()) {
             VATData vatData = new VATData();
