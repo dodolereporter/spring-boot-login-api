@@ -46,9 +46,17 @@ public class UserEntity {
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     private RoleEntity role;
 
+    @OneToOne
+    @JoinColumn(name = "customer_id")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    private CustomerEntity customer;
+
     @OneToMany(mappedBy = "user")
     @Nullable
     private List<CustomerEntity> customers;
+
+    @Column(columnDefinition = "boolean default false")
+    private boolean isDeleted;
 
     @CreationTimestamp
     private Instant createdAt;
