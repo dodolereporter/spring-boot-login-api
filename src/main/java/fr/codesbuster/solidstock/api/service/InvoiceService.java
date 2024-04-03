@@ -11,7 +11,7 @@ import java.text.ParseException;
 import java.util.List;
 
 public interface InvoiceService {
-    void createInvoice(InvoiceDto invoiceDto);
+    InvoiceEntity createInvoice(InvoiceDto invoiceDto);
 
     InvoiceEntity getInvoice(long id);
 
