@@ -9,9 +9,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+import java.util.Optional;
+
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Slf4j
 @RestController
@@ -64,6 +69,21 @@ public class ProductController {
 
         productEntity = productService.createProduct(productEntity);
         return ResponseEntity.ok(productEntity);
+    }
+
+    @PutMapping("/{id}/image")
+    public ResponseEntity<ProductEntity> addImageProduct(@PathVariable Long id, @RequestParam("file")MultipartFile file) throws IOException {
+        ProductEntity productEntity = productRepository.findById(id).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Product not found"));
+        productEntity.setImage(file.getBytes());
+
+        productEntity = productRepository.save(productEntity);
+        return ResponseEntity.ok(productEntity);
+    }
+
+    @GetMapping("/{id}/image")
+    public ResponseEntity<byte[]> getImageProduct(@PathVariable Long id) {
+        ProductEntity productEntity = productRepository.findById(id).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Product not found"));
+        return ResponseEntity.ok(productEntity.getImage());
     }
 
     @GetMapping("/all")

@@ -37,8 +37,6 @@ public class QuantityTypeController {
         quantityTypeEntity.setDescription(quantityTypeDto.getDescription());
         quantityTypeEntity.setUnit(quantityTypeDto.getUnit());
 
-        log.info("QuantityTypeEntity: " + quantityTypeEntity);
-
         quantityTypeEntity = quantityTypeService.createQuantityType(quantityTypeEntity);
 
         return ResponseEntity.ok(quantityTypeEntity);

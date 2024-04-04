@@ -40,8 +40,6 @@ public class ProductFamilyController {
         productFamilyEntity.setName(productFamilyDto.getName());
         productFamilyEntity.setDescription(productFamilyDto.getDescription());
 
-        log.info("ProductFamilyEntity: " + productFamilyEntity);
-
         productFamilyEntity = productFamilyService.createProductFamily(productFamilyEntity);
 
         return ResponseEntity.ok(productFamilyEntity);

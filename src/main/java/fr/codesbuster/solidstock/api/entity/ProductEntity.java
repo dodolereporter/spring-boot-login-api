@@ -37,6 +37,8 @@ public class ProductEntity {
     private double buyPrice;
     private double sellPrice;
     private double minimumStockQuantity;
+    @JsonIgnore
+    private byte[] image;
 
     @ManyToOne
     @JoinColumn(name = "supplier_id")
