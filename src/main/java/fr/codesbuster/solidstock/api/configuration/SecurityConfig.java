@@ -22,6 +22,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Objects;
+
 @Configuration
 @EnableMethodSecurity
 @SecurityScheme(
@@ -69,7 +74,7 @@ public class SecurityConfig {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() throws IOException {
         createRoleIfNotFound("USER");
         createRoleIfNotFound("ADMIN");
         createRoleIfNotFound("SUPER_ADMIN");
@@ -585,6 +590,8 @@ public class SecurityConfig {
             ownerCompanyEntity.setEmail("email@email.com");
             ownerCompanyEntity.setPhone("04 04 04 04 04");
             ownerCompanyEntity.setIban("FR76 4561 4561 4561 253");
+            File image = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("images/negosud.png")).getPath());
+            ownerCompanyEntity.setImage(Files.readAllBytes(image.toPath()));
             ownerCompanyRepository.save(ownerCompanyEntity);
         }
     }
