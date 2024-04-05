@@ -40,7 +40,7 @@ public class UserController {
         UserEntity userEntity = new UserEntity();
         userEntity.setName(registerDto.getName());
         userEntity.setEmail(registerDto.getEmail());
-        userEntity.setUsername(registerDto.getUsername());
+        userEntity.setUserName(registerDto.getUsername());
         userEntity.setPassword(registerDto.getPassword());
         userEntity.setRole(roleEntity);
         userEntity.setCustomer(customerEntity);
@@ -85,7 +85,7 @@ public class UserController {
         userEntity.setEmail(registerDto.getEmail());
         userEntity.setPassword(registerDto.getPassword());
         userEntity.setRole(roleEntity);
-        userEntity.setUsername(registerDto.getUsername());
+        userEntity.setUserName(registerDto.getUsername());
         userEntity = userService.updateUser(userEntity);
         return ResponseEntity.ok(userEntity);
     }

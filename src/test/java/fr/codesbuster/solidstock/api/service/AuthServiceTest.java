@@ -21,8 +21,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
@@ -82,7 +80,7 @@ public class AuthServiceTest {
         verify(userRepository).save(userCaptor.capture());
         UserEntity savedUser = userCaptor.getValue();
         assertEquals(registerDto.getName(), savedUser.getName());
-        assertEquals(registerDto.getUsername(), savedUser.getUsername());
+        assertEquals(registerDto.getUsername(), savedUser.getUserName());
         assertEquals(registerDto.getEmail(), savedUser.getEmail());
         assertEquals(registerDto.getCustomerId(), savedUser.getCustomer());
         assertEquals(registerDto.getRoleId(), savedUser.getRole());
@@ -95,7 +93,7 @@ public class AuthServiceTest {
     void register_ExistingUsername_ThrowsAPIException() {
         // Arrange
         RegisterDto registerDto = new RegisterDto("testName", "testUser", "testEmail", "testPassword", 1, 1);
-        Mockito.when(userRepository.existsByUsername(registerDto.getUsername())).thenReturn(true);
+        Mockito.when(userRepository.existsByUserName(registerDto.getUsername())).thenReturn(true);
 
         // Act and Assert
         assertThrows(APIException.class, () -> authService.register(registerDto));

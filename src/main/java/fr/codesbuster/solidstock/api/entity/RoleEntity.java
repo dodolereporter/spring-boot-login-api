@@ -1,5 +1,6 @@
 package fr.codesbuster.solidstock.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class RoleEntity {
     private String name;
 
     @OneToMany(mappedBy = "role")
+    @JsonIdentityReference(alwaysAsId = true)
     private List<UserEntity> users;
 
     @CreationTimestamp

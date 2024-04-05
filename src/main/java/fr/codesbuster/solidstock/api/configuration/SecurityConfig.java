@@ -78,18 +78,18 @@ public class SecurityConfig {
         createRoleIfNotFound("SUPPLIER");
 
 
-        if (userRepository.findByUsername("admin").isEmpty()) {
+        if (userRepository.findByUserName("admin").isEmpty()) {
             UserEntity user = new UserEntity();
-            user.setUsername("admin");
+            user.setUserName("admin");
             user.setEmail("admin.admin@admin.admin");
             user.setPassword(passwordEncoder().encode("admin"));
             user.setRole(roleRepository.findByName("SUPER_ADMIN").get());
             userRepository.save(user);
         }
 
-        if (userRepository.findByUsername("user").isEmpty()) {
+        if (userRepository.findByUserName("user").isEmpty()) {
             UserEntity user = new UserEntity();
-            user.setUsername("dorian5");
+            user.setUserName("dorian5");
             user.setEmail("user@user.user");
             user.setPassword(passwordEncoder().encode("test"));
             user.setRole(roleRepository.findByName("USER").get());
