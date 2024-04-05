@@ -41,7 +41,7 @@ public class InvoiceData {
             companyName = invoiceEntity.getCustomer().getFirstName() + " " + invoiceEntity.getCustomer().getLastName();
         }
         this.customerCompany = new CustomerCompanyData(companyName, invoiceEntity.getCustomer().getStreetNumber(), invoiceEntity.getCustomer().getAddress(), invoiceEntity.getCustomer().getCity(), invoiceEntity.getCustomer().getZipCode(), invoiceEntity.getCustomer().getCountry());
-        this.ownerCompany = new OwnerCompanyData("NegoSud", "1", "rue de la Patrie", "Paris", "75000", "France", "0123456789", "test@test.test", "www.test.com", "12345678912345", new File("src/test/resources/images/negosud.png"));
+        this.ownerCompany = new OwnerCompanyData(invoiceEntity.getOwnerCompany().getCompanyName(), invoiceEntity.getOwnerCompany().getStreetNumber(), invoiceEntity.getOwnerCompany().getStreetName(), invoiceEntity.getOwnerCompany().getCity(), invoiceEntity.getOwnerCompany().getZipCode(), invoiceEntity.getOwnerCompany().getCountry(), invoiceEntity.getOwnerCompany().getPhone(), invoiceEntity.getOwnerCompany().getEmail(), "www.test.com", invoiceEntity.getOwnerCompany().getSiret(), invoiceEntity.getOwnerCompany().getImage());
         this.invoiceRows = new InvoiceRowData[invoiceEntity.getInvoiceRows().size()];
         for (int i = 0; i < invoiceEntity.getInvoiceRows().size(); i++) {
             this.invoiceRows[i] = new InvoiceRowData(invoiceEntity.getInvoiceRows().get(i));

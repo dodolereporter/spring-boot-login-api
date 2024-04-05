@@ -20,5 +20,5 @@ public class OwnerCompanyData {
     private String email;
     private String website;
     private String siret;
-    private File logo;
+    private byte[] logo;
 }

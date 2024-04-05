@@ -2,6 +2,7 @@ package fr.codesbuster.solidstock.api.entity.invoice;
 
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import fr.codesbuster.solidstock.api.entity.CustomerEntity;
+import fr.codesbuster.solidstock.api.entity.OwnerCompanyEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -43,4 +44,8 @@ public class InvoiceEntity {
 
     @UpdateTimestamp
     private Instant updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_company_id")
+    private OwnerCompanyEntity ownerCompany;
 }
