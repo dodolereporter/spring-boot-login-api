@@ -51,6 +51,8 @@ public class SecurityConfig {
     private SupplierRepository supplierRepository;
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private OwnerCompanyRepository ownerCompanyRepository;
 
 
     public SecurityConfig(UserDetailsService userDetailsService,
@@ -568,7 +570,23 @@ public class SecurityConfig {
             customerRepository.save(customer);
         }
 
-
+        if (ownerCompanyRepository.findById(Long.valueOf(1)).isEmpty()) {
+            OwnerCompanyEntity ownerCompanyEntity = new OwnerCompanyEntity();
+            ownerCompanyEntity.setCompanyName("Auchan");
+            ownerCompanyEntity.setOwnerName("Breuillard Clément");
+            ownerCompanyEntity.setSiret("12345678901234");
+            ownerCompanyEntity.setSiren("123456789");
+            ownerCompanyEntity.setRcs(123456789);
+            ownerCompanyEntity.setStreetNumber("205");
+            ownerCompanyEntity.setStreetName("Avenue du chemin");
+            ownerCompanyEntity.setZipCode("69000");
+            ownerCompanyEntity.setCity("Lyon");
+            ownerCompanyEntity.setCountry("France");
+            ownerCompanyEntity.setEmail("email@email.com");
+            ownerCompanyEntity.setPhone("04 04 04 04 04");
+            ownerCompanyEntity.setIban("FR76 4561 4561 4561 253");
+            ownerCompanyRepository.save(ownerCompanyEntity);
+        }
     }
 
     private void createRoleIfNotFound(String roleName) {
