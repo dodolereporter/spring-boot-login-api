@@ -58,4 +58,8 @@ public class InvoiceEntity {
             totalTtc += invoiceRow.getSellPrice() * invoiceRow.getQuantity() * (1 + invoiceRow.getProduct().getVat().getRate() / 100);
         }
     }
+
+    @ManyToOne
+    @JoinColumn(name = "owner_company_id")
+    private OwnerCompanyEntity ownerCompany;
 }
