@@ -161,14 +161,14 @@
                 <td style="text-align: center;" th:text="${product.getVatAmount()}"></td>
                 <td style="text-align: right;" th:text="${product.getTotalTTC()}"></td>
             </tr>
-            <tr >
-                <td  colspan="5" th:border="0"  style="border-color: white"></td>
-                <td class="totalCell" >Total HT</td>
+            <tr>
+                <td colspan="5" th:border="0" style="border-color: white"></td>
+                <td class="totalCell">Total HT</td>
                 <td style="text-align: right;" th:text="${invoice.getTotalHT()}"></td>
             </tr>
             <th:block th:each="vat : ${invoice.getVat()}">
                 <tr>
-                    <td colspan="5" th:border="0"  style="border-color: white"></td>
+                    <td colspan="5" th:border="0" style="border-color: white"></td>
                     <td class="totalCell">TVA à <span th:text="${vat.getVatNumber()}"></span></td>
                     <td style="text-align: right;" th:text="${vat.getTotalVAT()}"></td>
                 </tr>

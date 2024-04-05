@@ -3,6 +3,7 @@ package fr.codesbuster.solidstock.api.entity.invoice;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fr.codesbuster.solidstock.api.entity.ProductEntity;
 import jakarta.persistence.*;
@@ -33,7 +34,7 @@ public class InvoiceRowEntity {
 
     @ManyToOne
     @JoinColumn(name = "invoice_id")
-    @JsonIdentityReference(alwaysAsId = true)
+    @JsonIgnore
     private InvoiceEntity invoice;
 
     @ManyToOne
