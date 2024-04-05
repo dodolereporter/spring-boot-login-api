@@ -2,6 +2,7 @@ package fr.codesbuster.solidstock.api.controller;
 
 import fr.codesbuster.solidstock.api.entity.OwnerCompanyEntity;
 import fr.codesbuster.solidstock.api.payload.dto.OwnerCompanyDto;
+import fr.codesbuster.solidstock.api.repository.OwnerCompanyRepository;
 import fr.codesbuster.solidstock.api.service.OwnerCompanyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ import java.io.IOException;
 public class OwnerCompanyController {
 
     @Autowired
+    private OwnerCompanyRepository ownerCompanyRepository;
+
+    @Autowired
     private OwnerCompanyService ownerCompanyService;
 
     @GetMapping
@@ -25,22 +29,34 @@ public class OwnerCompanyController {
         return ResponseEntity.ok(ownerCompanyEntity);
     }
 
+    @GetMapping("/image")
+    public ResponseEntity<byte[]> getOwnerCompanyImage() {
+        OwnerCompanyEntity ownerCompanyEntity = ownerCompanyService.getOwnerCompany();
+        return ResponseEntity.ok(ownerCompanyEntity.getImage());
+    }
+
     @PutMapping
     public ResponseEntity<OwnerCompanyEntity> updateOwnerCompany(@RequestBody OwnerCompanyDto ownerCompanyDto) {
-        OwnerCompanyEntity ownerCompanyEntity = ownerCompanyService.getOwnerCompany();
+        log.info("{}", ownerCompanyDto);
+        OwnerCompanyEntity ownerCompanyEntity = null;
+        if(ownerCompanyRepository.findAll().isEmpty()) {
+            ownerCompanyEntity = new OwnerCompanyEntity();
+        } else {
+            ownerCompanyEntity = ownerCompanyService.getOwnerCompany();
+        }
         ownerCompanyEntity.setCompanyName(ownerCompanyDto.getCompanyName());
         ownerCompanyEntity.setOwnerName(ownerCompanyDto.getOwnerName());
-        ownerCompanyEntity.setSiret(ownerCompanyEntity.getSiret());
-        ownerCompanyEntity.setSiren(ownerCompanyEntity.getSiren());
-        ownerCompanyEntity.setRcs(ownerCompanyEntity.getRcs());
-        ownerCompanyEntity.setStreetNumber(ownerCompanyEntity.getStreetNumber());
-        ownerCompanyEntity.setStreetName(ownerCompanyEntity.getStreetName());
+        ownerCompanyEntity.setSiret(ownerCompanyDto.getSiret());
+        ownerCompanyEntity.setSiren(ownerCompanyDto.getSiren());
+        ownerCompanyEntity.setRcs(ownerCompanyDto.getRcs());
+        ownerCompanyEntity.setStreetNumber(ownerCompanyDto.getStreetNumber());
+        ownerCompanyEntity.setStreetName(ownerCompanyDto.getStreetName());
         ownerCompanyEntity.setZipCode(ownerCompanyDto.getZipCode());
-        ownerCompanyEntity.setCity(ownerCompanyEntity.getCity());
-        ownerCompanyEntity.setCountry(ownerCompanyEntity.getCountry());
-        ownerCompanyEntity.setEmail(ownerCompanyEntity.getEmail());
-        ownerCompanyEntity.setPhone(ownerCompanyEntity.getPhone());
-        ownerCompanyEntity.setIban(ownerCompanyEntity.getIban());
+        ownerCompanyEntity.setCity(ownerCompanyDto.getCity());
+        ownerCompanyEntity.setCountry(ownerCompanyDto.getCountry());
+        ownerCompanyEntity.setEmail(ownerCompanyDto.getEmail());
+        ownerCompanyEntity.setPhone(ownerCompanyDto.getPhone());
+        ownerCompanyEntity.setIban(ownerCompanyDto.getIban());
         ownerCompanyEntity = ownerCompanyService.updateOwnerCompany(ownerCompanyEntity);
         return ResponseEntity.ok(ownerCompanyEntity);
     }

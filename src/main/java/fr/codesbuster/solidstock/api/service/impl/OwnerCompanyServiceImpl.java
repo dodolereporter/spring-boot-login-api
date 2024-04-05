@@ -23,9 +23,6 @@ public class OwnerCompanyServiceImpl implements OwnerCompanyService {
         if (ownerCompanyEntity == null) {
             throw new ResponseStatusException(BAD_REQUEST, "Owner company cannot be null");
         }
-        if(ownerCompanyRepository.findAll().isEmpty()) {
-            throw new ResponseStatusException(NOT_FOUND, "Owner company not found");
-        }
         return ownerCompanyRepository.save(ownerCompanyEntity);
     }
 
