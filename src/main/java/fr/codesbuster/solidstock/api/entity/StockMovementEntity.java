@@ -7,8 +7,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.joda.time.DateTime;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -25,6 +28,12 @@ public class StockMovementEntity {
     private StockMovementType type;
 
     private int quantity;
+
+    private LocalDateTime expiredDate;
+
+    private String batchNumber;
+
+    private String note;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

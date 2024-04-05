@@ -38,12 +38,16 @@ public class InvoiceController {
 
     @GetMapping("/{id}")
     public InvoiceEntity getInvoice(@PathVariable long id) {
-       return invoiceService.getInvoice(id);
+        InvoiceEntity invoice = invoiceService.getInvoice(id);
+        invoice.calculateTotal();
+        return invoice;
     }
 
     @GetMapping("/all")
     public List<InvoiceEntity> getAllInvoices() {
-       return invoiceService.getAllInvoices();
+        List<InvoiceEntity> invoices = invoiceService.getAllInvoices();
+        invoices.forEach(InvoiceEntity::calculateTotal);
+       return invoices;
     }
 
     @DeleteMapping("/{id}")

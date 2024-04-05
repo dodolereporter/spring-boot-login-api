@@ -38,9 +38,24 @@ public class InvoiceEntity {
     @OneToMany(mappedBy = "invoice")
     private List<InvoiceRowEntity> invoiceRows;
 
+    @Transient
+    private double totalHt;
+
+    @Transient
+    private double totalTtc;
+
     @CreationTimestamp
     private Instant createdAt;
 
     @UpdateTimestamp
     private Instant updatedAt;
+
+    public void calculateTotal() {
+        totalHt = 0;
+        totalTtc = 0;
+        for (InvoiceRowEntity invoiceRow : invoiceRows) {
+            totalHt += invoiceRow.getSellPrice() * invoiceRow.getQuantity();
+            totalTtc += invoiceRow.getSellPrice() * invoiceRow.getQuantity() * (1 + invoiceRow.getProduct().getVat().getRate() / 100);
+        }
+    }
 }
