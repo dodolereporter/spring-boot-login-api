@@ -29,6 +29,7 @@ public class UserEntity {
     private Long id;
 
     private String name;
+    private String firstName;
 
     @Column(nullable = false, unique = true)
     private String userName;

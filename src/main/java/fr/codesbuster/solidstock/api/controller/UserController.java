@@ -39,12 +39,22 @@ public class UserController {
 
         UserEntity userEntity = new UserEntity();
         userEntity.setName(registerDto.getName());
+        userEntity.setFirstName(registerDto.getFirstName());
         userEntity.setEmail(registerDto.getEmail());
-        userEntity.setUserName(registerDto.getUsername());
+        if (userEntity.getUserName() == null || userEntity.getUserName().isEmpty()) {
+            userEntity.setUserName(registerDto.getName().toLowerCase() + "." + registerDto.getFirstName().toLowerCase());
+        } else
+        {
+            userEntity.setUserName(registerDto.getUsername());
+        }
         userEntity.setPassword(registerDto.getPassword());
         userEntity.setRole(roleEntity);
-        userEntity.setCustomer(customerEntity);
-
+        if (userEntity.getCustomer() == null)
+        {
+            userEntity.setCustomer(null);
+        } else {
+            userEntity.setCustomer(customerEntity);
+        }
         userEntity = userService.createUser(userEntity);
         return ResponseEntity.ok(userEntity);
     }
