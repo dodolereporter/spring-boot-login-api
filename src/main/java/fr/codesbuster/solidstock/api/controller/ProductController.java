@@ -58,6 +58,7 @@ public class ProductController {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setName(productDto.getName());
         productEntity.setDescription(productDto.getDescription());
+        productEntity.setBarCode(productDto.getBarCode());
         productEntity.setBuyPrice(Double.valueOf(productDto.getBuyPrice()));
         productEntity.setSellPrice(Double.valueOf(productDto.getSellPrice()));
         productEntity.setMinimumStockQuantity(productDto.getMinimumStockQuantity());
@@ -124,6 +125,7 @@ public class ProductController {
         ProductEntity productEntity = productService.getProduct(id);
         productEntity.setName(productDto.getName());
         productEntity.setDescription(productDto.getDescription());
+        productEntity.setBarCode(productDto.getBarCode());
         productEntity.setBuyPrice(Double.valueOf(productDto.getBuyPrice()));
         productEntity.setSellPrice(Double.valueOf(productDto.getSellPrice()));
         productEntity.setMinimumStockQuantity(productDto.getMinimumStockQuantity());

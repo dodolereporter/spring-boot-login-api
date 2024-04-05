@@ -36,7 +36,7 @@ public class ProductEntity {
     private String barCode;
     private double buyPrice;
     private double sellPrice;
-    private double minimumStockQuantity;
+    private int minimumStockQuantity;
     @JsonIgnore
     private byte[] image;
 

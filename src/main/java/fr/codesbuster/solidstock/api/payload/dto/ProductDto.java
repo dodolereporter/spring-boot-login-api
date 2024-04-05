@@ -15,7 +15,7 @@ public class ProductDto {
     private String barCode;
     private String buyPrice;
     private String sellPrice;
-    private double minimumStockQuantity;
+    private int minimumStockQuantity;
     private int supplierId;
     private int vatId;
     private int quantityTypeId;
