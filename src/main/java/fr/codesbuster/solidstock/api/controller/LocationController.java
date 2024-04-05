@@ -40,8 +40,6 @@ public class LocationController {
         locationEntity.setDescription(locationDto.getDescription());
         locationEntity.setPosition(locationDto.getPosition());
 
-        log.info("LocationEntity: " + locationEntity);
-
         locationEntity = locationService.createLocation(locationEntity);
 
         return ResponseEntity.ok(locationEntity);

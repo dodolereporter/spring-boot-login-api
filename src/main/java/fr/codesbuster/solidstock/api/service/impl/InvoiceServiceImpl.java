@@ -38,7 +38,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     private CustomerRepository customerRepository;
 
     @Override
-    public void createInvoice(InvoiceDto invoiceDto) {
+    public InvoiceEntity createInvoice(InvoiceDto invoiceDto) {
         InvoiceEntity invoiceEntity = new InvoiceEntity();
         invoiceEntity.setName(invoiceDto.getName());
         invoiceEntity.setDescription(invoiceDto.getDescription());
@@ -48,7 +48,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
         invoiceEntity.setCustomer(customerEntity);
 
-        invoiceRepository.save(invoiceEntity);
+        invoiceEntity = invoiceRepository.save(invoiceEntity);
+        return invoiceEntity;
     }
 
     @Override
