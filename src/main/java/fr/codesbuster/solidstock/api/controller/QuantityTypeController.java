@@ -1,10 +1,13 @@
 package fr.codesbuster.solidstock.api.controller;
 
 import fr.codesbuster.solidstock.api.entity.QuantityTypeEntity;
+import fr.codesbuster.solidstock.api.exception.APIException;
 import fr.codesbuster.solidstock.api.payload.dto.QuantityTypeDto;
+import fr.codesbuster.solidstock.api.repository.QuantityTypeRepository;
 import fr.codesbuster.solidstock.api.service.QuantityTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/quantity-type")
 public class QuantityTypeController {
+    @Autowired
+    private QuantityTypeRepository quantityTypeRepository;
 
     @Autowired
     private QuantityTypeService quantityTypeService;
@@ -44,15 +49,22 @@ public class QuantityTypeController {
 
     @GetMapping("/all")
     public ResponseEntity<Iterable<QuantityTypeEntity>> getAllQuantityType() {
-        Iterable<QuantityTypeEntity> vatEntities = quantityTypeService.getQuantityTypes();
-        return ResponseEntity.ok(vatEntities);
+        Iterable<QuantityTypeEntity> quantityTypeEntities = quantityTypeService.getQuantityTypes();
+        return ResponseEntity.ok(quantityTypeEntities);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<QuantityTypeEntity> getQuantityType(@PathVariable Long id) {
-        QuantityTypeEntity vatEntity = quantityTypeService.getQuantityType(id);
-        return ResponseEntity.ok(vatEntity);
+        QuantityTypeEntity quantityTypeEntity = quantityTypeService.getQuantityType(id);
+        return ResponseEntity.ok(quantityTypeEntity);
     }
+    
+    @GetMapping("/unit/{unit}")
+    public ResponseEntity<QuantityTypeEntity> getQuantityTypeByUnit(@PathVariable String unit) {
+        QuantityTypeEntity quantityTypeEntity = quantityTypeRepository.findByUnit(unit).orElseThrow(() -> new APIException(HttpStatus.NOT_FOUND, "Unit not found"));
+        return ResponseEntity.ok(quantityTypeEntity);
+    }
+    
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteQuantityType(@PathVariable Long id) {
@@ -62,12 +74,12 @@ public class QuantityTypeController {
 
     @PutMapping("/{id}")
     public ResponseEntity<QuantityTypeEntity> updateQuantityType(@PathVariable Long id, @RequestBody QuantityTypeDto quantityTypeDto) {
-        QuantityTypeEntity vatEntity = quantityTypeService.getQuantityType(id);
-        vatEntity.setName(quantityTypeDto.getName());
-        vatEntity.setDescription(quantityTypeDto.getDescription());
-        vatEntity.setUnit(quantityTypeDto.getUnit());
-        vatEntity = quantityTypeService.updateQuantityType(vatEntity);
-        return ResponseEntity.ok(vatEntity);
+        QuantityTypeEntity quantityEntity = quantityTypeService.getQuantityType(id);
+        quantityEntity.setName(quantityTypeDto.getName());
+        quantityEntity.setDescription(quantityTypeDto.getDescription());
+        quantityEntity.setUnit(quantityTypeDto.getUnit());
+        quantityEntity = quantityTypeService.updateQuantityType(quantityEntity);
+        return ResponseEntity.ok(quantityEntity);
     }
 
 }
