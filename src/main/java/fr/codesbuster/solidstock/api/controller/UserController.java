@@ -1,10 +1,8 @@
 package fr.codesbuster.solidstock.api.controller;
 
-import fr.codesbuster.solidstock.api.entity.CustomerEntity;
 import fr.codesbuster.solidstock.api.entity.RoleEntity;
 import fr.codesbuster.solidstock.api.entity.UserEntity;
 import fr.codesbuster.solidstock.api.payload.dto.RegisterDto;
-import fr.codesbuster.solidstock.api.repository.CustomerRepository;
 import fr.codesbuster.solidstock.api.repository.RoleRepository;
 import fr.codesbuster.solidstock.api.repository.UserRepository;
 import fr.codesbuster.solidstock.api.service.UserService;
@@ -14,16 +12,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
-    @Autowired
-    private CustomerRepository customerRepository;
-    @Autowired
-    private RoleRepository roleRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -32,51 +28,49 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/add")
-    public ResponseEntity<UserEntity> addUser(@RequestBody RegisterDto registerDto) {
-
-        RoleEntity roleEntity = roleRepository.findById((long) registerDto.getRoleId()).orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "Role cannot be null"));
-        CustomerEntity customerEntity = customerRepository.findById((long) registerDto.getCustomerId()).orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "Customer cannot be null"));
-
-        UserEntity userEntity = new UserEntity();
-        userEntity.setName(registerDto.getName());
-        userEntity.setFirstName(registerDto.getFirstName());
-        userEntity.setEmail(registerDto.getEmail());
-        if (userEntity.getUserName() == null || userEntity.getUserName().isEmpty()) {
-            userEntity.setUserName(registerDto.getName().toLowerCase() + "." + registerDto.getFirstName().toLowerCase());
-        } else
-        {
-            userEntity.setUserName(registerDto.getUsername());
-        }
-        userEntity.setPassword(registerDto.getPassword());
-        userEntity.setRole(roleEntity);
-        if (userEntity.getCustomer() == null)
-        {
-            userEntity.setCustomer(null);
-        } else {
-            userEntity.setCustomer(customerEntity);
-        }
-        userEntity = userService.createUser(userEntity);
-        return ResponseEntity.ok(userEntity);
+    public void createUser(@RequestBody RegisterDto registerDto) {
+        log.info("Creating user");
+        userService.createUser(registerDto);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<Iterable<UserEntity>> getAllCustomer() {
-        Iterable<UserEntity> customerEntities = userService.getUsers();
-        return ResponseEntity.ok(customerEntities);
+    @PostMapping("/{id}/role/add")
+    public void addRole(@PathVariable long id, @RequestBody RegisterDto registerDto) {
+        userService.addRole(id, registerDto);
+    }
+
+    @PutMapping("/{id}/role/{roleId}")
+    public void updateUserRole(@PathVariable long id, @PathVariable long roleId, @RequestBody RegisterDto registerDto) {
+        userService.updateUserRole(roleId, registerDto);
+    }
+
+    @GetMapping("/{id}/role/{roleId}")
+    public RoleEntity getRole(@PathVariable long id, @PathVariable long roleId) {
+        return userService.getRole(roleId);
+    }
+
+    @GetMapping("/{id}/role/all")
+    public List<RoleEntity> getAllRows(@PathVariable long id) {
+        return userService.getAllRoles(id);
+    }
+
+    @DeleteMapping("/{id}/role/{roleId}")
+    public void deleteRole(@PathVariable long id, @PathVariable long roleId) {
+        userService.deleteRole(roleId);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserEntity> getUser(@PathVariable Long id) {
-        UserEntity userEntity = userService.getUser(id);
-        return ResponseEntity.ok(userEntity);
+    public UserEntity getUser(@PathVariable long id) {
+        return userService.getUser(id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        UserEntity userEntity = userService.getUser(id);
-        userEntity.setDeleted(true);
-        userRepository.save(userEntity);
-        return ResponseEntity.noContent().build();
+    public void deleteUser(@PathVariable long id) {
+        userService.deleteUser(id);
+    }
+
+    @GetMapping("/all")
+    public List<UserEntity> getAllUsers() {
+        return userService.getAllUsers();
     }
 
     @PostMapping("/{id}")
@@ -88,16 +82,8 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserEntity> updateUser(@PathVariable Long id, @RequestBody RegisterDto registerDto) {
-        RoleEntity roleEntity = roleRepository.findById((long) registerDto.getRoleId()).orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "Role cannot be null"));
-
-        UserEntity userEntity = userService.getUser(id);
-        userEntity.setEmail(registerDto.getEmail());
-        userEntity.setPassword(registerDto.getPassword());
-        userEntity.setRole(roleEntity);
-        userEntity.setUserName(registerDto.getUsername());
-        userEntity = userService.updateUser(userEntity);
-        return ResponseEntity.ok(userEntity);
+    public void updateUser(@PathVariable long id, @RequestBody RegisterDto registerDto) {
+        userService.updateUser(id, registerDto);
     }
 
 }

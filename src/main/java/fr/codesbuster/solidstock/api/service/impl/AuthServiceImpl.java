@@ -60,7 +60,7 @@ public class AuthServiceImpl implements AuthService {
     public String register(RegisterDto registerDto) {
 
         // add check for username exists in database
-        if (userRepository.existsByUserName(registerDto.getUsername())) {
+        if (userRepository.existsByUserName(registerDto.getUserName())) {
             throw new APIException(HttpStatus.BAD_REQUEST, "Username is already exists!.");
         }
 
@@ -71,7 +71,7 @@ public class AuthServiceImpl implements AuthService {
 
         UserEntity user = new UserEntity();
         user.setName(registerDto.getName());
-        user.setUserName(registerDto.getUsername());
+        user.setUserName(registerDto.getUserName());
         user.setEmail(registerDto.getEmail());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
         
