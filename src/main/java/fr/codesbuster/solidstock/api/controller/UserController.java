@@ -3,18 +3,14 @@ package fr.codesbuster.solidstock.api.controller;
 import fr.codesbuster.solidstock.api.entity.RoleEntity;
 import fr.codesbuster.solidstock.api.entity.UserEntity;
 import fr.codesbuster.solidstock.api.payload.dto.RegisterDto;
-import fr.codesbuster.solidstock.api.repository.RoleRepository;
 import fr.codesbuster.solidstock.api.repository.UserRepository;
 import fr.codesbuster.solidstock.api.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @Slf4j
 @RestController
@@ -29,13 +25,13 @@ public class UserController {
 
     @PostMapping("/add")
     public void createUser(@RequestBody RegisterDto registerDto) {
-        log.info("Creating user");
+        log.info("Creating user : {}", registerDto);
         userService.createUser(registerDto);
     }
 
     @PostMapping("/{id}/role/add")
-    public void addRole(@PathVariable long id, @RequestBody RegisterDto registerDto) {
-        userService.addRole(id, registerDto);
+    public void addRole(@PathVariable long id, @RequestBody long roleId) {
+        userService.addRole(id, roleId);
     }
 
     @PutMapping("/{id}/role/{roleId}")
@@ -49,7 +45,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/role/all")
-    public List<RoleEntity> getAllRows(@PathVariable long id) {
+    public List<RoleEntity> getAllRoles(@PathVariable long id) {
         return userService.getAllRoles(id);
     }
 
@@ -64,8 +60,12 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable long id) {
-        userService.deleteUser(id);
+    public ResponseEntity<Void> deleteUser(@PathVariable long id) {
+        UserEntity userEntity = userService.getUser(id);
+        userEntity.setDeleted(true);
+        userEntity.getCustomers().forEach(customerEntity -> customerEntity.setDisabled(true));
+        userRepository.save(userEntity);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/all")
@@ -77,6 +77,7 @@ public class UserController {
     public ResponseEntity<Void> enableUser(@PathVariable Long id) {
         UserEntity userEntity = userService.getUser(id);
         userEntity.setDeleted(false);
+        userEntity.getCustomers().forEach(customerEntity -> customerEntity.setDisabled(false));
         userRepository.save(userEntity);
         return ResponseEntity.noContent().build();
     }

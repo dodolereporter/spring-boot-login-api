@@ -2,6 +2,7 @@ package fr.codesbuster.solidstock.api.configuration;
 
 
 import fr.codesbuster.solidstock.api.entity.*;
+import fr.codesbuster.solidstock.api.exception.APIException;
 import fr.codesbuster.solidstock.api.repository.*;
 import fr.codesbuster.solidstock.api.security.JwtAuthenticationEntryPoint;
 import fr.codesbuster.solidstock.api.security.JwtAuthenticationFilter;
@@ -11,6 +12,7 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -21,6 +23,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 @EnableMethodSecurity
@@ -77,13 +82,23 @@ public class SecurityConfig {
         createRoleIfNotFound("CUSTOMER");
         createRoleIfNotFound("SUPPLIER");
 
+        List<RoleEntity> roles = new ArrayList<>();
+        roles.add(roleRepository.findByName("USER").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role USER not found!")));
+        roles.add(roleRepository.findByName("ADMIN").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role ADMIN not found!")));
+        roles.add(roleRepository.findByName("SUPER_ADMIN").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role SUPER_ADMIN not found!")));
+        roles.add(roleRepository.findByName("MANAGER").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role MANAGER not found!")));
+        roles.add(roleRepository.findByName("STOCK_MANAGER").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role STOCK_MANAGER not found!")));
+        roles.add(roleRepository.findByName("STOCK_VIEWER").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role STOCK_VIEWER not found!")));
+        roles.add(roleRepository.findByName("CUSTOMER").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role CUSTOMER not found!")));
+        roles.add(roleRepository.findByName("SUPPLIER").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role SUPPLIER not found!")));
+
 
         if (userRepository.findByUserName("admin").isEmpty()) {
             UserEntity user = new UserEntity();
             user.setUserName("admin");
             user.setEmail("admin.admin@admin.admin");
             user.setPassword(passwordEncoder().encode("admin"));
-            user.setRole(roleRepository.findByName("SUPER_ADMIN").get());
+            user.setRoles(roles);
             userRepository.save(user);
         }
 
@@ -92,11 +107,17 @@ public class SecurityConfig {
             user.setUserName("dorian5");
             user.setEmail("user@user.user");
             user.setPassword(passwordEncoder().encode("test"));
-            user.setRole(roleRepository.findByName("USER").get());
+
+            // Créer une liste de rôles pour l'utilisateur et ajouter les rôles nécessaires
+            List<RoleEntity> rolesList = new ArrayList<>();
+            rolesList.add(roleRepository.findByName("USER").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role USER not found!")));
+            rolesList.add(roleRepository.findByName("CUSTOMER").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role CUSTOMER not found!")));
+
+            user.setRoles(rolesList);
 
             userRepository.save(user);
-
         }
+
 
         if (quantityTypeRepository.findByUnit("kg").isEmpty()) {
             QuantityTypeEntity quantityType = new QuantityTypeEntity();

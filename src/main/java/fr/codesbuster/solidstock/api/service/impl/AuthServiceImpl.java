@@ -19,6 +19,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Slf4j
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -59,12 +62,12 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String register(RegisterDto registerDto) {
 
-        // add check for username exists in database
+        // Vérifier si le nom d'utilisateur existe déjà dans la base de données
         if (userRepository.existsByUserName(registerDto.getUserName())) {
             throw new APIException(HttpStatus.BAD_REQUEST, "Username is already exists!.");
         }
 
-        // add check for email exists in database
+        // Vérifier si l'email existe déjà dans la base de données
         if (userRepository.existsByEmail(registerDto.getEmail())) {
             throw new APIException(HttpStatus.BAD_REQUEST, "Email is already exists!.");
         }
@@ -74,14 +77,22 @@ public class AuthServiceImpl implements AuthService {
         user.setUserName(registerDto.getUserName());
         user.setEmail(registerDto.getEmail());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
-        
-        RoleEntity userRole = roleRepository.findByName("USER").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role USER not found!."));
-        user.setRole(userRole);
 
+        // Récupérer le rôle correspondant au nom "USER"
+        RoleEntity userRole = roleRepository.findByName("USER")
+                .orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role USER not found!."));
+
+        // Créer une liste de rôles pour l'utilisateur et ajouter le rôle récupéré
+        List<RoleEntity> roles = new ArrayList<>();
+        roles.add(userRole);
+        user.setRoles(roles);
+
+        // Enregistrer l'utilisateur dans la base de données
         userRepository.save(user);
 
         return "User registered successfully!.";
     }
+
 
     @Override
     public UserEntity getMe(String token) {

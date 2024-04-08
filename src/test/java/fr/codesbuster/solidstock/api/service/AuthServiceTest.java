@@ -1,5 +1,6 @@
 package fr.codesbuster.solidstock.api.service;
 
+import fr.codesbuster.solidstock.api.entity.RoleEntity;
 import fr.codesbuster.solidstock.api.entity.UserEntity;
 import fr.codesbuster.solidstock.api.exception.APIException;
 import fr.codesbuster.solidstock.api.payload.dto.LoginDto;
@@ -20,6 +21,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -68,9 +71,18 @@ public class AuthServiceTest {
     //@Test
     void register_ValidUser_RegistersUser() {
         // Arrange
-        RegisterDto registerDto = new RegisterDto("testName", "testFirstName","testUser", "testEmail", "testPassword" ,1, 1);
+        RegisterDto registerDto = new RegisterDto("testName", "testFirstName", "testUser", "testEmail", "testPassword", 1, 1);
 
+        // Simuler le comportement de passwordEncoder
         Mockito.when(passwordEncoder.encode(registerDto.getPassword())).thenReturn("encodedPassword");
+
+        // Créer un rôle simulé
+        RoleEntity roleEntity = new RoleEntity();
+        roleEntity.setId(1L);
+        roleEntity.setName("USER");
+
+        // Simuler le comportement de roleRepository.findById()
+        Mockito.when(roleRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(roleEntity));
 
         // Act
         String result = authService.register(registerDto);
@@ -82,12 +94,12 @@ public class AuthServiceTest {
         assertEquals(registerDto.getName(), savedUser.getName());
         assertEquals(registerDto.getUserName(), savedUser.getUserName());
         assertEquals(registerDto.getEmail(), savedUser.getEmail());
-        assertEquals(registerDto.getCustomerId(), savedUser.getCustomer());
-        assertEquals(registerDto.getRoleId(), savedUser.getRole());
+        assertEquals(registerDto.getCustomerId(), savedUser.getCustomer().getId()); // Assurez-vous d'obtenir l'ID du client
+        assertEquals(1, savedUser.getRoles().size()); // Assurez-vous que la liste de rôles contient un seul rôle
         assertEquals("encodedPassword", savedUser.getPassword());
-        assertEquals("USER", savedUser.getRole().getName());
         assertEquals("User registered successfully!.", result);
     }
+
 
     //@Test
     void register_ExistingUsername_ThrowsAPIException() {

@@ -1,13 +1,10 @@
 package fr.codesbuster.solidstock.api.controller;
 
 import fr.codesbuster.solidstock.api.entity.RoleEntity;
-import fr.codesbuster.solidstock.api.exception.APIException;
 import fr.codesbuster.solidstock.api.payload.dto.RoleDto;
-import fr.codesbuster.solidstock.api.repository.RoleRepository;
 import fr.codesbuster.solidstock.api.service.RoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/role")
 public class RoleController {
-    @Autowired
-    private RoleRepository roleRepository;
 
     @Autowired
     private RoleService roleService;
@@ -48,7 +43,7 @@ public class RoleController {
         RoleEntity roleEntity = roleService.getRole(id);
         return ResponseEntity.ok(roleEntity);
     }
-    
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRole(@PathVariable Long id) {
