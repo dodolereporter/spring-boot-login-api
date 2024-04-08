@@ -3,7 +3,6 @@ package fr.codesbuster.solidstock.api.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import fr.codesbuster.solidstock.api.entity.delivery.DeliveryEntity;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -91,9 +90,6 @@ public class SupplierEntity {
     @OneToMany(mappedBy = "supplier")
     @JsonIdentityReference(alwaysAsId = true)
     private List<ProductEntity> products;
-
-    @OneToMany(mappedBy = "supplier")
-    private List<DeliveryEntity> deliveries;
 
     @CreationTimestamp
     private Instant createdAt;

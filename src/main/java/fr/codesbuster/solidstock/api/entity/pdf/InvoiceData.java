@@ -3,10 +3,8 @@ package fr.codesbuster.solidstock.api.entity.pdf;
 import fr.codesbuster.solidstock.api.entity.invoice.InvoiceEntity;
 import lombok.*;
 
-import java.io.File;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.*;
 
 @Getter
@@ -15,6 +13,7 @@ import java.util.*;
 @AllArgsConstructor
 @ToString
 public class InvoiceData {
+    private static final DecimalFormat df = new DecimalFormat("0.00");
     private int invoiceNumber;
     private Date invoiceDate;
     private String description;
@@ -25,10 +24,7 @@ public class InvoiceData {
     private String totalTTC;
     private VATData[] vat;
 
-
-    private static final DecimalFormat df = new DecimalFormat("0.00");
-
-    public InvoiceData(InvoiceEntity invoiceEntity) throws ParseException {
+    public InvoiceData(InvoiceEntity invoiceEntity) {
         df.setRoundingMode(RoundingMode.UP);
 
         this.invoiceNumber = (int) invoiceEntity.getId();
@@ -70,8 +66,6 @@ public class InvoiceData {
             vatDataList.add(vatData);
         }
         this.vat = vatDataList.toArray(new VATData[0]);
-
-
 
 
     }

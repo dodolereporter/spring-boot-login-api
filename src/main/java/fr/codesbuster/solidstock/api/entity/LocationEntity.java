@@ -1,6 +1,5 @@
 package fr.codesbuster.solidstock.api.entity;
 
-import fr.codesbuster.solidstock.api.entity.delivery.DeliveryEntity;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -40,12 +39,6 @@ public class LocationEntity {
 
     @OneToMany(mappedBy = "location")
     private List<StockMovementEntity> stockMovements = new ArrayList<>();
-
-    @OneToMany(mappedBy = "location")
-    private List<StockEntity> stocks = new ArrayList<>();
-
-    @OneToMany(mappedBy = "location")
-    private List<DeliveryEntity> deliveries = new ArrayList<>();
 
     @CreationTimestamp
     private Instant createdAt;
