@@ -12,6 +12,7 @@ import fr.codesbuster.solidstock.api.repository.InvoiceRowRepository;
 import fr.codesbuster.solidstock.api.repository.ProductRepository;
 import fr.codesbuster.solidstock.api.service.InvoicePDFService;
 import fr.codesbuster.solidstock.api.service.InvoiceService;
+import fr.codesbuster.solidstock.api.service.OwnerCompanyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,9 +34,10 @@ public class InvoiceServiceImpl implements InvoiceService {
     private ProductRepository productRepository;
     @Autowired
     private InvoicePDFService invoicePDFService;
-
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private OwnerCompanyService ownerCompanyService;
 
     @Override
     public InvoiceEntity createInvoice(InvoiceDto invoiceDto) {
@@ -120,6 +122,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public File generatePDF(long id) throws IOException, ParseException {
         InvoiceEntity invoiceEntity = invoiceRepository.findById(id).orElseThrow(() -> new APIException(HttpStatus.NOT_FOUND, "Invoice not found"));
+        invoiceEntity.setOwnerCompany(ownerCompanyService.getOwnerCompany());
         return invoicePDFService.generateInvoicePDF(invoiceEntity);
     }
 }
