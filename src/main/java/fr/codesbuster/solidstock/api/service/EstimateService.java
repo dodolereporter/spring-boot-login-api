@@ -26,7 +26,11 @@ public interface EstimateService {
 
     EstimateRowEntity getRow(long id);
 
-    List<EstimateRowEntity> getAllRows(long id, EstimateRowDto estimateRowDto);
+    List<EstimateRowEntity> getAllRows(long id);
+
+    void deleteRow(long id);
+
+    EstimateRowEntity updateRow(long id, EstimateRowDto estimateRowDto);
 
     File generatePDF(long id) throws IOException, ParseException;
 }

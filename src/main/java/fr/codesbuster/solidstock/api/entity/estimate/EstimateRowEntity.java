@@ -1,6 +1,9 @@
 package fr.codesbuster.solidstock.api.entity.estimate;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fr.codesbuster.solidstock.api.entity.ProductEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,17 +21,19 @@ import java.time.Instant;
 @AllArgsConstructor
 @Entity
 @Table(name = "estimate_row")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class EstimateRowEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private int quantity;
+    private double quantity;
     private double sellPrice;
 
     @ManyToOne
     @JoinColumn(name = "estimate_id")
+    @JsonIgnore
     private EstimateEntity estimate;
 
     @ManyToOne
