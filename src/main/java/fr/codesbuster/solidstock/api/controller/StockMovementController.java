@@ -10,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequestMapping("/api/v1/stock-movement")
@@ -35,7 +36,7 @@ public class StockMovementController {
         stockMovementEntity.setType(StockMovementType.valueOf(stockMovementDto.getType()));
         stockMovementEntity.setNote(stockMovementDto.getNote());
         stockMovementEntity.setBatchNumber(stockMovementDto.getBatchNumber());
-        stockMovementEntity.setExpiredDate(LocalDateTime.parse(stockMovementDto.getExpiredDate()));
+        stockMovementEntity.setExpiredDate(LocalDate.parse(stockMovementDto.getExpiredDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
         return ResponseEntity.ok(stockMovementService.createStockMovement(stockMovementEntity));
     }
@@ -66,7 +67,7 @@ public class StockMovementController {
         stockMovementEntity.setType(StockMovementType.valueOf(stockMovementDto.getType()));
         stockMovementEntity.setNote(stockMovementDto.getNote());
         stockMovementEntity.setBatchNumber(stockMovementDto.getBatchNumber());
-        stockMovementEntity.setExpiredDate(LocalDateTime.parse(stockMovementDto.getExpiredDate()));
+        stockMovementEntity.setExpiredDate(LocalDate.parse(stockMovementDto.getExpiredDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
         return ResponseEntity.ok(stockMovementService.updateStockMovement(stockMovementEntity));
     }

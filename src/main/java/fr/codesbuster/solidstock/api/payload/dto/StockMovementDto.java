@@ -16,7 +16,7 @@ public class StockMovementDto {
 
     private String type;
 
-    private int quantity;
+    private double quantity;
 
     private String expiredDate;
 
