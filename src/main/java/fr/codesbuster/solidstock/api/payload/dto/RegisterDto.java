@@ -10,11 +10,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegisterDto {
-    private String name;
+    private String lastName;
     private String firstName;
     private String userName;
     private String email;
     private String password;
-    private int roleId;
-    private int customerId;
+    private long customerId;
 }

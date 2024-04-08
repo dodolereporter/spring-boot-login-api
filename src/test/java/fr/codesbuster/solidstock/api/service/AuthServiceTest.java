@@ -91,7 +91,7 @@ public class AuthServiceTest {
         ArgumentCaptor<UserEntity> userCaptor = ArgumentCaptor.forClass(UserEntity.class);
         verify(userRepository).save(userCaptor.capture());
         UserEntity savedUser = userCaptor.getValue();
-        assertEquals(registerDto.getName(), savedUser.getName());
+        assertEquals(registerDto.getLastName(), savedUser.getLastName());
         assertEquals(registerDto.getUserName(), savedUser.getUserName());
         assertEquals(registerDto.getEmail(), savedUser.getEmail());
         assertEquals(registerDto.getCustomerId(), savedUser.getCustomer().getId()); // Assurez-vous d'obtenir l'ID du client

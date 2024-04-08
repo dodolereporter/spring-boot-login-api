@@ -1,12 +1,13 @@
 package fr.codesbuster.solidstock.api.controller;
 
-import fr.codesbuster.solidstock.api.entity.RoleEntity;
 import fr.codesbuster.solidstock.api.entity.UserEntity;
+import fr.codesbuster.solidstock.api.exception.APIException;
 import fr.codesbuster.solidstock.api.payload.dto.RegisterDto;
 import fr.codesbuster.solidstock.api.repository.UserRepository;
 import fr.codesbuster.solidstock.api.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,46 +25,21 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/add")
-    public void createUser(@RequestBody RegisterDto registerDto) {
+    public ResponseEntity<UserEntity> createUser(@RequestBody RegisterDto registerDto) {
         log.info("Creating user : {}", registerDto);
-        userService.createUser(registerDto);
-    }
-
-    @PostMapping("/{id}/role/add")
-    public void addRole(@PathVariable long id, @RequestBody long roleId) {
-        userService.addRole(id, roleId);
-    }
-
-    @PutMapping("/{id}/role/{roleId}")
-    public void updateUserRole(@PathVariable long id, @PathVariable long roleId, @RequestBody RegisterDto registerDto) {
-        userService.updateUserRole(roleId, registerDto);
-    }
-
-    @GetMapping("/{id}/role/{roleId}")
-    public RoleEntity getRole(@PathVariable long id, @PathVariable long roleId) {
-        return userService.getRole(roleId);
-    }
-
-    @GetMapping("/{id}/role/all")
-    public List<RoleEntity> getAllRoles(@PathVariable long id) {
-        return userService.getAllRoles(id);
-    }
-
-    @DeleteMapping("/{id}/role/{roleId}")
-    public void deleteRole(@PathVariable long id, @PathVariable long roleId) {
-        userService.deleteRole(roleId);
+        return userService.createUser(registerDto);
     }
 
     @GetMapping("/{id}")
-    public UserEntity getUser(@PathVariable long id) {
+    public ResponseEntity<UserEntity> getUser(@PathVariable long id) {
         return userService.getUser(id);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable long id) {
-        UserEntity userEntity = userService.getUser(id);
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new APIException(HttpStatus.NOT_FOUND, "Role not found"));
         userEntity.setDeleted(true);
-        userEntity.getCustomers().forEach(customerEntity -> customerEntity.setDisabled(true));
+        userEntity.getCustomer().setDisabled(true);
         userRepository.save(userEntity);
         return ResponseEntity.noContent().build();
     }
@@ -74,17 +50,27 @@ public class UserController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<Void> enableUser(@PathVariable Long id) {
-        UserEntity userEntity = userService.getUser(id);
+    public ResponseEntity<UserEntity> enableUser(@PathVariable Long id) {
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new APIException(HttpStatus.NOT_FOUND, "User not found"));
         userEntity.setDeleted(false);
-        userEntity.getCustomers().forEach(customerEntity -> customerEntity.setDisabled(false));
+        userEntity.getCustomer().setDisabled(false);
         userRepository.save(userEntity);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public void updateUser(@PathVariable long id, @RequestBody RegisterDto registerDto) {
-        userService.updateUser(id, registerDto);
+    public ResponseEntity<UserEntity> updateUser(@PathVariable long id, @RequestBody RegisterDto registerDto) {
+        return userService.updateUser(id, registerDto);
+    }
+
+    @PostMapping("/{id}/role/{role}")
+    public ResponseEntity<UserEntity> addRole(@PathVariable long id, @PathVariable long role) {
+        return userService.addRoleToUser(id, role);
+    }
+
+    @DeleteMapping("/{id}/role/{role}")
+    public ResponseEntity<UserEntity> removeRole(@PathVariable long id, @PathVariable long role) {
+        return userService.removeRoleFromUser(id, role);
     }
 
 }

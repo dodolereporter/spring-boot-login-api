@@ -1,9 +1,9 @@
 package fr.codesbuster.solidstock.api.security;
 
 
-import fr.codesbuster.solidstock.api.entity.RoleEntity;
 import fr.codesbuster.solidstock.api.entity.UserEntity;
 import fr.codesbuster.solidstock.api.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,33 +11,26 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
+import java.util.Set;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    public CustomUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
-    public UserDetails loadUserByUsername(String userNameOrEmail) throws UsernameNotFoundException {
-        UserEntity user = userRepository.findByUserNameOrEmail(userNameOrEmail, userNameOrEmail)
+    public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
+        UserEntity user = userRepository.findByEmail(usernameOrEmail)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found with userName or email: " + userNameOrEmail));
+                        new UsernameNotFoundException("User not found with username or email: " + usernameOrEmail));
 
-        // Créer une liste d'autorités pour les rôles de l'utilisateur
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        for (RoleEntity role : user.getRoles()) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
+        Set<GrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("USER"));
 
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
                 user.getPassword(),
                 authorities);
     }
-
 }

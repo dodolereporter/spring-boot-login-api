@@ -62,19 +62,13 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String register(RegisterDto registerDto) {
 
-        // Vérifier si le nom d'utilisateur existe déjà dans la base de données
-        if (userRepository.existsByUserName(registerDto.getUserName())) {
-            throw new APIException(HttpStatus.BAD_REQUEST, "Username is already exists!.");
-        }
-
         // Vérifier si l'email existe déjà dans la base de données
         if (userRepository.existsByEmail(registerDto.getEmail())) {
             throw new APIException(HttpStatus.BAD_REQUEST, "Email is already exists!.");
         }
 
         UserEntity user = new UserEntity();
-        user.setName(registerDto.getName());
-        user.setUserName(registerDto.getUserName());
+        user.setLastName(registerDto.getLastName());
         user.setEmail(registerDto.getEmail());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
@@ -100,7 +94,7 @@ public class AuthServiceImpl implements AuthService {
         String username = jwtTokenProvider.getUsername(token);
         log.info(username);
         //try by get user by username  or email
-        UserEntity user = userRepository.findByUserNameOrEmail(username, username).orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "User not found!."));
+        UserEntity user = userRepository.findByEmail(username).orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "User not found!."));
 
 
         return user;

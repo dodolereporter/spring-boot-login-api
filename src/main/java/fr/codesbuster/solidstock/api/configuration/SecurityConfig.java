@@ -2,7 +2,6 @@ package fr.codesbuster.solidstock.api.configuration;
 
 
 import fr.codesbuster.solidstock.api.entity.*;
-import fr.codesbuster.solidstock.api.exception.APIException;
 import fr.codesbuster.solidstock.api.repository.*;
 import fr.codesbuster.solidstock.api.security.JwtAuthenticationEntryPoint;
 import fr.codesbuster.solidstock.api.security.JwtAuthenticationFilter;
@@ -12,7 +11,6 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -36,6 +34,8 @@ import java.util.List;
         scheme = "bearer"
 )
 public class SecurityConfig {
+
+    private final List<RoleEntity> roles = new ArrayList<>();
 
     private final UserDetailsService userDetailsService;
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
@@ -73,52 +73,6 @@ public class SecurityConfig {
 
     @PostConstruct
     public void init() {
-        createRoleIfNotFound("USER");
-        createRoleIfNotFound("ADMIN");
-        createRoleIfNotFound("SUPER_ADMIN");
-        createRoleIfNotFound("MANAGER");
-        createRoleIfNotFound("STOCK_MANAGER");
-        createRoleIfNotFound("STOCK_VIEWER");
-        createRoleIfNotFound("CUSTOMER");
-        createRoleIfNotFound("SUPPLIER");
-
-        List<RoleEntity> roles = new ArrayList<>();
-        roles.add(roleRepository.findByName("USER").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role USER not found!")));
-        roles.add(roleRepository.findByName("ADMIN").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role ADMIN not found!")));
-        roles.add(roleRepository.findByName("SUPER_ADMIN").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role SUPER_ADMIN not found!")));
-        roles.add(roleRepository.findByName("MANAGER").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role MANAGER not found!")));
-        roles.add(roleRepository.findByName("STOCK_MANAGER").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role STOCK_MANAGER not found!")));
-        roles.add(roleRepository.findByName("STOCK_VIEWER").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role STOCK_VIEWER not found!")));
-        roles.add(roleRepository.findByName("CUSTOMER").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role CUSTOMER not found!")));
-        roles.add(roleRepository.findByName("SUPPLIER").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role SUPPLIER not found!")));
-
-
-        if (userRepository.findByUserName("admin").isEmpty()) {
-            UserEntity user = new UserEntity();
-            user.setUserName("admin");
-            user.setEmail("admin.admin@admin.admin");
-            user.setPassword(passwordEncoder().encode("admin"));
-            user.setRoles(roles);
-            userRepository.save(user);
-        }
-
-        if (userRepository.findByUserName("user").isEmpty()) {
-            UserEntity user = new UserEntity();
-            user.setUserName("dorian5");
-            user.setEmail("user@user.user");
-            user.setPassword(passwordEncoder().encode("test"));
-
-            // Créer une liste de rôles pour l'utilisateur et ajouter les rôles nécessaires
-            List<RoleEntity> rolesList = new ArrayList<>();
-            rolesList.add(roleRepository.findByName("USER").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role USER not found!")));
-            rolesList.add(roleRepository.findByName("CUSTOMER").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role CUSTOMER not found!")));
-
-            user.setRoles(rolesList);
-
-            userRepository.save(user);
-        }
-
-
         if (quantityTypeRepository.findByUnit("kg").isEmpty()) {
             QuantityTypeEntity quantityType = new QuantityTypeEntity();
             quantityType.setName("Kilogramme");
@@ -589,6 +543,39 @@ public class SecurityConfig {
             customerRepository.save(customer);
         }
 
+        createRoleIfNotFound("USER");
+        createRoleIfNotFound("CUSTOMER_MANAGER");
+        createRoleIfNotFound("STOCK_MANAGER");
+        createRoleIfNotFound("PRODUCT_MANAGER");
+        createRoleIfNotFound("SUPPLIER_MANAGER");
+        createRoleIfNotFound("ESTIMATE_MANAGER");
+        createRoleIfNotFound("ORDER_MANAGER");
+        createRoleIfNotFound("INVOICE_MANAGER");
+        createRoleIfNotFound("USER_MANAGER");
+        createRoleIfNotFound("ADMIN");
+        createRoleIfNotFound("WEB_USER");
+
+
+        if (userRepository.findByEmail("admin.admin@admin.admin").isEmpty()) {
+            UserEntity user = new UserEntity();
+            user.setEmail("admin.admin@admin.admin");
+            user.setPassword(passwordEncoder().encode("admin"));
+            user.setRoles(roles);
+            userRepository.save(user);
+        }
+
+        if (userRepository.findByEmail("user@user.user").isEmpty()) {
+            UserEntity user = new UserEntity();
+            user.setEmail("user@user.user");
+            user.setPassword(passwordEncoder().encode("test"));
+            List<RoleEntity> roles = new ArrayList<>();
+            roles.add(roleRepository.findByName("USER").orElse(null));
+            user.setRoles(roles);
+            user.setCustomer(customerRepository.findByCompanyName("CGT de Lyon").get());
+
+            userRepository.save(user);
+        }
+
 
     }
 
@@ -596,7 +583,9 @@ public class SecurityConfig {
         roleRepository.findByName(roleName).orElseGet(() -> {
             RoleEntity role = new RoleEntity();
             role.setName(roleName);
-            return roleRepository.save(role);
+            role = roleRepository.save(role);
+            roles.add(role);
+            return role;
         });
     }
 

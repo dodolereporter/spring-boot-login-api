@@ -3,7 +3,6 @@ package fr.codesbuster.solidstock.api.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,11 +27,8 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String lastName;
     private String firstName;
-
-    @Column(nullable = false, unique = true)
-    private String userName;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -49,14 +45,10 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<RoleEntity> roles;
 
-    @OneToOne
-    @JoinColumn(name = "customer_id")
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    private CustomerEntity customer;
 
-    @OneToMany(mappedBy = "user")
-    @Nullable
-    private List<CustomerEntity> customers;
+    @OneToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    private CustomerEntity customer;
 
     @Column(columnDefinition = "boolean default false")
     private boolean isDeleted;
