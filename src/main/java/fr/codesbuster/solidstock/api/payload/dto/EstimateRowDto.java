@@ -1,4 +1,4 @@
 package fr.codesbuster.solidstock.api.payload.dto;
 
-public class EstimatesDto {
+public class EstimateRowDto {
 }
