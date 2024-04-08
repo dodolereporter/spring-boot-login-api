@@ -2,7 +2,6 @@ package fr.codesbuster.solidstock.api.entity.pdf;
 
 import fr.codesbuster.solidstock.api.entity.estimate.EstimateEntity;
 import lombok.*;
-import org.xhtmlrenderer.newtable.RowData;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;

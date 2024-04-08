@@ -30,7 +30,7 @@ public class EstimateRowData {
         this.productName = estimateRowEntity.getProduct().getName();
         this.quantityType = estimateRowEntity.getProduct().getQuantityType().getUnit();
         this.quantity = df.format(estimateRowEntity.getQuantity());
-        this.priceHT = df.format(estimateRowEntity.getSellPrice() + " €");
+        this.priceHT = df.format(estimateRowEntity.getSellPrice()) + " €";
         this.vatRate = estimateRowEntity.getProduct().getVat().getRate();
         this.vatAmount = estimateRowEntity.getProduct().getVat().getPercentage();
         this.priceTTC = df.format(estimateRowEntity.getSellPrice() * (1 + estimateRowEntity.getProduct().getVat().getRate())) + " €";

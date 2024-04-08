@@ -36,6 +36,12 @@ public class EstimatePDFServiceImpl implements EstimatePDFService {
 
         String logoPath = getTempDirectory() + File.separator + "SolidStock" + File.separator + "Estimates" + File.separator + "static";
 
+        File logoDir = new File(logoPath);
+        if (!logoDir.exists()) {
+            logoDir.mkdirs();
+        }
+        logoPath += File.separator + "logo.png";
+
         try (FileOutputStream fos = new FileOutputStream(logoPath)) {
             fos.write(logo);
         }
@@ -57,7 +63,7 @@ public class EstimatePDFServiceImpl implements EstimatePDFService {
     }
 
     private String getTempDirectory() {
-        return System.getProperty("java.io.tempdir");
+        return System.getProperty("java.io.tmpdir");
     }
 
     private void copyFile(File source, File dest) throws IOException {
