@@ -1,10 +1,6 @@
 package fr.codesbuster.solidstock.api.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import fr.codesbuster.solidstock.api.entity.delivery.DeliveryRowEntity;
 import fr.codesbuster.solidstock.api.entity.estimate.EstimateRowEntity;
 import fr.codesbuster.solidstock.api.entity.invoice.InvoiceRowEntity;
 import fr.codesbuster.solidstock.api.entity.orderForm.OrderFormRowEntity;
@@ -25,7 +21,6 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "product")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class ProductEntity {
 
     @Id
@@ -46,7 +41,7 @@ public class ProductEntity {
 
     @ManyToOne
     @JoinColumn(name = "vat_id")
-    private  VATEntity vat;
+    private VATEntity vat;
 
     @ManyToOne
     @JoinColumn(name = "quantity_type_id")
@@ -57,10 +52,8 @@ public class ProductEntity {
     private ProductFamilyEntity productFamily;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<StockMovementEntity> stockMovements;
-
-    @OneToMany(mappedBy = "product")
-    private List<StockEntity> stocks;
 
     @OneToMany(mappedBy = "product")
     @JsonIgnore
@@ -73,9 +66,6 @@ public class ProductEntity {
     @OneToMany(mappedBy = "product")
     @JsonIgnore
     private List<OrderFormRowEntity> orderFormRows;
-
-    @OneToMany(mappedBy = "product")
-    private List<DeliveryRowEntity> deliveryRows;
 
     @Column(columnDefinition = "boolean default false")
     private boolean isDeleted;

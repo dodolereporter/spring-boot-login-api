@@ -38,7 +38,11 @@ public class LocationController {
         LocationEntity locationEntity = new LocationEntity();
         locationEntity.setName(locationDto.getName());
         locationEntity.setDescription(locationDto.getDescription());
-        locationEntity.setPosition(locationDto.getPosition());
+
+        if (locationDto.getParentId() != 0) {
+            LocationEntity parentLocation = locationService.getLocation(locationDto.getParentId());
+            locationEntity.setParent(parentLocation);
+        }
 
         locationEntity = locationService.createLocation(locationEntity);
 
@@ -68,7 +72,6 @@ public class LocationController {
         LocationEntity locationEntity = locationService.getLocation(id);
         locationEntity.setName(locationDto.getName());
         locationEntity.setDescription(locationDto.getDescription());
-        locationEntity.setPosition(locationDto.getPosition());
         locationEntity = locationService.updateLocation(locationEntity);
         return ResponseEntity.ok(locationEntity);
     }

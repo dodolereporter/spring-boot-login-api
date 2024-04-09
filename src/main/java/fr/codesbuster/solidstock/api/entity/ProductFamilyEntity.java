@@ -1,8 +1,6 @@
 package fr.codesbuster.solidstock.api.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,8 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "product_familly")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Table(name = "product_family")
 public class ProductFamilyEntity {
 
     @Id
@@ -31,7 +28,7 @@ public class ProductFamilyEntity {
     private String description;
 
     @OneToMany(mappedBy = "productFamily")
-    @JsonIdentityReference(alwaysAsId = true)
+    @JsonIgnore
     private List<ProductEntity> products;
 
     @Column(columnDefinition = "boolean default false")

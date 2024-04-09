@@ -1,5 +1,6 @@
 package fr.codesbuster.solidstock.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,11 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.joda.time.DateTime;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -27,13 +26,15 @@ public class StockMovementEntity {
 
     private StockMovementType type;
 
-    private int quantity;
+    private double quantity;
 
-    private LocalDateTime expiredDate;
+    private LocalDate expiredDate;
 
     private String batchNumber;
 
     private String note;
+
+    private boolean isDeleted;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -41,6 +42,7 @@ public class StockMovementEntity {
 
     @ManyToOne
     @JoinColumn(name = "location_id")
+    @JsonIdentityReference(alwaysAsId = true)
     private LocationEntity location;
 
     @CreationTimestamp
