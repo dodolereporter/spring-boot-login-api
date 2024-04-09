@@ -71,7 +71,7 @@ public class AuthServiceTest {
     //@Test
     void register_ValidUser_RegistersUser() {
         // Arrange
-        RegisterDto registerDto = new RegisterDto("testName", "testFirstName", "testUser", "testEmail", "testPassword", 1, 1);
+        RegisterDto registerDto = new RegisterDto("testLastName", "testFirstName", "testEmail", "testPassword", 1);
 
         // Simuler le comportement de passwordEncoder
         Mockito.when(passwordEncoder.encode(registerDto.getPassword())).thenReturn("encodedPassword");
@@ -92,7 +92,7 @@ public class AuthServiceTest {
         verify(userRepository).save(userCaptor.capture());
         UserEntity savedUser = userCaptor.getValue();
         assertEquals(registerDto.getLastName(), savedUser.getLastName());
-        assertEquals(registerDto.getUserName(), savedUser.getUserName());
+        assertEquals(registerDto.getFirstName(), savedUser.getFirstName());
         assertEquals(registerDto.getEmail(), savedUser.getEmail());
         assertEquals(registerDto.getCustomerId(), savedUser.getCustomer().getId()); // Assurez-vous d'obtenir l'ID du client
         assertEquals(1, savedUser.getRoles().size()); // Assurez-vous que la liste de rôles contient un seul rôle
@@ -104,8 +104,8 @@ public class AuthServiceTest {
     //@Test
     void register_ExistingUsername_ThrowsAPIException() {
         // Arrange
-        RegisterDto registerDto = new RegisterDto("testName", "testFirstName", "testUser", "testEmail", "testPassword", 1, 1);
-        Mockito.when(userRepository.existsByUserName(registerDto.getUserName())).thenReturn(true);
+        RegisterDto registerDto = new RegisterDto("testName", "testFirstName", "testEmail", "testPassword", 1);
+        Mockito.when(userRepository.existsByEmail(registerDto.getEmail())).thenReturn(true);
 
         // Act and Assert
         assertThrows(APIException.class, () -> authService.register(registerDto));
@@ -114,7 +114,7 @@ public class AuthServiceTest {
     // @Test
     void register_ExistingEmail_ThrowsAPIException() {
         // Arrange
-        RegisterDto registerDto = new RegisterDto("testName", "testFirstName", "testUser", "testEmail", "testPassword", 1, 1);
+        RegisterDto registerDto = new RegisterDto("testName", "testFirstName", "testEmail", "testPassword", 1);
         Mockito.when(userRepository.existsByEmail(registerDto.getEmail())).thenReturn(true);
 
         // Act and Assert
