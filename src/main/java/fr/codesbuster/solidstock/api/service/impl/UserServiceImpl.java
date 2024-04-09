@@ -28,6 +28,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    private UserService userService;
+    @Autowired
     private CustomerRepository customerRepository;
     @Autowired
     private RoleRepository roleRepository;
@@ -79,7 +81,6 @@ public class UserServiceImpl implements UserService {
         if (!userRepository.existsById(id)) {
             throw new APIException(HttpStatus.BAD_REQUEST, "User does not exist");
         }
-
         userRepository.deleteById(id);
     }
 

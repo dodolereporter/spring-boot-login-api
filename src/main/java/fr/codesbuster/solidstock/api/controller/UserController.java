@@ -4,6 +4,7 @@ import fr.codesbuster.solidstock.api.entity.UserEntity;
 import fr.codesbuster.solidstock.api.exception.APIException;
 import fr.codesbuster.solidstock.api.payload.dto.RegisterDto;
 import fr.codesbuster.solidstock.api.repository.UserRepository;
+import fr.codesbuster.solidstock.api.service.CustomerService;
 import fr.codesbuster.solidstock.api.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CustomerService customerService;
+
     @PostMapping("/add")
     public ResponseEntity<UserEntity> createUser(@RequestBody RegisterDto registerDto) {
         log.info("Creating user : {}", registerDto);
@@ -40,6 +44,7 @@ public class UserController {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new APIException(HttpStatus.NOT_FOUND, "Role not found"));
         userEntity.setDeleted(true);
         userEntity.getCustomer().setDisabled(true);
+        customerService.getCustomers().forEach(customerEntity -> customerEntity.setDisabled(true));
         userRepository.save(userEntity);
         return ResponseEntity.noContent().build();
     }
