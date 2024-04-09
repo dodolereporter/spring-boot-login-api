@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.ParseException;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -47,6 +48,7 @@ public class InvoiceController {
     public List<InvoiceEntity> getAllInvoices() {
         List<InvoiceEntity> invoices = invoiceService.getAllInvoices();
         invoices.forEach(InvoiceEntity::calculateTotal);
+        Collections.reverse(invoices);
        return invoices;
     }
 

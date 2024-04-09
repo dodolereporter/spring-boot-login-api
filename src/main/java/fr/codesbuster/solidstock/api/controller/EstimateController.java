@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.ParseException;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -46,6 +47,7 @@ public class EstimateController {
     public List<EstimateEntity> getAllEstimates() {
         List<EstimateEntity> estimates = estimateService.getAllEstimates();
         estimates.forEach(EstimateEntity::calculateTotal);
+        Collections.reverse(estimates);
         return estimates;
     }
 
