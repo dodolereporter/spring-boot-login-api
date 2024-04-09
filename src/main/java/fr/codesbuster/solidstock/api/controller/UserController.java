@@ -1,8 +1,10 @@
 package fr.codesbuster.solidstock.api.controller;
 
+import fr.codesbuster.solidstock.api.entity.CustomerEntity;
 import fr.codesbuster.solidstock.api.entity.UserEntity;
 import fr.codesbuster.solidstock.api.exception.APIException;
 import fr.codesbuster.solidstock.api.payload.dto.RegisterDto;
+import fr.codesbuster.solidstock.api.repository.CustomerRepository;
 import fr.codesbuster.solidstock.api.repository.UserRepository;
 import fr.codesbuster.solidstock.api.service.CustomerService;
 import fr.codesbuster.solidstock.api.service.UserService;
@@ -28,6 +30,9 @@ public class UserController {
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    private CustomerRepository customerRepository;
+
     @PostMapping("/add")
     public ResponseEntity<UserEntity> createUser(@RequestBody RegisterDto registerDto) {
         log.info("Creating user : {}", registerDto);
@@ -42,9 +47,12 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable long id) {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new APIException(HttpStatus.NOT_FOUND, "Role not found"));
+        CustomerEntity customerEntity = userEntity.getCustomer();
+        if (customerEntity != null) {
+            customerEntity.setDisabled(true);
+            customerRepository.save(customerEntity);
+        }
         userEntity.setDeleted(true);
-        userEntity.getCustomer().setDisabled(true);
-        customerService.getCustomers().forEach(customerEntity -> customerEntity.setDisabled(true));
         userRepository.save(userEntity);
         return ResponseEntity.noContent().build();
     }
@@ -57,8 +65,12 @@ public class UserController {
     @PostMapping("/{id}")
     public ResponseEntity<UserEntity> enableUser(@PathVariable Long id) {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new APIException(HttpStatus.NOT_FOUND, "User not found"));
+        CustomerEntity customerEntity = userEntity.getCustomer();
+        if (customerEntity != null) {
+            customerEntity.setDisabled(false);
+            customerRepository.save(customerEntity);
+        }
         userEntity.setDeleted(false);
-        userEntity.getCustomer().setDisabled(false);
         userRepository.save(userEntity);
         return ResponseEntity.noContent().build();
     }
