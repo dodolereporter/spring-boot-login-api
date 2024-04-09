@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/v1/stock-movement")
@@ -43,6 +44,7 @@ public class StockMovementController {
 
     @GetMapping("/all")
     public ResponseEntity<?> getStockMovements() {
+        Collections.reverse(stockMovementService.getStockMovements());
         return ResponseEntity.ok(stockMovementService.getStockMovements());
     }
 
@@ -51,16 +53,19 @@ public class StockMovementController {
         return ResponseEntity.ok(stockMovementService.getStockMovement(id));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteStockMovement(@PathVariable Long id) {
-        stockMovementService.deleteStockMovement(id);
-        return ResponseEntity.ok().build();
+        return stockMovementService.deleteStockMovement(id);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<StockMovementEntity> updateStockMovement(@RequestBody StockMovementDto stockMovementDto) {
-        StockMovementEntity stockMovementEntity = new StockMovementEntity();
-        stockMovementEntity.setId(stockMovementDto.getId());
+    @PostMapping("/enable/{id}")
+    public ResponseEntity<?> enableStockMovement(@PathVariable Long id) {
+        return stockMovementService.enableStockMovement(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<StockMovementEntity> updateStockMovement(@PathVariable Long id, @RequestBody StockMovementDto stockMovementDto) {
+        StockMovementEntity stockMovementEntity = stockMovementService.getStockMovement(id);
         stockMovementEntity.setQuantity(stockMovementDto.getQuantity());
         stockMovementEntity.setProduct(productService.getProduct(stockMovementDto.getProductId()));
         stockMovementEntity.setLocation(locationService.getLocation(stockMovementDto.getLocationId()));

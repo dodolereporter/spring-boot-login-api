@@ -1,8 +1,6 @@
 package fr.codesbuster.solidstock.api.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +18,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 @Table(name = "stock_movement")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class StockMovementEntity {
 
     @Id
@@ -36,6 +33,8 @@ public class StockMovementEntity {
     private String batchNumber;
 
     private String note;
+
+    private boolean isDeleted;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

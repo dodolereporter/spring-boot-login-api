@@ -2,9 +2,11 @@ package fr.codesbuster.solidstock.api.service.impl;
 
 
 import fr.codesbuster.solidstock.api.entity.StockMovementEntity;
+import fr.codesbuster.solidstock.api.exception.APIException;
 import fr.codesbuster.solidstock.api.repository.StockMovementRepository;
 import fr.codesbuster.solidstock.api.service.StockMovementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -12,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 public class StockMovementServiceImpl implements StockMovementService {
@@ -34,16 +37,27 @@ public class StockMovementServiceImpl implements StockMovementService {
     }
 
     @Override
-    public void deleteStockMovement(Long id) {
+    public ResponseEntity<StockMovementEntity> deleteStockMovement(Long id) {
         if (id == null) {
             throw new ResponseStatusException(BAD_REQUEST, "StockMovement id cannot be null");
         }
 
-        if (!stockMovementRepository.existsById(id)) {
-            throw new ResponseStatusException(BAD_REQUEST, "StockMovement does not exist");
+        StockMovementEntity stockMovementEntity = stockMovementRepository.findById(id).orElseThrow(() -> new APIException(NOT_FOUND, "StockMovement does not exist"));
+        stockMovementEntity.setDeleted(true);
+        stockMovementEntity = stockMovementRepository.save(stockMovementEntity);
+        return ResponseEntity.ok(stockMovementEntity);
+    }
+
+    @Override
+    public ResponseEntity<StockMovementEntity> enableStockMovement(Long id) {
+        if (id == null) {
+            throw new ResponseStatusException(BAD_REQUEST, "StockMovement id cannot be null");
         }
 
-        stockMovementRepository.deleteById(id);
+        StockMovementEntity stockMovementEntity = stockMovementRepository.findById(id).orElseThrow(() -> new APIException(NOT_FOUND, "StockMovement does not exist"));
+        stockMovementEntity.setDeleted(false);
+        stockMovementEntity = stockMovementRepository.save(stockMovementEntity);
+        return ResponseEntity.ok(stockMovementEntity);
     }
 
     @Override

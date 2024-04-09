@@ -1,8 +1,6 @@
 package fr.codesbuster.solidstock.api.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fr.codesbuster.solidstock.api.entity.estimate.EstimateRowEntity;
 import fr.codesbuster.solidstock.api.entity.invoice.InvoiceRowEntity;
 import fr.codesbuster.solidstock.api.entity.orderForm.OrderFormRowEntity;
@@ -23,7 +21,6 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "product")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class ProductEntity {
 
     @Id
@@ -55,6 +52,7 @@ public class ProductEntity {
     private ProductFamilyEntity productFamily;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<StockMovementEntity> stockMovements;
 
     @OneToMany(mappedBy = "product")

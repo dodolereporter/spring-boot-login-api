@@ -1,6 +1,7 @@
 package fr.codesbuster.solidstock.api.service;
 
 import fr.codesbuster.solidstock.api.entity.StockMovementEntity;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -9,7 +10,9 @@ public interface StockMovementService {
 
     List<StockMovementEntity> getStockMovements();
 
-    void deleteStockMovement(Long id);
+    ResponseEntity<StockMovementEntity> deleteStockMovement(Long id);
+ 
+    ResponseEntity<StockMovementEntity> enableStockMovement(Long id);
 
     StockMovementEntity updateStockMovement(StockMovementEntity stockMovementEntity);
 
