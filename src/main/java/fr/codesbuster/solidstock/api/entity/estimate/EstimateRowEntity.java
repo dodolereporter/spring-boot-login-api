@@ -21,7 +21,6 @@ import java.time.Instant;
 @AllArgsConstructor
 @Entity
 @Table(name = "estimate_row")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class EstimateRowEntity {
 
     @Id
