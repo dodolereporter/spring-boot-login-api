@@ -22,11 +22,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Configuration
@@ -78,7 +78,7 @@ public class SecurityConfig {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() throws IOException {
 
         if (quantityTypeRepository.findByUnit("kg").isEmpty()) {
             QuantityTypeEntity quantityType = new QuantityTypeEntity();
