@@ -1,5 +1,6 @@
 package fr.codesbuster.solidstock.api.service;
 
+import fr.codesbuster.solidstock.api.entity.RoleEntity;
 import fr.codesbuster.solidstock.api.entity.UserEntity;
 import fr.codesbuster.solidstock.api.exception.APIException;
 import fr.codesbuster.solidstock.api.payload.dto.LoginDto;
@@ -70,9 +71,18 @@ public class AuthServiceTest {
     //@Test
     void register_ValidUser_RegistersUser() {
         // Arrange
-        RegisterDto registerDto = new RegisterDto("testName", "testUser", "testEmail", "testPassword");
+        RegisterDto registerDto = new RegisterDto("testLastName", "testFirstName", "testEmail", "testPassword", 1);
 
+        // Simuler le comportement de passwordEncoder
         Mockito.when(passwordEncoder.encode(registerDto.getPassword())).thenReturn("encodedPassword");
+
+        // Créer un rôle simulé
+        RoleEntity roleEntity = new RoleEntity();
+        roleEntity.setId(1L);
+        roleEntity.setName("USER");
+
+        // Simuler le comportement de roleRepository.findById()
+        Mockito.when(roleRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(roleEntity));
 
         // Act
         String result = authService.register(registerDto);
@@ -81,19 +91,21 @@ public class AuthServiceTest {
         ArgumentCaptor<UserEntity> userCaptor = ArgumentCaptor.forClass(UserEntity.class);
         verify(userRepository).save(userCaptor.capture());
         UserEntity savedUser = userCaptor.getValue();
-        assertEquals(registerDto.getName(), savedUser.getName());
-        assertEquals(registerDto.getUsername(), savedUser.getUsername());
+        assertEquals(registerDto.getLastName(), savedUser.getLastName());
+        assertEquals(registerDto.getFirstName(), savedUser.getFirstName());
         assertEquals(registerDto.getEmail(), savedUser.getEmail());
+        assertEquals(registerDto.getCustomerId(), savedUser.getCustomer().getId()); // Assurez-vous d'obtenir l'ID du client
+        assertEquals(1, savedUser.getRoles().size()); // Assurez-vous que la liste de rôles contient un seul rôle
         assertEquals("encodedPassword", savedUser.getPassword());
-        assertEquals("USER", savedUser.getRole().getName());
         assertEquals("User registered successfully!.", result);
     }
+
 
     //@Test
     void register_ExistingUsername_ThrowsAPIException() {
         // Arrange
-        RegisterDto registerDto = new RegisterDto("testName", "testUser", "testEmail", "testPassword");
-        Mockito.when(userRepository.existsByUsername(registerDto.getUsername())).thenReturn(true);
+        RegisterDto registerDto = new RegisterDto("testName", "testFirstName", "testEmail", "testPassword", 1);
+        Mockito.when(userRepository.existsByEmail(registerDto.getEmail())).thenReturn(true);
 
         // Act and Assert
         assertThrows(APIException.class, () -> authService.register(registerDto));
@@ -102,7 +114,7 @@ public class AuthServiceTest {
     // @Test
     void register_ExistingEmail_ThrowsAPIException() {
         // Arrange
-        RegisterDto registerDto = new RegisterDto("testName", "testUser", "testEmail", "testPassword");
+        RegisterDto registerDto = new RegisterDto("testName", "testFirstName", "testEmail", "testPassword", 1);
         Mockito.when(userRepository.existsByEmail(registerDto.getEmail())).thenReturn(true);
 
         // Act and Assert

@@ -9,7 +9,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
-import java.util.List;
 
 @Getter
 @Setter
@@ -23,9 +22,6 @@ public class RoleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-
-    @OneToMany(mappedBy = "role")
-    private List<UserEntity> users;
 
     @CreationTimestamp
     private Instant createdAt;

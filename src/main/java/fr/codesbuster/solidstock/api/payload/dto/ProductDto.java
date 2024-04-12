@@ -18,7 +18,7 @@ public class ProductDto {
     private int minimumStockQuantity;
     private int supplierId;
     private int vatId;
-    private int quantityTypeId;
+    private String quantityTypeUnit;
     private int productFamilyId;
 
 }

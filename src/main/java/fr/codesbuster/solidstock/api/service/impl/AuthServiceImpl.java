@@ -19,6 +19,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Slf4j
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -59,29 +62,31 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String register(RegisterDto registerDto) {
 
-        // add check for username exists in database
-        if (userRepository.existsByUsername(registerDto.getUsername())) {
-            throw new APIException(HttpStatus.BAD_REQUEST, "Username is already exists!.");
-        }
-
-        // add check for email exists in database
+        // Vérifier si l'email existe déjà dans la base de données
         if (userRepository.existsByEmail(registerDto.getEmail())) {
             throw new APIException(HttpStatus.BAD_REQUEST, "Email is already exists!.");
         }
 
         UserEntity user = new UserEntity();
-        user.setName(registerDto.getName());
-        user.setUsername(registerDto.getUsername());
+        user.setLastName(registerDto.getLastName());
         user.setEmail(registerDto.getEmail());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
-        
-        RoleEntity userRole = roleRepository.findByName("USER").orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role USER not found!."));
-        user.setRole(userRole);
 
+        // Récupérer le rôle correspondant au nom "USER"
+        RoleEntity userRole = roleRepository.findByName("USER")
+                .orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "Role USER not found!."));
+
+        // Créer une liste de rôles pour l'utilisateur et ajouter le rôle récupéré
+        List<RoleEntity> roles = new ArrayList<>();
+        roles.add(userRole);
+        user.setRoles(roles);
+
+        // Enregistrer l'utilisateur dans la base de données
         userRepository.save(user);
 
         return "User registered successfully!.";
     }
+
 
     @Override
     public UserEntity getMe(String token) {
@@ -89,7 +94,7 @@ public class AuthServiceImpl implements AuthService {
         String username = jwtTokenProvider.getUsername(token);
         log.info(username);
         //try by get user by username  or email
-        UserEntity user = userRepository.findByUsernameOrEmail(username, username).orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "User not found!."));
+        UserEntity user = userRepository.findByEmail(username).orElseThrow(() -> new APIException(HttpStatus.BAD_REQUEST, "User not found!."));
 
 
         return user;
