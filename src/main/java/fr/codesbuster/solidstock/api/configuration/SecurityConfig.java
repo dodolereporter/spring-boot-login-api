@@ -24,6 +24,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Objects;
 
 @Configuration
 @EnableMethodSecurity
@@ -56,6 +60,8 @@ public class SecurityConfig {
     private SupplierRepository supplierRepository;
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private OwnerCompanyRepository ownerCompanyRepository;
 
 
     public SecurityConfig(UserDetailsService userDetailsService,
@@ -73,6 +79,7 @@ public class SecurityConfig {
 
     @PostConstruct
     public void init() {
+
         if (quantityTypeRepository.findByUnit("kg").isEmpty()) {
             QuantityTypeEntity quantityType = new QuantityTypeEntity();
             quantityType.setName("Kilogramme");
@@ -576,7 +583,25 @@ public class SecurityConfig {
             userRepository.save(user);
         }
 
-
+        if (ownerCompanyRepository.findById(Long.valueOf(1)).isEmpty()) {
+            OwnerCompanyEntity ownerCompanyEntity = new OwnerCompanyEntity();
+            ownerCompanyEntity.setCompanyName("Auchan");
+            ownerCompanyEntity.setOwnerName("Breuillard Clément");
+            ownerCompanyEntity.setSiret("12345678901234");
+            ownerCompanyEntity.setSiren("123456789");
+            ownerCompanyEntity.setRcs(123456789);
+            ownerCompanyEntity.setStreetNumber("205");
+            ownerCompanyEntity.setStreetName("Avenue du chemin");
+            ownerCompanyEntity.setZipCode("69000");
+            ownerCompanyEntity.setCity("Lyon");
+            ownerCompanyEntity.setCountry("France");
+            ownerCompanyEntity.setEmail("email@email.com");
+            ownerCompanyEntity.setPhone("04 04 04 04 04");
+            ownerCompanyEntity.setIban("FR76 4561 4561 4561 253");
+            File image = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("images/negosud.png")).getPath());
+            ownerCompanyEntity.setImage(Files.readAllBytes(image.toPath()));
+            ownerCompanyRepository.save(ownerCompanyEntity);
+        }
     }
 
     private void createRoleIfNotFound(String roleName) {

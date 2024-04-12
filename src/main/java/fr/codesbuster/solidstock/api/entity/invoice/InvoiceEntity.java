@@ -2,6 +2,7 @@ package fr.codesbuster.solidstock.api.entity.invoice;
 
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import fr.codesbuster.solidstock.api.entity.CustomerEntity;
+import fr.codesbuster.solidstock.api.entity.OwnerCompanyEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,9 +39,28 @@ public class InvoiceEntity {
     @OneToMany(mappedBy = "invoice")
     private List<InvoiceRowEntity> invoiceRows;
 
+    @Transient
+    private double totalHt;
+
+    @Transient
+    private double totalTtc;
+
     @CreationTimestamp
     private Instant createdAt;
 
     @UpdateTimestamp
     private Instant updatedAt;
+
+    public void calculateTotal() {
+        totalHt = 0;
+        totalTtc = 0;
+        for (InvoiceRowEntity invoiceRow : invoiceRows) {
+            totalHt += invoiceRow.getSellPrice() * invoiceRow.getQuantity();
+            totalTtc += invoiceRow.getSellPrice() * invoiceRow.getQuantity() * (1 + invoiceRow.getProduct().getVat().getRate() / 100);
+        }
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "owner_company_id")
+    private OwnerCompanyEntity ownerCompany;
 }

@@ -1,7 +1,8 @@
 package fr.codesbuster.solidstock.api.entity;
 
-import fr.codesbuster.solidstock.api.entity.delivery.DeliveryEntity;
-import jakarta.annotation.Nullable;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "location")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class LocationEntity {
 
     @Id
@@ -32,20 +34,15 @@ public class LocationEntity {
 
     @ManyToOne
     @JoinColumn(name = "parent_id")
-    @Nullable
+    @JsonIdentityReference(alwaysAsId = true)
     private LocationEntity parent;
 
     @OneToMany(mappedBy = "parent")
+    @JsonIdentityReference(alwaysAsId = true)
     private List<LocationEntity> childs = new ArrayList<>();
 
     @OneToMany(mappedBy = "location")
     private List<StockMovementEntity> stockMovements = new ArrayList<>();
-
-    @OneToMany(mappedBy = "location")
-    private List<StockEntity> stocks = new ArrayList<>();
-
-    @OneToMany(mappedBy = "location")
-    private List<DeliveryEntity> deliveries = new ArrayList<>();
 
     @CreationTimestamp
     private Instant createdAt;

@@ -105,5 +105,4 @@ public class SupplierController {
         supplierEntity = supplierService.updateSupplier(supplierEntity);
         return ResponseEntity.ok(supplierEntity);
     }
-
 }

@@ -26,19 +26,22 @@ public class InvoicePdfServiceImpl implements InvoicePDFService {
         InvoiceData invoiceData = new InvoiceData(invoiceEntity);
         context.setVariable("invoice", invoiceData);
 
-        File logo = invoiceData.getOwnerCompany().getLogo();
-        if (logo != null) {
-            String logoPath = getTempDirectory() + File.separator + "SolidStock" + File.separator + "Invoices" + File.separator + "static";
-            File logoDir = new File(logoPath);
-            if (!logoDir.exists()) {
-                logoDir.mkdirs();
-            }
-            logoPath += File.separator + "logo.png";
-            copyFile(logo, new File(logoPath));
+        byte[] logo = invoiceData.getOwnerCompany().getLogo();
 
-            logoPath = "file:///" + logoPath.replace("\\", "/");
-            context.setVariable("invoiceLogo", logoPath);
+        String logoPath = getTempDirectory() + File.separator + "SolidStock" + File.separator + "Invoices" + File.separator + "static";
+        File logoDir = new File(logoPath);
+        if (!logoDir.exists()) {
+            logoDir.mkdirs();
         }
+        logoPath += File.separator + "logo.png";
+
+        try (FileOutputStream fos = new FileOutputStream(logoPath)) {
+            fos.write(logo);
+        }
+
+        logoPath = "file:///" + logoPath.replace("\\", "/");
+        context.setVariable("invoiceLogo", logoPath);
+
 
         String filePath = getFilePath(invoiceEntity);
         OutputStream outputStream = new FileOutputStream(filePath);

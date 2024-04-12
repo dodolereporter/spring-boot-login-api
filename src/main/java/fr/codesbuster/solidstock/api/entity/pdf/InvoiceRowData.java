@@ -37,7 +37,7 @@ public class InvoiceRowData {
         this.vatAmount = invoiceRowEntity.getProduct().getVat().getPercentage();
         this.priceTTC = df.format(invoiceRowEntity.getSellPrice() * (1 + invoiceRowEntity.getProduct().getVat().getRate()))  + " €";
         this.totalHT =df.format(invoiceRowEntity.getSellPrice() * invoiceRowEntity.getQuantity())  + " €";
-        this.totalTTC = df.format(invoiceRowEntity.getSellPrice() * invoiceRowEntity.getQuantity() * (1 + invoiceRowEntity.getProduct().getVat().getRate()))  + " €";
+        this.totalTTC = df.format(invoiceRowEntity.getSellPrice() * invoiceRowEntity.getQuantity() * (1 + (invoiceRowEntity.getProduct().getVat().getRate() /100)))  + " €";
 
     }
 }
