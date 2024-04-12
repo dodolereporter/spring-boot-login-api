@@ -133,7 +133,7 @@
                 <h1>Bon de commande</h1>
                 <p>Bon de commande n° <span th:text="${order.getOrderNumber()}"></span></p>
                 <p>Date: <span th:text="${#dates.format(order.getOrderDate(), 'dd/MM/yyyy')}"></span></p>
-                <p>Status: <span th:text="${order.getOrderStatus()}"></span></p>
+                <p>Statut: <span th:text="${order.getOrderStatus()}"></span></p>
             </td>
         </tr>
     </table>
