@@ -3,7 +3,6 @@ package fr.codesbuster.solidstock.api.entity.estimate;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import fr.codesbuster.solidstock.api.entity.CustomerEntity;
 import fr.codesbuster.solidstock.api.entity.OwnerCompanyEntity;
-import fr.codesbuster.solidstock.api.entity.invoice.InvoiceRowEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,9 +10,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.joda.time.DateTime;
 
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -45,6 +44,8 @@ public class EstimateEntity {
 
     @Transient
     private double totalTtc;
+
+    private Date dueDate;
 
     @CreationTimestamp
     private Instant createdAt;

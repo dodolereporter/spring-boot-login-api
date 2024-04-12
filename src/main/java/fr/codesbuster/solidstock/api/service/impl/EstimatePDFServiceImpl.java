@@ -1,16 +1,8 @@
 package fr.codesbuster.solidstock.api.service.impl;
 
-import fr.codesbuster.solidstock.api.entity.CustomerEntity;
 import fr.codesbuster.solidstock.api.entity.estimate.EstimateEntity;
-import fr.codesbuster.solidstock.api.entity.invoice.InvoiceEntity;
 import fr.codesbuster.solidstock.api.entity.pdf.EstimateData;
-import fr.codesbuster.solidstock.api.payload.dto.EstimateDto;
-import fr.codesbuster.solidstock.api.repository.CustomerRepository;
-import fr.codesbuster.solidstock.api.repository.EstimateRepository;
-import fr.codesbuster.solidstock.api.repository.EstimateRowRepository;
-import fr.codesbuster.solidstock.api.repository.ProductRepository;
 import fr.codesbuster.solidstock.api.service.EstimatePDFService;
-import fr.codesbuster.solidstock.api.service.OwnerCompanyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
