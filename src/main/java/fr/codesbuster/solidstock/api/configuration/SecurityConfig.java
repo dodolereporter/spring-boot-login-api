@@ -628,6 +628,7 @@ public class SecurityConfig {
                         authorize.requestMatchers("/api/v1/auth/**").permitAll()
                                 .requestMatchers("/swagger-ui/**").permitAll()
                                 .requestMatchers("/v3/api-docs/**").permitAll()
+                                .requestMatchers("/api/v1/web/**").permitAll()
                                 .anyRequest().authenticated()
 
                 ).exceptionHandling(exception -> exception
