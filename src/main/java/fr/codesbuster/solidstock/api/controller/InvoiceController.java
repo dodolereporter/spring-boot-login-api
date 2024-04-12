@@ -6,7 +6,6 @@ import fr.codesbuster.solidstock.api.payload.dto.InvoiceDto;
 import fr.codesbuster.solidstock.api.payload.dto.InvoiceRowDto;
 import fr.codesbuster.solidstock.api.service.InvoiceService;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -20,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.ParseException;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -47,6 +47,7 @@ public class InvoiceController {
     public List<InvoiceEntity> getAllInvoices() {
         List<InvoiceEntity> invoices = invoiceService.getAllInvoices();
         invoices.forEach(InvoiceEntity::calculateTotal);
+        Collections.reverse(invoices);
        return invoices;
     }
 

@@ -1,6 +1,9 @@
 package fr.codesbuster.solidstock.api.entity.estimate;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fr.codesbuster.solidstock.api.entity.ProductEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,11 +27,12 @@ public class EstimateRowEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private int quantity;
+    private double quantity;
     private double sellPrice;
 
     @ManyToOne
     @JoinColumn(name = "estimate_id")
+    @JsonIgnore
     private EstimateEntity estimate;
 
     @ManyToOne

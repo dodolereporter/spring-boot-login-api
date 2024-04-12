@@ -89,6 +89,7 @@ public class CustomerEntity {
     private boolean isDisabled;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<EstimateEntity> estimates;
 
     @OneToMany(mappedBy = "customer")
@@ -96,6 +97,7 @@ public class CustomerEntity {
     private List<InvoiceEntity> invoices;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<OrderFormEntity> orderForms;
 
     @CreationTimestamp
