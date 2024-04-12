@@ -89,6 +89,7 @@ public class CustomerEntity {
     private boolean isDisabled;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<EstimateEntity> estimates;
 
     @OneToMany(mappedBy = "customer")
