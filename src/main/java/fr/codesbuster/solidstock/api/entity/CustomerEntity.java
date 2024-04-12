@@ -96,6 +96,7 @@ public class CustomerEntity {
     private List<InvoiceEntity> invoices;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<OrderFormEntity> orderForms;
 
     @CreationTimestamp
