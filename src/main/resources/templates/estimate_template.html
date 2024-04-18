@@ -137,6 +137,7 @@
 
     <div class="table">
         <h2>Détails du devis</h2>
+        <h3> <strong th:text="'Date d\'expiration : ' + ${estimate.getDueDate()}"></strong></h3>
         <h3> <strong  th:text="'Objet : ' + ${estimate.getDescription()}"></strong></h3>
         <table style="width: 100%">
             <thead>

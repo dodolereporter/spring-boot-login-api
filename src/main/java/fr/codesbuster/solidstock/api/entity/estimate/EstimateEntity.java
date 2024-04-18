@@ -45,8 +45,6 @@ public class EstimateEntity {
     @Transient
     private double totalTtc;
 
-    private Date dueDate;
-
     @CreationTimestamp
     private Instant createdAt;
 

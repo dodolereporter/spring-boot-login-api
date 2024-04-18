@@ -5,6 +5,9 @@ import lombok.*;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 @Getter
@@ -21,6 +24,7 @@ public class EstimateData {
     private EstimateRowData[] estimateRows;
     private String totalHT;
     private String totalTTC;
+    private String dueDate;
     private VATData[] vat;
 
     private static final DecimalFormat df = new DecimalFormat("0.00");
@@ -31,6 +35,13 @@ public class EstimateData {
         this.estimateNumber = (int) estimateEntity.getId();
         this.description = estimateEntity.getDescription();
         this.estimateDate = Date.from(estimateEntity.getCreatedAt());
+
+        // Ajout de deux mois à la date d'estimation
+        LocalDate localEstimateDate = this.estimateDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate localDueDate = localEstimateDate.plusMonths(3);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        this.dueDate = dateFormat.format(Date.from(localDueDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+
         String companyName = "";
         if (estimateEntity.getCustomer().getCompanyName() != null) {
             companyName = estimateEntity.getCustomer().getCompanyName();
