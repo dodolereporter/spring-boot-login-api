@@ -2,10 +2,13 @@ package fr.codesbuster.solidstock.api.entity.pdf;
 
 import fr.codesbuster.solidstock.api.entity.orderForm.OrderFormEntity;
 import lombok.*;
+import org.springframework.cglib.core.Local;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.Date;
 
 @Getter
@@ -30,6 +33,7 @@ public class OrderData {
         this.orderNumber = (int) orderFormEntity.getId();
         this.description = orderFormEntity.getDescription();
         this.orderDate = Date.from(orderFormEntity.getCreatedAt());
+        this.orderDeliveryDate = orderFormEntity.getEstimateDate();
         String companyName = "";
         if (orderFormEntity.getCustomer().getCompanyName() != null) {
             companyName = orderFormEntity.getCustomer().getCompanyName();
@@ -42,7 +46,9 @@ public class OrderData {
         for (int i = 0; i < orderFormEntity.getOrderFormRows().size(); i++) {
             this.orderRows[i] = new OrderRowData(orderFormEntity.getOrderFormRows().get(i));
         }
-        this.orderDeliveryDate = orderFormEntity.getEstimateDate();
         this.orderStatus = orderFormEntity.getStatus();
+    }
+    public Date getOrderDeliveryDateAsDate() {
+        return Date.from(orderDeliveryDate.atStartOfDay().toInstant(ZoneOffset.UTC));
     }
 }

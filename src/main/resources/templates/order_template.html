@@ -145,7 +145,7 @@
     <div class="table">
         <h2>Détails du bon de commande</h2>
         <h3><strong th:text="'Objet : ' + ${order.getDescription()}"></strong></h3>
-        <h3>Date de livraison estimée : <span th:text="${#dates.format(order.getOrderDate(), 'dd/MM/yyyy')}"></span>
+        <h3>Date de livraison estimée : <span th:text="${#dates.format(order.getOrderDeliveryDateAsDate(), 'dd/MM/yyyy')}"></span>
         </h3>
         <table style="width: 100%">
             <thead>
