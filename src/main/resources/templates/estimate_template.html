@@ -97,6 +97,17 @@
             top: 4.5cm;
             right: 5.5cm;
         }
+
+        .signature_area {
+            background-color: #f2f2f2;
+            position: absolute;
+            top: 23cm;
+            right: 0.5cm;
+            height: 2.5cm;
+            padding-left: 0.2cm;
+            padding-right: 0.2cm;
+            font-size: 11px;
+        }
     </style>
 </head>
 
@@ -137,10 +148,11 @@
 
     <div class="table">
         <h2>Détails du devis</h2>
+        <h3> <strong th:text="'Date d\'expiration : ' + ${estimate.getDueDate()}"></strong></h3>
         <h3> <strong  th:text="'Objet : ' + ${estimate.getDescription()}"></strong></h3>
         <table style="width: 100%">
             <thead>
-            <tr>
+            <tr>05
                 <th>Produit</th>
                 <th style="text-align: right;">Quantité</th>
                 <th>Type</th>
@@ -180,6 +192,10 @@
             </tr>
             </tbody>
         </table>
+    </div>
+
+    <div class="signature_area">
+        <p>Signature du client (précédée de la mention "Bon pour accord")</p>
     </div>
 
 
