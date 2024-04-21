@@ -92,6 +92,7 @@ public class UserServiceImpl implements UserService {
         userEntity.setEmail(registerDto.getEmail() != null ? registerDto.getEmail() : userEntity.getEmail());
         userEntity.setPassword(registerDto.getPassword() != null ? passwordEncoder.encode(registerDto.getPassword()) : userEntity.getPassword());
         userEntity.setCustomer(registerDto.getCustomerId() != 0 ? customerRepository.findById(registerDto.getCustomerId()).orElse(null) : userEntity.getCustomer());
+        userEntity.setDefaultPage(registerDto.getDefaultPage() != null ? registerDto.getDefaultPage() : userEntity.getDefaultPage());
 
         userRepository.save(userEntity);
         return ResponseEntity.ok(userEntity);
