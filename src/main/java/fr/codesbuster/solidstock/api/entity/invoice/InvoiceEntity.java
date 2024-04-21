@@ -36,7 +36,7 @@ public class InvoiceEntity {
     @JsonIdentityReference(alwaysAsId = true)
     private CustomerEntity customer;
 
-    @OneToMany(mappedBy = "invoice")
+    @OneToMany(mappedBy = "invoice", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InvoiceRowEntity> invoiceRows;
 
     @Transient

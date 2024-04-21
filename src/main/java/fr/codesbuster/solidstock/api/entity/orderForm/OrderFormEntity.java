@@ -40,7 +40,7 @@ public class OrderFormEntity {
     @JsonIdentityReference(alwaysAsId = true)
     private CustomerEntity customer;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderFormRowEntity> orderFormRows;
 
     @ManyToOne

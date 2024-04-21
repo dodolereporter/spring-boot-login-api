@@ -36,7 +36,7 @@ public class EstimateEntity {
     @JsonIdentityReference(alwaysAsId = true)
     private CustomerEntity customer;
 
-    @OneToMany(mappedBy = "estimate")
+    @OneToMany(mappedBy = "estimate", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EstimateRowEntity> estimateRows;
 
     @Transient
