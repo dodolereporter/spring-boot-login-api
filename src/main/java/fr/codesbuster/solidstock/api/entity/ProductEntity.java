@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.codesbuster.solidstock.api.entity.estimate.EstimateRowEntity;
 import fr.codesbuster.solidstock.api.entity.invoice.InvoiceRowEntity;
 import fr.codesbuster.solidstock.api.entity.orderForm.OrderFormRowEntity;
+import fr.codesbuster.solidstock.api.entity.supplierOrder.SupplierOrderRowEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -66,6 +67,10 @@ public class ProductEntity {
     @OneToMany(mappedBy = "product")
     @JsonIgnore
     private List<OrderFormRowEntity> orderFormRows;
+
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private List<SupplierOrderRowEntity> supplierOrderRows;
 
     @Column(columnDefinition = "boolean default false")
     private boolean isDeleted;

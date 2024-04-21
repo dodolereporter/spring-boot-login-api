@@ -2,6 +2,7 @@ package fr.codesbuster.solidstock.api.entity.orderForm;
 
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import fr.codesbuster.solidstock.api.entity.CustomerEntity;
+import fr.codesbuster.solidstock.api.entity.OwnerCompanyEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +10,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.joda.time.DateTime;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -30,17 +31,21 @@ public class OrderFormEntity {
 
     private String description;
 
-    private DateTime estimateDate;
-
-    private double total;
+    private LocalDate estimateDate;
+    
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
     @JsonIdentityReference(alwaysAsId = true)
     private CustomerEntity customer;
 
-    @OneToMany(mappedBy = "orderForm")
+    @OneToMany(mappedBy = "order")
     private List<OrderFormRowEntity> orderFormRows;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_company_id")
+    private OwnerCompanyEntity ownerCompany;
 
     @CreationTimestamp
     private Instant createdAt;

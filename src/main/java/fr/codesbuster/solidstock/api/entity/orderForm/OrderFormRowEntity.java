@@ -1,6 +1,7 @@
 package fr.codesbuster.solidstock.api.entity.orderForm;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.codesbuster.solidstock.api.entity.ProductEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,12 +25,12 @@ public class OrderFormRowEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private int quantity;
-    private double sellPrice;
+    private double quantity;
 
     @ManyToOne
     @JoinColumn(name = "orderForm_id")
-    private OrderFormEntity orderForm;
+    @JsonIgnore
+    private OrderFormEntity order;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

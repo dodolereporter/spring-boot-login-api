@@ -1,6 +1,7 @@
 package fr.codesbuster.solidstock.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.codesbuster.solidstock.api.entity.supplierOrder.SupplierOrderEntity;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -87,6 +88,10 @@ public class SupplierEntity {
     @OneToMany(mappedBy = "supplier")
     @JsonIgnore
     private List<ProductEntity> products;
+
+    @OneToMany(mappedBy = "supplier")
+    @JsonIgnore
+    private List<SupplierOrderEntity> supplierOrders;
 
     @CreationTimestamp
     private Instant createdAt;
