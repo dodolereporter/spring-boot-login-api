@@ -31,6 +31,7 @@ public class UserEntity {
     private String firstName;
 
     private String defaultPage;
+    private String language;
 
     @Column(nullable = false, unique = true)
     private String email;
